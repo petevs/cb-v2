@@ -7,9 +7,8 @@ const Nav= () => {
     return (
         <Container columns='auto 1fr auto'>
             <Logo />
-            <div>
-                Menu
-            </div>
+            <>
+            </>
             <MobileMenu />
         </Container>
     )
@@ -24,4 +23,7 @@ const Container = styled.div`
     align-content: center;
     padding: 0 1rem;
     background-color: #161c24;
+    @media (max-width: 1024px) {
+        grid-template-columns: auto 1fr;
+    }
 `
