@@ -1,11 +1,14 @@
 import Nav from 'components/nav/Nav';
+import Sidebar from 'components/sidebar/Sidebar';
+import Main from 'layouts/Main';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Nav />
-    </div>
+    <Main
+      top={<Nav />}
+      side={<Sidebar />}
+    />
   );
 }
 

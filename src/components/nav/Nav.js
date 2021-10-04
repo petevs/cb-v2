@@ -1,18 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import Container from 'styledComponents/Container'
 import Logo from 'components/nav/Logo'
 
 const Nav= () => {
     return (
-        <StyledContainer columns='auto 1fr auto'>
+        <Container columns='auto 1fr auto'>
             <Logo />
-        </StyledContainer>
+        </Container>
     )
 }
 
 export default Nav
 
-const StyledContainer = styled(Container)`
+const Container = styled.div`
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    padding: 0 1rem;
     background-color: #161c24;
 `
