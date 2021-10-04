@@ -6,6 +6,7 @@ import IconButton from 'styledComponents/IconButton'
 //Styled Components
 import TopBoxArrow from 'styledComponents/TopBoxArrow'
 import PopoverBox from 'styledComponents/PopoverBox'
+import { render } from '@testing-library/react'
 
 const Popover = ({menuContent, icon, placed}) => {
 
@@ -29,9 +30,9 @@ const Popover = ({menuContent, icon, placed}) => {
 
     return (
         <>
-            <IconButton ref={setAnchorEl} onClick={handleOpen}>
+            <div ref={setAnchorEl} onClick={handleOpen}>
                 {icon}
-            </IconButton>
+            </div>
 
             {
             //If menu set to open show, else hide

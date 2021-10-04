@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 
-import { GiHamburgerMenu } from 'react-icons/gi'
-
 import Popover from 'components/Popover'
 import MobileMenuContent from './MobileMenuContent'
+import MobileMenuIcon from './MobileMenuIcon'
 
 const MobileMenu = () => {
 
@@ -11,7 +10,7 @@ const MobileMenu = () => {
     return (
         <Container>
             <Popover 
-                icon={<StyledIcon />}
+                icon={<MobileMenuIcon />}
                 menuContent={<MobileMenuContent />}
                 placed='bottom-start'
             />
@@ -24,10 +23,4 @@ export default MobileMenu
 const Container = styled.div`
     align-self: start;
     justify-self: end;
-`
-
-const StyledIcon = styled(GiHamburgerMenu)`
-    // @media (min-width: 1024px) {
-    //     display: none;
-    // }
 `
