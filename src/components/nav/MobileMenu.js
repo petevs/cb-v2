@@ -23,4 +23,8 @@ export default MobileMenu
 const Container = styled.div`
     align-self: start;
     justify-self: end;
+
+    @media (min-width: 1024px){
+        display: none;
+    }
 `
