@@ -21,6 +21,7 @@ const DollarCostAverage = () => {
                         InputProps={{
                             startAdornment: (<InputAdornment position='start'>$</InputAdornment>),
                         }}
+                        inputProps={{inputMode: 'numeric'}}
                         value={dcaAmount}
                     />
                     <InputField
