@@ -6,10 +6,11 @@ export const initialApp = {
     //THEME
     themeSetting: 'dark',
     darkTheme: {
-        body: 'black',
+        body: '#161C24',
         fontColor: 'white',
         backgroundColor: 'rgb(33, 43, 54)',
         bgHover: '#2A343F',
+        iconHover: '#21252E',
         colors: {
             green: '#408e36',
             red: '#f72e2f'
@@ -17,7 +18,14 @@ export const initialApp = {
     },
     lightTheme: {
         body: '#fff',
-        fontColor: 'black'
+        fontColor: 'rgb(99, 115, 129)',
+        backgroundColor: '#fff',
+        bgHover: '#F7F7F8',
+        iconHover: '#21252E',
+        colors: {
+            green: '#408e36',
+            red: '#f72e2f'
+        }
     },
     theme: function(){
         if(this.themeSetting === 'dark'){

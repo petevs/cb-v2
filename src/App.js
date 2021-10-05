@@ -6,6 +6,7 @@ import Sidebar from 'components/sidebar/Sidebar';
 import Main from 'layouts/Main';
 import { ThemeProvider } from 'styled-components';
 import './App.css';
+import DollarCostAverage from 'pages/DollarCostAverage';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Main
           top={<Nav />}
           side={<Sidebar />}
+          main={<DollarCostAverage />}
         />
     </ThemeProvider>
   );

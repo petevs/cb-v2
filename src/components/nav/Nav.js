@@ -42,7 +42,8 @@ const Container = styled.div`
     align-content: center;
     align-items: center;
     padding: 0 1rem;
-    background-color: ${props => props.theme.backgroundColor};
+    background-color: ${props => props.theme.body};
+    border-bottom: 1px solid rgba(145,158,171,0.24);
     @media (max-width: 1024px) {
         grid-template-columns: auto 1fr;
     }
