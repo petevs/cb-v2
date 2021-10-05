@@ -27,6 +27,7 @@ const Card = styled.div`
 
     @media (max-width: 1024px) {
       justify-self: stretch;
+      text-align: left;
   }
 `
 
