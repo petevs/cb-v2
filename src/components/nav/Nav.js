@@ -9,7 +9,7 @@ import {motion} from 'framer-motion'
 
 const Nav= () => {
 
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(true)
 
     const handleClick = () => {
         setOpen(true)
@@ -20,8 +20,21 @@ const Nav= () => {
     }
 
     const variants = {
-        open: { opacity: 1, x: 0 },
-        closed: { opacity: 0, x: "-100%" },
+        hidden: {
+            x: "300px",
+        },
+        visible: {
+            x: 0,
+            transition: {
+                duration: 0.225,
+                damping: 25,
+                // stifness: 500,
+            }
+        },
+        exit: {
+            x: "-100vw",
+            opacity: 0
+        }
       }
       
 
@@ -42,10 +55,13 @@ const Nav= () => {
         { open &&
         <BackDrop>
         <ClickAwayListener onClickAway={handleClose}>
-            <DrawerBox 
-                // as={motion.div}
-                // animate={open ? "open" : "closed"}
-                // variants={variants}
+            <DrawerBox
+                as={motion.div} 
+                variants={variants}
+                initial='hidden'
+                animate='visible'
+                exit='exit'
+                disableEnforceFocus
             >
                 Hi I am the Drawer
             </DrawerBox>
@@ -119,8 +135,10 @@ const DrawerBox =styled.div`
     position: fixed;
     top: 0;
     right: 0;
-    width: 300px;
+    width: 280px;
     z-index: 999;
-    background-color: white;
+    background-color: rgb(33, 43, 54);
     height: 100vh;
+    box-shadow: rgb(22 28 36 / 48%) 8px 24px 24px 12px;
+    overflow-y: auto;
 `
