@@ -12,7 +12,7 @@ const Sidebar = () => {
 export default Sidebar
 
 const Container = styled.div`
-    background-color: red;
+    background-color: ${props => props.theme.backgroundColor};
     overflow-y: scroll;
 
     @media (max-width: 1024px){

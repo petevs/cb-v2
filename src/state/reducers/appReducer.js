@@ -7,7 +7,13 @@ export const initialApp = {
     themeSetting: 'dark',
     darkTheme: {
         body: 'black',
-        fontColor: 'white'
+        fontColor: 'white',
+        backgroundColor: 'rgb(33, 43, 54)',
+        bgHover: '#2A343F',
+        colors: {
+            green: '#408e36',
+            red: '#f72e2f'
+        }
     },
     lightTheme: {
         body: '#fff',

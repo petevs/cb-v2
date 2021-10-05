@@ -20,13 +20,13 @@ const MenuItem = styled.div`
     justify-content: start;
     cursor: pointer;
     padding: .5rem 1rem;
-    color: #fff;
+    color: ${props => props.theme.fontColor};
 
     & svg {
         padding-right: 1rem;
     }
     
     &:hover {
-        background-color: #2A343F;
+        background-color: ${props => props.theme.bgHover};
     }
 `

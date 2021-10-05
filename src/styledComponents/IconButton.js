@@ -14,7 +14,7 @@ const IconButton = styled.button`
     }
     
     & :hover {
-        background-color: #21252E;
+        background-color: ${props => props.theme.iconHover};
         border-radius: 50%;
     }
 `

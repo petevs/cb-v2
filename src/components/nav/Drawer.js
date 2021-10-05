@@ -71,7 +71,7 @@ const DrawerBox =styled.div`
     right: 0;
     width: 280px;
     z-index: 999;
-    background-color: rgb(33, 43, 54);
+    background-color: ${props => props.theme.backgroundColor};
     height: 100vh;
     box-shadow: rgb(22 28 36 / 48%) 8px 24px 24px 12px;
     overflow-y: auto;

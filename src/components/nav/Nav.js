@@ -42,7 +42,7 @@ const Container = styled.div`
     align-content: center;
     align-items: center;
     padding: 0 1rem;
-    background-color: #161c24;
+    background-color: ${props => props.theme.backgroundColor};
     @media (max-width: 1024px) {
         grid-template-columns: auto 1fr;
     }
@@ -53,7 +53,7 @@ const Center = styled.div`
     grid-template-columns: auto 1fr;
     align-items: baseline;
     justify-self: start;
-    color: #fff;
+    color: ${props => props.theme.fontColor};
     & span {
         & svg {
           margin-right: 0.25rem;
@@ -61,9 +61,9 @@ const Center = styled.div`
         font-size: 0.75rem;
         font-weight: 500;
         padding-left: 0.5rem;
-        color: #408e36;
+        color: ${props => props.theme.colors.green};
         &.neg {
-          color: #f72e2f;
+          color: ${props => props.theme.colors.red};
         }
       }
 
