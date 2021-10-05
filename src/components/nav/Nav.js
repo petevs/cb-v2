@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Logo from 'components/nav/Logo'
 import MobileMenu from './MobileMenu'
 import Popover from 'components/Popover'
 import Flag from './Flag'
+import ClickAwayListener from 'react-click-away-listener'
+import {motion} from 'framer-motion'
 
 const Nav= () => {
+
+    const [open, setOpen] = useState(false)
+
+    const handleClick = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    const variants = {
+        open: { opacity: 1, x: 0 },
+        closed: { opacity: 0, x: "-100%" },
+      }
+      
+
     return (
         <>
         <Container columns='auto 1fr auto'>
@@ -16,16 +35,23 @@ const Nav= () => {
             </Center>
             <End>
                 <Popover icon={<Flag />} placed='bottom-start' />
+                <button onClick={handleClick}>show menu</button>
             </End>
             <MobileMenu />
         </Container>
-        {/* <>
+        { open &&
         <BackDrop>
-            <DrawerBox>
+        <ClickAwayListener onClickAway={handleClose}>
+            <DrawerBox 
+                // as={motion.div}
+                // animate={open ? "open" : "closed"}
+                // variants={variants}
+            >
                 Hi I am the Drawer
             </DrawerBox>
+        </ClickAwayListener>
         </BackDrop>
-        </> */}
+        }
         </>
     )
 }
@@ -72,6 +98,8 @@ const Center = styled.div`
 
 const End = styled.div`
     display: grid;
+    grid-template-columns: auto auto;
+    gap: 1rem;
     @media (max-width: 1024px){
         display: none;
     }
