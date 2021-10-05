@@ -43,7 +43,7 @@ const Popover = ({menuContent, icon, placed}) => {
                     style={styles.popper}
                     {...attributes.popper}
                 >
-                <TopBoxArrow />
+                {/* <TopBoxArrow /> */}
                     {menuContent}
                 </PopoverBox>
             </ClickAwayListener>

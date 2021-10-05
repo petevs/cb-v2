@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import IconButton from 'styledComponents/IconButton'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
-const MobileMenuIcon = () => {
+const MobileMenuIcon = ({onClick}) => {
     return (
-        <IconButton>
+        <IconButton onClick={onClick}>
             <StyledIcon/>
         </IconButton>
     )
