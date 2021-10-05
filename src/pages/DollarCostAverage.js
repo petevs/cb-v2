@@ -1,24 +1,37 @@
+import { Button, InputAdornment } from '@mui/material'
 import Scorecard from 'components/Scorecard'
 import Calculator from 'layouts/Calculator'
 import React from 'react'
+import InputField from 'styledComponents/InputField'
+import styled from 'styled-components'
 
 const DollarCostAverage = () => {
+
+    const dcaAmount = 5
+    const date = '2021-01-01'
+
+
     return (
         <Calculator
             title='Dollar Cost Average'
             header={
                 <>
-                    <input type='number' value='$5' />
-                    <select>
-                        <option>Every Week</option>
-                    </select>
-                    <select>
-                        <option>Since Last Year</option>
-                    </select>
+                    <InputField
+                        label='Dollar Amount'
+                        InputProps={{
+                            startAdornment: (<InputAdornment position='start'>$</InputAdornment>),
+                        }}
+                        value={dcaAmount}
+                    />
+                    <InputField
+                        label='Start Date'
+                        type='date'
+                        value={date}
+                    />
                 </>
-            }
+                }
+                button={<Button variant='contained'>Calculate</Button>}
         >
-            
             <Scorecard 
                 title='Portfolio Value (USD)'
                 value={1587}

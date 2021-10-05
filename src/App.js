@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { AppContext } from 'state/contexts/AppContext';
+import 'normalize.css'
 
 import Nav from 'components/nav/Nav';
 import Sidebar from 'components/sidebar/Sidebar';

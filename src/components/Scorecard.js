@@ -16,6 +16,7 @@ export default Scorecard
 
 const Card = styled.div`
     display: grid;
+    justify-self: start;
     background-color: ${props => props.theme.backgroundColor};
     color: ${props => props.theme.fontColor};
     box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05),
@@ -25,8 +26,8 @@ const Card = styled.div`
     gap: .5rem;
 
     @media (max-width: 1024px) {
-        width: 100%;
-    }
+      justify-self: stretch;
+  }
 `
 
 const Title = styled.h3`

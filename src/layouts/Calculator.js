@@ -1,13 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Calculator = ({title, header, children}) => {
+const Calculator = ({title, header, button, children}) => {
     return (
         <Wrapper>
             <InnerWrapper>
-            <h1>{title}</h1>
+                <div>
+                    <h1>{title}</h1>
+                    <p>little byline about it</p>
+                </div>
             <Header>
-                {header}
+                <Inputs>
+                    {header}
+                    <DesktopButton>
+                        {button}
+                    </DesktopButton>
+                </Inputs>
+                <MobileButton>
+                    {button}
+                </MobileButton>
             </Header>
             {children}
             </InnerWrapper>
@@ -18,7 +29,7 @@ const Calculator = ({title, header, children}) => {
 export default Calculator
 
 const Wrapper = styled.div`
-    display: grid; 
+    display: grid;
     background-color: ${props => props.theme.body};
     color: ${props => props.theme.fontColor};
     padding: 2.5rem;
@@ -34,14 +45,12 @@ const Wrapper = styled.div`
 
 const InnerWrapper = styled.div`
     display: grid;
-    // justify-self: center;
     align-content: start;
-    // justify-items: start;
-    gap: 1rem;
+    gap: 2rem;
 
     @media (max-width: 1024px) {
         justify-items: center;
-        padding: 1rem;
+        text-align: center;
     }
 `
 
@@ -49,7 +58,35 @@ const Header = styled.div`
     display: grid;
     border-bottom: 2px solid #fff;
     padding-bottom: 1rem;
-    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    grid-template-row: auto auto;
     justify-content: start;
     gap: 1rem;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+    }
+
+`
+
+const Inputs = styled.div`
+    display: grid;
+    grid-template-columns: repeat( auto-fill, minmax(175px, 1fr ));
+    justify-content: start;
+    gap: 1rem;
+`
+
+const MobileButton= styled.div`
+    display: grid;
+    min-height: 56px;
+    @media (min-width: 1024px) {
+        display: none;
+    }
+`
+
+const DesktopButton = styled.div`
+    display: grid;
+    @media (max-width: 1024px) {
+        display: none;
+    }
 `
