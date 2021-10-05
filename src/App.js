@@ -1,20 +1,22 @@
+import { useContext } from 'react'
+import { AppContext } from 'state/contexts/AppContext';
+
 import Nav from 'components/nav/Nav';
 import Sidebar from 'components/sidebar/Sidebar';
 import Main from 'layouts/Main';
 import { ThemeProvider } from 'styled-components';
-import {theme} from 'theme'
-import AppProvider from 'state/contexts/AppContext';
 import './App.css';
 
 function App() {
+
+  const { appState } = useContext(AppContext)
+
   return (
-    <ThemeProvider theme={theme}>
-      <AppProvider>
+    <ThemeProvider theme={appState.theme()}>
         <Main
           top={<Nav />}
           side={<Sidebar />}
         />
-      </AppProvider>
     </ThemeProvider>
   );
 }

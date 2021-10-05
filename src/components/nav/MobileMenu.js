@@ -3,9 +3,6 @@ import { AppContext } from 'state/contexts/AppContext'
 import { updateDrawer } from 'state/actions/appActions' 
 
 import styled from 'styled-components'
-
-import Popover from 'components/Popover'
-import MobileMenuContent from './MobileMenuContent'
 import MobileMenuIcon from './MobileMenuIcon'
 
 const MobileMenu = () => {
@@ -19,11 +16,6 @@ const MobileMenu = () => {
     return (
         <Container>
             <MobileMenuIcon onClick={handleClick} />
-            {/* <Popover 
-                icon={<MobileMenuIcon />}
-                menuContent={<MobileMenuContent />}
-                placed='bottom-start'
-            /> */}
         </Container>
     )
 }

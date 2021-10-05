@@ -1,5 +1,3 @@
-import Nav from 'components/nav/Nav'
-import React from 'react'
 import styled from 'styled-components'
 
 const Main = ({top, side, main}) => {

@@ -22,6 +22,6 @@ const MyLogo = styled.div`
     align-items: center;
     letter-spacing: -.5px;
     cursor: pointer;
-    color: #fff;
+    color: ${props => props.theme.fontColor};
     font-size: 1.25rem;
 `

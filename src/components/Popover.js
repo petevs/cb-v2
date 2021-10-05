@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { usePopper } from 'react-popper'
 import ClickAwayListener from 'react-click-away-listener'
-import IconButton from 'styledComponents/IconButton'
 
 //Styled Components
-import TopBoxArrow from 'styledComponents/TopBoxArrow'
 import PopoverBox from 'styledComponents/PopoverBox'
-import { render } from '@testing-library/react'
 
 const Popover = ({menuContent, icon, placed}) => {
 
@@ -43,7 +40,6 @@ const Popover = ({menuContent, icon, placed}) => {
                     style={styles.popper}
                     {...attributes.popper}
                 >
-                {/* <TopBoxArrow /> */}
                     {menuContent}
                 </PopoverBox>
             </ClickAwayListener>
