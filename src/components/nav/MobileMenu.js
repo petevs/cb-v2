@@ -1,16 +1,16 @@
 import { useContext } from 'react'
-import { AppContext } from 'state/contexts/AppContext'
-import { updateDrawer } from 'state/actions/appActions' 
+import { ThemeContext } from 'state/contexts/ThemeContext'
+import { updateDrawer } from 'state/actions/themeActions' 
 
 import styled from 'styled-components'
 import MobileMenuIcon from './MobileMenuIcon'
 
 const MobileMenu = () => {
 
-    const { appDispatch} = useContext(AppContext)
+    const { themeDispatch} = useContext(ThemeContext)
 
     const handleClick = () => {
-        appDispatch(updateDrawer(true))
+        themeDispatch(updateDrawer(true))
     }
 
     return (

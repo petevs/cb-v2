@@ -3,7 +3,6 @@ import Scorecard from 'components/Scorecard'
 import Calculator from 'layouts/Calculator'
 import React from 'react'
 import InputField from 'styledComponents/InputField'
-import styled from 'styled-components'
 
 const DollarCostAverage = () => {
 

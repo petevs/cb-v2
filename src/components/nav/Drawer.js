@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { AppContext } from 'state/contexts/AppContext'
+import { ThemeContext } from 'state/contexts/ThemeContext'
 import ClickAwayListener from 'react-click-away-listener'
-import { updateDrawer } from 'state/actions/appActions'
+import { updateDrawer } from 'state/actions/themeActions'
 import { motion } from 'framer-motion'
 
 const Drawer = () => {
 
-    const { appState, appDispatch} = useContext(AppContext)
+    const { themeState, themeDispatch} = useContext(ThemeContext)
 
     const handleClose = () => {
-        appDispatch(updateDrawer(false))
+        themeDispatch(updateDrawer(false))
     }
 
     const variants = {
@@ -33,7 +33,7 @@ const Drawer = () => {
 
     return (
         <>
-        { appState.drawer &&
+        { themeState.drawer &&
             <BackDrop>
             <ClickAwayListener onClickAway={handleClose}>
                 <DrawerBox

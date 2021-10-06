@@ -5,23 +5,20 @@ import MobileMenu from './MobileMenu'
 import Popover from 'components/Popover'
 import Flag from './Flag'
 
-import { AppContext } from 'state/contexts/AppContext'
-
 import Drawer from './Drawer'
+import { MarketDataContext } from 'state/contexts/MarketDataContext'
+import { ThemeContext } from 'state/contexts/ThemeContext'
 
 const Nav= () => {
 
-    const { appState } = useContext(AppContext)
-    const { marketData } = appState
+    const { themeState } = useContext(ThemeContext)
+    const { marketData: md } = useContext(MarketDataContext)
+    const { marketData: data } = md
     const {
-        current_price: price, 
+        current_price: price,
         price_change_24h_in_currency: priceChange,
         price_change_percentage_24h_in_currency: percentChange
-
-    } = marketData
-
-    console.log(marketData)
-
+    } = data
 
     return (
         <>
@@ -36,7 +33,7 @@ const Nav= () => {
             </End>
             <MobileMenu />
         </Container>
-        {appState.drawer && <Drawer />}
+        {themeState.drawer && <Drawer />}
         </>
     )
 }
