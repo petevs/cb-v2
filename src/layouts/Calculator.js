@@ -1,25 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Calculator = ({title, header, button, children}) => {
+const Calculator = ({title, subtitle, header, button, children}) => {
     return (
         <Wrapper>
             <InnerWrapper>
-                <div>
+                <TitleBox>
                     <h1>{title}</h1>
-                    <p>little byline about it</p>
-                </div>
-            <Header>
-                <Inputs>
+                    <p>{subtitle}</p>
+                </TitleBox>
+                <CalcBox>
+                    <Inputs>
                     {header}
-                    <DesktopButton>
-                        {button}
-                    </DesktopButton>
-                </Inputs>
-                <MobileButton>
                     {button}
-                </MobileButton>
-            </Header>
+                    </Inputs>
+                    <div>
+                        I will be the chart
+                    </div>
+                </CalcBox>
             {children}
             </InnerWrapper>
         </Wrapper>
@@ -30,11 +28,12 @@ export default Calculator
 
 const Wrapper = styled.div`
     display: grid;
+    grid-template-columns: 1fr;
     background-color: ${props => props.theme.body};
     color: ${props => props.theme.fontColor};
     padding: 2.5rem;
     & h1 {
-        font-size: 1.8rem;
+        font-size: 4rem;
     }
 
     @media (max-width: 1024px) {
@@ -43,10 +42,30 @@ const Wrapper = styled.div`
     }
 `
 
+const TitleBox = styled.div`
+    max-width: 650px;
+    justify-self: center;
+    line-height: 1.5rem;
+`
+
+const CalcBox = styled.div`
+    display: grid;
+    grid-template-columns: 330px 1fr;
+    background-color: #212B36;
+    justify-self: center;
+    width: 1536px;
+    min-height: 300px;
+    padding: 4rem 2rem;
+    border-radius: 6px;
+`
+
+
+
 const InnerWrapper = styled.div`
     display: grid;
     align-content: start;
     gap: 2rem;
+    text-align: center;
 
     @media (max-width: 1024px) {
         justify-items: center;
@@ -73,6 +92,7 @@ const Inputs = styled.div`
     display: grid;
     grid-template-columns: repeat( auto-fill, minmax(175px, 1fr ));
     justify-content: start;
+    align-content: start;
     gap: 1rem;
 `
 

@@ -50,7 +50,7 @@ export const GlobalProvider = ({children}) => {
          getData()
          getHistorical()
  
-     }, [])
+     }, [state.settings.currency])
 
 
 
