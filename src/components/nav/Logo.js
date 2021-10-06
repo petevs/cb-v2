@@ -24,4 +24,8 @@ const MyLogo = styled.div`
     cursor: pointer;
     color: ${props => props.theme.fontColor};
     font-size: 1.25rem;
+
+    & svg {
+        color: #F7931A;
+    }
 `
