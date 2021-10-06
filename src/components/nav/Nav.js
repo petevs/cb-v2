@@ -12,6 +12,15 @@ import Drawer from './Drawer'
 const Nav= () => {
 
     const { appState } = useContext(AppContext)
+    const { marketData } = appState
+    const {
+        current_price: price, 
+        price_change_24h_in_currency: priceChange,
+        price_change_percentage_24h_in_currency: percentChange
+
+    } = marketData
+
+    console.log(marketData)
 
 
     return (
@@ -19,8 +28,8 @@ const Nav= () => {
         <Container columns='auto 1fr auto'>
             <Logo />
             <Center>
-                <h2>$50,000</h2>
-                <span>501 (1.023%)</span>
+                <h2>{price.cad}</h2>
+                <span>{priceChange.cad} ({percentChange.cad}%)</span>
             </Center>
             <End>
                 <Popover icon={<Flag />} placed='bottom-start' />

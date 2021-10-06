@@ -1,5 +1,6 @@
 export const UPDATE_DRAWER = "UPDATE_DRAWER"
 export const TOGGLE_THEME = "TOGGLE_THEME"
+export const SET_MARKET_DATA = "SET_MARKET_DATA"
 
 export const initialApp = {
 
@@ -35,7 +36,10 @@ export const initialApp = {
     },
 
     //DRAWER
-    drawer: false
+    drawer: false,
+
+    //MARKET DATA
+    marketData: {}
 }
 
 export const appReducer = (state, action) => {
@@ -50,6 +54,11 @@ export const appReducer = (state, action) => {
                 ...state,
                 drawer: action.payload
             };
+        case SET_MARKET_DATA:
+            return {
+                ...state,
+                marketData: action.payload
+            }
         default:
             return state;
     }

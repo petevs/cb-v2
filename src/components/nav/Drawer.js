@@ -67,7 +67,7 @@ const BackDrop = styled.div`
 
 const DrawerBox =styled.div`
     position: fixed;
-    top: 0;
+    top: 0; 
     right: 0;
     width: 280px;
     z-index: 999;

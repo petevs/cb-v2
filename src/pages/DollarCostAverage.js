@@ -34,6 +34,12 @@ const DollarCostAverage = () => {
                 button={<Button variant='contained'>Calculate</Button>}
         >
             <Scorecard 
+                title='Bitcoin Holdings'
+                value={0.33544956}
+                prefix=''
+                suffix='' 
+            />
+            <Scorecard 
                 title='Portfolio Value (USD)'
                 value={1587}
                 prefix='$'
