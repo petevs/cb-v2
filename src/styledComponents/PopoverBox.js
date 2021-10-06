@@ -1,11 +1,8 @@
 import styled from 'styled-components'
 
 const PopoverBox = styled.div`
-    height: 100px;
-    width: 250px;
+
     margin-top: .5rem;
-
-
     background-color: ${props => props.theme.backgroundColor};
     border-radius: 8px;
     box-shadow: rgb(0 0 0 / 24%) 0px 0px 2px 0px, rgb(0 0 0 / 24%) 0px 20px 40px -4px;

@@ -1,16 +1,17 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { ThemeContext } from 'state/contexts/ThemeContext'
+import { GlobalContext } from 'state/contexts/GlobalContext'
 import ClickAwayListener from 'react-click-away-listener'
 import { updateDrawer } from 'state/actions/themeActions'
 import { motion } from 'framer-motion'
+import CurrencySelect from './CurrencySelect'
 
 const Drawer = () => {
 
-    const { themeState, themeDispatch} = useContext(ThemeContext)
+    const { state, dispatch} = useContext(GlobalContext)
 
     const handleClose = () => {
-        themeDispatch(updateDrawer(false))
+        dispatch(updateDrawer(false))
     }
 
     const variants = {
@@ -33,7 +34,7 @@ const Drawer = () => {
 
     return (
         <>
-        { themeState.drawer &&
+        { state.theme.drawer &&
             <BackDrop>
             <ClickAwayListener onClickAway={handleClose}>
                 <DrawerBox
@@ -44,7 +45,7 @@ const Drawer = () => {
                     exit='exit'
                     disableEnforceFocus
                 >
-                    Hi I am the Drawer
+                    <CurrencySelect />
                 </DrawerBox>
             </ClickAwayListener>
             </BackDrop>

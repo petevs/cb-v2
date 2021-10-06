@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import ThemeProvider from 'state/contexts/ThemeContext';
-import MarketDataProvider from 'state/contexts/MarketDataContext';
+import { GlobalProvider } from 'state/contexts/GlobalContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider>
-      <MarketDataProvider>
+      <GlobalProvider>
         <App />
-      </MarketDataProvider>
-    </ThemeProvider>
+      </GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

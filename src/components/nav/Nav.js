@@ -6,34 +6,41 @@ import Popover from 'components/Popover'
 import Flag from './Flag'
 
 import Drawer from './Drawer'
-import { MarketDataContext } from 'state/contexts/MarketDataContext'
-import { ThemeContext } from 'state/contexts/ThemeContext'
+import { GlobalContext } from 'state/contexts/GlobalContext'
+import CurrencySelect from './CurrencySelect'
 
 const Nav= () => {
 
-    const { themeState } = useContext(ThemeContext)
-    const { marketData: md } = useContext(MarketDataContext)
-    const { marketData: data } = md
+    const {state, dispatch} = useContext(GlobalContext)
+
+    const { theme, settings, marketData } = state
+
     const {
         current_price: price,
         price_change_24h_in_currency: priceChange,
         price_change_percentage_24h_in_currency: percentChange
-    } = data
+    } = marketData.marketData
+
+    const { currency } = settings
+
+    console.log(state)
+
 
     return (
         <>
         <Container columns='auto 1fr auto'>
             <Logo />
             <Center>
-                <h2>{price.cad}</h2>
-                <span>{priceChange.cad} ({percentChange.cad}%)</span>
+                <h2>{price[currency]}</h2>
+                <span>{priceChange[currency]} ({percentChange[currency]}%)</span>
             </Center>
             <End>
-                <Popover icon={<Flag />} placed='bottom-start' />
+                <CurrencySelect />
+                {/* <Popover icon={<Flag />} placed='bottom-start' menuContent={<CurrencySelect />}/> */}
             </End>
             <MobileMenu />
         </Container>
-        {themeState.drawer && <Drawer />}
+        {theme.drawer && <Drawer />}
         </>
     )
 }
@@ -81,7 +88,7 @@ const Center = styled.div`
 
 const End = styled.div`
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 40px;
     gap: 1rem;
     @media (max-width: 1024px){
         display: none;
