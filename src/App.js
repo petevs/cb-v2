@@ -13,7 +13,7 @@ function App() {
 
   const { state } = useContext(GlobalContext)
 
-  if (state.marketData.loading) {
+  if (state.marketData.loading || state.calculators.loading) {
       return (
       <Backdrop sx={{ backgroundColor: 'black'}} open>
         <CircularProgress />

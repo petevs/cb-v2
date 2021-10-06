@@ -1,14 +1,49 @@
 import { Button, InputAdornment } from '@mui/material'
 import Scorecard from 'components/Scorecard'
 import Calculator from 'layouts/Calculator'
-import React from 'react'
+import React, { useContext, useState} from 'react'
 import InputField from 'styledComponents/InputField'
+import { GlobalContext } from 'state/contexts/GlobalContext'
+import { updateDcaCalculator } from 'state/actions/calculatorActions'
 
 const DollarCostAverage = () => {
 
-    const dcaAmount = 5
-    const date = '2021-01-01'
+    //IMPORT GLOBAL STATE & DESTRUCTURE DCA
+    const { state, dispatch } = useContext(GlobalContext)
+    const { dca } = state.calculators
 
+    //CALCULATED RESULTS PULLED FROM DCA in GLOBAL STATE
+    const {
+        runningBal,
+        date,
+        price,
+        totalInvested,
+        value,
+        profit,
+        roi,
+        days
+    } = dca.lastEntry()
+
+    console.log(dca)
+
+    //LOCAL FORM STATE
+    const [userInputs, setUserInputs] = useState({
+        purchaseAmount: dca.purchaseAmount,
+        startDate: dca.startDate
+    })
+
+    //HANDLE FORM CHANGE
+    const handleChange = (e) => {
+        setUserInputs({
+            ...userInputs,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    //UPDATE DCA on CLICK
+    const handleSubmit = () => {
+        dispatch(updateDcaCalculator(userInputs))
+    }
 
     return (
         <Calculator
@@ -21,27 +56,37 @@ const DollarCostAverage = () => {
                             startAdornment: (<InputAdornment position='start'>$</InputAdornment>),
                         }}
                         inputProps={{inputMode: 'numeric'}}
-                        value={dcaAmount}
+                        name='purchaseAmount'
+                        value={userInputs.purchaseAmount}
+                        onChange={handleChange}
                     />
                     <InputField
                         label='Start Date'
                         type='date'
-                        value={date}
+                        name='startDate'
+                        value={userInputs.startDate}
+                        onChange={handleChange}
                     />
                 </>
                 }
-                button={<Button variant='contained'>Calculate</Button>}
+                button={<Button variant='contained' onClick={handleSubmit}>Calculate</Button>}
         >
             <Scorecard 
-                title='Bitcoin Holdings'
-                value={0.33544956}
-                prefix=''
+                title='Total Invested'
+                value={totalInvested}
+                prefix='$'
                 suffix='' 
             />
             <Scorecard 
                 title='Portfolio Value (USD)'
-                value={1587}
+                value={value}
                 prefix='$'
+                suffix='' 
+            />
+            <Scorecard 
+                title='Bitcoin Holdings'
+                value={runningBal}
+                prefix=''
                 suffix='' 
             />
         </Calculator>
