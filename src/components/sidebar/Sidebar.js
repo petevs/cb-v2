@@ -29,17 +29,22 @@ const Sidebar = () => {
                 title='Portfolio'
                 icon={<BusinessCenterIcon />}
             />
+            <Portfolios>
             {
             portfolios &&
             portfolios.map(item => 
-                <Link
-                    to={item.id}
+                <li> 
+                    <Link
+                    to={`/portfolio/${item.id}`}
+                    key={item.id}
                 >
                     {item.portfolioName}
                 </Link>
+                </li>
             )
             }
             <Button variant='contained' onClick={handleOpen}>Add New Portfolio</Button>
+            </Portfolios>
             <FormModal open={open} onClose={handleClose}>
                 <AddPortfolioForm handleClose={handleClose} />
             </FormModal>
@@ -56,5 +61,26 @@ const Container = styled.div`
 
     @media (max-width: 1024px){
         display: none;
+    }
+`
+
+const Portfolios = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 2rem;
+    color: rgb(99,115,129);
+    
+    & li:hover {
+        color: #fff;
+    }
+
+    & a {
+        text-decoration: none;
+        color: rgb(99,115,129);
+
+        &:hover {
+            color: #fff;
+        }
     }
 `

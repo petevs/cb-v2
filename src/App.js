@@ -41,7 +41,7 @@ function App() {
           side={<Sidebar />}
           main={
             <>
-            <Route path='/portfolio' component={Portfolio} />
+            <Route path='/portfolio/:id' component={Portfolio} />
             <Route path='/dca' component={DollarCostAverage} />
             </>
         }
