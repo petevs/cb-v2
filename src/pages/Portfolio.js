@@ -7,10 +7,23 @@ import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
 import styled from 'styled-components'
 import MyTableHead from 'styledComponents/MyTableHead'
+import { useParams } from 'react-router'
 
 const Portfolio = () => {
 
-    const [portfolio, setPortfolio] = useState('')
+    let { id } = useParams()
+    const { state } = useContext(GlobalContext)
+    
+    const [portfolio, setPortfolio] = useState()
+
+    useEffect(() => {
+        db.collection('users').doc(state.user.uid).collection('portfolios').doc(id).onSnapshot((doc) => setPortfolio(doc.data()))
+        console.log(portfolio)
+    },[id])
+
+    
+
+
     const [inputs, setInputs] = useState({
         startDate: '2020-01-01',
         endDate: '2021-10-01',
@@ -23,10 +36,9 @@ const Portfolio = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     
-
+    
     const [transactions, setTransactions] = useState([])
 
-    const { state } = useContext(GlobalContext)
 
     const [userPortfolios, setUserPortfolios] = useState()
 
@@ -81,6 +93,8 @@ const Portfolio = () => {
 
     return (
         <Wrapper>
+            <h2>{portfolio.portfolioName}</h2>
+            <p>{portfolio.portfolioDescription}</p>
             <FormModal open={open} onClose={handleClose}>
                 <RecurringBuyForm />
             </FormModal>
@@ -122,6 +136,8 @@ const Wrapper = styled.div`
     @media (max-width: 1024px) {
         grid-column: 1 / span 2;
     }
+    color: #fff;
+    padding: 2rem;
 `
 
 const Box = styled.div`
