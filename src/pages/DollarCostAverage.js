@@ -123,6 +123,11 @@ const Wrapper = styled.div`
     justify-content: center;
     background-color: ${props => props.theme.body};
     color: ${props => props.theme.fontColor};
+    padding: 0 2rem;
+
+    @media (max-width: 1024px) {
+        grid-column: 1 / span 2 ;
+    }
 `
 
 const InnerWrapper = styled.div`
@@ -132,6 +137,10 @@ const InnerWrapper = styled.div`
     text-align: center;
     justify-self: center;
     justify-items: center;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
 `
 
 const Header = styled.div`
@@ -147,6 +156,7 @@ const Header = styled.div`
 `
 const Main = styled.div`
     display: grid;
+    grid-template-columns: 1fr;
     gap: 1rem;
     width: 100%;
     height: 300px;
@@ -159,6 +169,10 @@ const CalcBox = styled.div`
     border-radius: 6px;
     padding: 2rem;
     gap: 2rem;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `
 const Calc = styled.div`
     display: grid;
@@ -175,4 +189,9 @@ const ScoreCards = styled.div`
     grid-auto-flow: column;
     justify-content: start;
     gap: 1rem;
+    
+    @media (max-width: 1024px) {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 `

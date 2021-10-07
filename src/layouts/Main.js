@@ -17,4 +17,5 @@ const Container = styled.div`
     grid-template-columns: 300px 1fr;
     grid-template-rows: 60px 1fr;
     height: 100vh;
+    background-color: ${props => props.theme.body};
 `
