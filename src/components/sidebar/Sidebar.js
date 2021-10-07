@@ -1,10 +1,11 @@
+import ProfileCard from 'components/ProfileCard'
 import React from 'react'
 import styled from 'styled-components'
 
 const Sidebar = () => {
     return (
         <Container>
-            I am the sidebar
+            <ProfileCard />
         </Container>
     )
 }

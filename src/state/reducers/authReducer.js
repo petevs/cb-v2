@@ -1,6 +1,6 @@
 export const SET_USER = "SET_USER";
 
-export const initialState = {};
+export const initialAuthState = {};
 
 export const authReducer = (state, action) => {
   switch (action.type) {

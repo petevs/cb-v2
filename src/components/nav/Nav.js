@@ -2,8 +2,6 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import Logo from 'components/nav/Logo'
 import MobileMenu from './MobileMenu'
-import Popover from 'components/Popover'
-import Flag from './Flag'
 
 import Drawer from './Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
@@ -11,7 +9,7 @@ import CurrencySelect from './CurrencySelect'
 
 const Nav= () => {
 
-    const {state, dispatch} = useContext(GlobalContext)
+    const {state} = useContext(GlobalContext)
 
     const { theme, settings, marketData } = state
 
@@ -22,8 +20,6 @@ const Nav= () => {
     } = marketData.marketData
 
     const { currency } = settings
-
-    console.log(state)
 
 
     return (
