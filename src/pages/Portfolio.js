@@ -70,15 +70,6 @@ const Portfolio = () => {
     // })
     // },[])
 
-    console.log(user.uid)
-
-    useEffect(() => {
-        db.collection('users').doc('xh92jbnDwPTCRNga3F8Z81O2x9n1').get().then((doc) => {
-            console.log(doc.data())
-        })
-    },[])
-
-    console.log(userPortfolios)
 
     // if(userPortfolios.length < 1){
     //     return(
