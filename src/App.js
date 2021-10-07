@@ -9,6 +9,8 @@ import DollarCostAverage from 'pages/DollarCostAverage';
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Backdrop, CircularProgress } from "@mui/material";
 import { auth } from 'firebase'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Portfolio from 'pages/Portfolio';
 
 function App() {
 
@@ -33,11 +35,18 @@ function App() {
 
   return (
     <ThemeProvider theme={state.theme.theme()}>
+      <Router>
         <Main
           top={<Nav />}
           side={<Sidebar />}
-          main={<DollarCostAverage />}
+          main={
+            <>
+            <Route path='/portfolio' component={Portfolio} />
+            <Route path='/dca' component={DollarCostAverage} />
+            </>
+        }
         />
+      </Router>
     </ThemeProvider>
   );
 }
