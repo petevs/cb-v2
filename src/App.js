@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import Nav from 'components/nav/Nav';
 import Sidebar from 'components/sidebar/Sidebar';
@@ -8,12 +8,25 @@ import './App.css';
 import DollarCostAverage from 'pages/DollarCostAverage';
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Backdrop, CircularProgress } from "@mui/material";
+import { auth } from 'firebase'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Portfolio from 'pages/Portfolio';
 
 function App() {
 
-  const { state } = useContext(GlobalContext)
+  const { state, pending } = useContext(GlobalContext)
 
-  if (state.marketData.loading || state.calculators.loading) {
+      useEffect(() => {
+        auth.signInAnonymously()
+          .then(() => {
+            //Signed in
+          })
+          .catch(err => {console.log(err.message)})
+      })
+    
+
+
+  if (state.marketData.loading || state.calculators.loading || pending) {
       return (
       <Backdrop sx={{ backgroundColor: 'black'}} open>
         <CircularProgress />
@@ -22,11 +35,18 @@ function App() {
 
   return (
     <ThemeProvider theme={state.theme.theme()}>
+      <Router>
         <Main
           top={<Nav />}
           side={<Sidebar />}
-          main={<DollarCostAverage />}
+          main={
+            <>
+            <Route path='/portfolio' component={Portfolio} />
+            <Route path='/dca' component={DollarCostAverage} />
+            </>
+        }
         />
+      </Router>
     </ThemeProvider>
   );
 }

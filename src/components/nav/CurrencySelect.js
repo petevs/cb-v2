@@ -21,7 +21,7 @@ const CurrencySelect = () => {
     };
   
     const handleSettingsChange = (event) => {
-      const { name, myValue } = event.currentTarget.dataset;
+      const { myValue } = event.currentTarget.dataset;
       dispatch(setCurrency(myValue));
       handleClose();
     };

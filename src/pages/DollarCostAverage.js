@@ -18,8 +18,8 @@ const DollarCostAverage = () => {
     //CALCULATED RESULTS PULLED FROM DCA in GLOBAL STATE
     const {
         runningBal,
-        date,
-        price,
+        // date,
+        // price,
         totalInvested,
         value,
         profit,
@@ -27,8 +27,6 @@ const DollarCostAverage = () => {
         days,
         averageCost
     } = dca.lastEntry()
-
-    console.log(dca)
 
     //LOCAL FORM STATE
     const [userInputs, setUserInputs] = useState({

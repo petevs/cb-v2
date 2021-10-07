@@ -73,20 +73,20 @@ const InnerWrapper = styled.div`
     }
 `
 
-const Header = styled.div`
-    display: grid;
-    border-bottom: 2px solid #fff;
-    padding-bottom: 1rem;
-    grid-template-columns: 1fr;
-    grid-template-row: auto auto;
-    justify-content: start;
-    gap: 1rem;
+// const Header = styled.div`
+//     display: grid;
+//     border-bottom: 2px solid #fff;
+//     padding-bottom: 1rem;
+//     grid-template-columns: 1fr;
+//     grid-template-row: auto auto;
+//     justify-content: start;
+//     gap: 1rem;
 
-    @media (max-width: 1024px) {
-        width: 100%;
-    }
+//     @media (max-width: 1024px) {
+//         width: 100%;
+//     }
 
-`
+// `
 
 const Inputs = styled.div`
     display: grid;
@@ -96,17 +96,17 @@ const Inputs = styled.div`
     gap: 1rem;
 `
 
-const MobileButton= styled.div`
-    display: grid;
-    min-height: 56px;
-    @media (min-width: 1024px) {
-        display: none;
-    }
-`
+// const MobileButton= styled.div`
+//     display: grid;
+//     min-height: 56px;
+//     @media (min-width: 1024px) {
+//         display: none;
+//     }
+// `
 
-const DesktopButton = styled.div`
-    display: grid;
-    @media (max-width: 1024px) {
-        display: none;
-    }
-`
+// const DesktopButton = styled.div`
+//     display: grid;
+//     @media (max-width: 1024px) {
+//         display: none;
+//     }
+// `

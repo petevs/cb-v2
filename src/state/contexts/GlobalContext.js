@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from 'react'
+import { createContext, useReducer, useEffect, useState } from 'react'
 import { initialMarketData, marketDataReducer } from 'state/reducers/marketDataReducer'
 import useCombinedReducers from 'use-combined-reducers'
 import { setMarketData } from 'state/actions/marketDataActions'
@@ -7,6 +7,12 @@ import { initialTheme, themeReducer } from 'state/reducers/themeReducer'
 import { initialSettings, settingsReducer } from 'state/reducers/settingsReducer'
 import { calculatorReducer, initialCalculators } from 'state/reducers/calculatorReducer'
 import { updateHistoricalData } from 'state/actions/calculatorActions'
+import { setUser } from 'state/actions/authActions'
+import { auth } from 'firebase'
+import { authReducer, initialAuthState } from 'state/reducers/authReducer'
+import { db } from 'firebase'
+import { initialPortfolioState, portfolioReducer } from 'state/reducers/portfolioReducer'
+import { setPortfolios } from 'state/actions/portfolioActions'
 
 
 export const GlobalContext = createContext()
@@ -17,9 +23,40 @@ export const GlobalProvider = ({children}) => {
         marketData: useReducer(marketDataReducer, initialMarketData),
         theme: useReducer(themeReducer, initialTheme),
         settings: useReducer(settingsReducer, initialSettings),
-        calculators: useReducer(calculatorReducer, initialCalculators)
+        calculators: useReducer(calculatorReducer, initialCalculators),
+        user: useReducer(authReducer, initialAuthState),
+        portfolio: useReducer(portfolioReducer, initialPortfolioState)
     })
 
+    const [pending, setPending] = useState(true);
+
+    //GET AUTH
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+              dispatch(setUser(user));
+            } else {
+              dispatch(setUser(initialAuthState));
+            }
+            setPending(false);
+          });
+    },[])
+
+    //GET & SET USER DETAILS
+
+        useEffect(() => {
+            db.collection('users').doc(state.user.uid).collection('portfolios').onSnapshot(snapshot => {
+                const result = snapshot.docs.map(doc => {
+                    const data = doc.data()
+                    const id = doc.id
+                    return { id, ...data}
+                })
+                dispatch(setPortfolios(result))
+        })
+        },[state.user.uid])
+
+
+    //GET MARKET & HISTORICAL DATA
     useEffect(() => {
 
         const getData = async () => {
@@ -58,7 +95,8 @@ export const GlobalProvider = ({children}) => {
         <GlobalContext.Provider
             value={{
                 state,
-                dispatch
+                dispatch,
+                pending
             }}
         >
             {children}
