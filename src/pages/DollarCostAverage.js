@@ -6,6 +6,7 @@ import InputField from 'styledComponents/InputField'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { updateDcaCalculator } from 'state/actions/calculatorActions'
 import styled from 'styled-components'
+import Chart from "react-apexcharts";
 
 const DollarCostAverage = () => {
 
@@ -45,6 +46,86 @@ const DollarCostAverage = () => {
     const handleSubmit = () => {
         dispatch(updateDcaCalculator(userInputs))
     }
+
+    const numberWithCommas = (x) => {
+        x = x.toString();
+        var pattern = /(-?\d+)(\d{3})/;
+        while (pattern.test(x))
+            x = x.replace(pattern, "$1,$2");
+        return x;
+    }
+
+    //CHART OPTIONS
+    const options = {
+        chart: {
+          toolbar: {
+            show: false,
+            // tools: {
+            //     download: false,
+            // }
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        yaxis: {
+          labels: {
+            // show: false,
+            //   show: false,
+            formatter: function (value) {
+              return "$" + numberWithCommas(value);
+            },
+            style: {
+              colors: ["#fff"],
+            },
+          },
+          // opposite: true,
+        },
+        xaxis: {
+          type: "datetime",
+          categories: dca.calculatedData().map((item) => {
+            return item.date;
+          }).reverse(),
+          labels: {
+            style: {
+              colors: "#fff",
+            },
+          },
+        },
+        colors: ["#2E99FE", "#FF2F30"],
+        tooltip: {
+          x: {
+            format: "dd MMM HH:mm",
+          },
+          theme: "dark",
+        },
+        annotations: {
+        },
+        grid: {
+          yaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        legend: {
+          position: "top",
+          horizontalAlign: "right",
+          labels: {
+            colors: "#fff",
+          },
+        },
+      };
+    
+      const series = [
+        {
+          name: `Portfolio Value (${state.settings.currency})`,
+          data: dca.calculatedData().map((item) => {
+            return item.value;
+          }).reverse(),
+        },
+      ];
+
 
     return (
 
@@ -107,6 +188,13 @@ const DollarCostAverage = () => {
                             Today <br />
                             <h2>You'd Have {runningBal} Bitcoin, Worth ${value} {state.settings.currency}</h2>
                             {`If you would've invested $${dca.purchaseAmount} every day, since ${dca.startDate}`}
+                            <Chart
+                                series={series}
+                                options={options}
+                                type='area'
+                                width='100%'
+                                height="400px"
+                            />
                         </Results>
                     </CalcBox>
                 </Main>
@@ -178,6 +266,7 @@ const Calc = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    align-self: start;
 `
 
 const Results = styled.div`
