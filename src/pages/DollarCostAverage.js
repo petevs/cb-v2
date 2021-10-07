@@ -72,14 +72,13 @@ const DollarCostAverage = () => {
         },
         yaxis: {
           labels: {
-            // show: false,
-            //   show: false,
-            formatter: function (value) {
-              return "$" + numberWithCommas(value);
-            },
-            style: {
-              colors: ["#fff"],
-            },
+            show: false,
+            // formatter: function (value) {
+            //   return "$" + numberWithCommas(value);
+            // },
+            // style: {
+            //   colors: ["#fff"],
+            // },
           },
           // opposite: true,
         },
@@ -135,23 +134,25 @@ const DollarCostAverage = () => {
             <InnerWrapper>
                <Header>
                     <h1>Dollar Cost Average Calculator</h1>
-                    <p>
-                        Bitcoin dollar cost averaging consists in investing a fixed amount into BTC, on regular time intervals. You’ll often see it referenced by its abbreviation of "DCA".
-                
-                        This strategy is mostly used by investors that are looking to purchase Bitcoin for the long-term, since it protects them from potentially allocating all their capital at a price peak.'
-                    </p>
+                    <p>Calculate The Performance of a Daily Recurring Buy</p>
                 </Header>
                 <Main>
                     <ScoreCards>
                         <Scorecard 
                             title='Total Invested'
-                            value={totalInvested}
+                            value={numberWithCommas(totalInvested)}
                             prefix='$'
                             suffix='' 
                         />
                         <Scorecard 
                             title={`Portfolio Value (${state.settings.currency})`}
-                            value={value}
+                            value={numberWithCommas(value)}
+                            prefix='$'
+                            suffix='' 
+                        />
+                        <Scorecard 
+                            title='Gain / Loss'
+                            value={numberWithCommas(profit)}
                             prefix='$'
                             suffix='' 
                         />
@@ -171,6 +172,12 @@ const DollarCostAverage = () => {
                             title='Average Cost'
                             value={numberWithCommas(averageCost)}
                             prefix='$'
+                            suffix='' 
+                        />
+                        <Scorecard 
+                            title='Number of Days'
+                            value={numberWithCommas(days)}
+                            prefix=''
                             suffix='' 
                         />
                     </ScoreCards>
@@ -197,16 +204,20 @@ const DollarCostAverage = () => {
                             <Button variant='contained' onClick={handleSubmit}>Calculate</Button>
                         </Calc>
                         <Results>
-                            Today <br />
-                            <h2>You'd Have {runningBal} Bitcoin = Worth ${numberWithCommas(value)} {state.settings.currency}</h2>
-                            {`If you would've invested $${dca.purchaseAmount} every day, since ${dca.startDate}`}
-                            <Chart
-                                series={series}
-                                options={options}
-                                type='area'
-                                width='100%'
-                                height="400px"
-                            />
+                            <p>
+                            <h5>Today</h5>
+                            <h2>You'd Have {runningBal} Bitcoin. Worth ${numberWithCommas(value)}.</h2>
+                            {`If you invested $${dca.purchaseAmount} every day, since ${dca.startDate}.`}
+                            </p>
+                            <ChartWrapper>
+                                <Chart
+                                    series={series}
+                                    options={options}
+                                    type='area'
+                                    width='100%'
+                                    height="400px"
+                                />
+                            </ChartWrapper>
                         </Results>
                     </CalcBox>
                 </Main>
@@ -223,7 +234,7 @@ const Wrapper = styled.div`
     justify-content: center;
     background-color: ${props => props.theme.body};
     color: ${props => props.theme.fontColor};
-    padding: 0 2rem;
+    padding: 0 1rem;
     overflow-y: scroll;
 
     @media (max-width: 1024px) {
@@ -234,10 +245,12 @@ const Wrapper = styled.div`
 const InnerWrapper = styled.div`
     display: grid;
     grid-template-columns: minmax(300px, 1536px);
-    height: 600px;
     text-align: center;
     justify-self: center;
     justify-items: center;
+    align-content: start;
+    height: auto;
+    padding-bottom: 4rem;
 
     @media (max-width: 1024px) {
         grid-template-columns: 1fr;
@@ -250,9 +263,10 @@ const Header = styled.div`
     grid-template-columns: minmax(0, 650px);
     text-align: center;
     padding: 2rem;
+    gap: 0;
 
     & h1 {
-        font-size: 3rem;
+        font-size: 2.4rem;
     }
 `
 const Main = styled.div`
@@ -268,22 +282,43 @@ const CalcBox = styled.div`
     grid-template-columns: 300px 1fr;
     background-color: ${props => props.theme.backgroundColor};
     border-radius: 6px;
-    padding: 2rem;
     gap: 2rem;
+    text-align: left;
 
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
+        padding: 2rem 1rem;
     }
 `
 const Calc = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-    align-self: start;
+    align-content: start;
+    padding: 2rem;
+    border-right: 1px solid rgba(145,158,171,0.24);
+
+    @media (max-width: 768px) {
+        border-right: none;
+        border-bottom: 1px solid rgba(145,158,171,0.24);
+    }
 `
 
 const Results = styled.div`
     text-align: left;
+    padding: 2rem;
+
+    & p {
+        line-height: 2rem;
+    }
+
+    & h5 {
+        text-transform: uppercase;
+    }
+`
+
+const ChartWrapper = styled.div`
+    margin: 0 0 0 -1rem;
 `
 
 const ScoreCards = styled.div`
