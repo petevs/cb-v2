@@ -28,7 +28,7 @@ const Portfolio = () => {
 
     const { state } = useContext(GlobalContext)
 
-    const [userPortfolios, setUserPortfolios] = useState([])
+    const [userPortfolios, setUserPortfolios] = useState()
 
     const { user } = state
 
@@ -43,31 +43,39 @@ const Portfolio = () => {
         })
     }
     
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const portTrans = recurringBuy(
-            inputs.purchaseAmount,
-            inputs.startDate,
-            inputs.endDate,
-            state.calculators.dca.historicalData
-        )
+    // const handleSubmit = (e) => {
+    //     e.preventDefault()
+    //     const portTrans = recurringBuy(
+    //         inputs.purchaseAmount,
+    //         inputs.startDate,
+    //         inputs.endDate,
+    //         state.calculators.dca.historicalData
+    //     )
 
-        db.collection('users').doc(user.uid).collection('portfolios').doc().set({
-            name: portfolio,
-            transactions: portTrans
-        })
-        setPortfolio('')
-    }
+    //     db.collection('users').doc(user.uid).collection('portfolios').doc().set({
+    //         name: portfolio,
+    //         transactions: portTrans
+    //     })
+    //     setPortfolio('')
+    // }
+
+    // useEffect(() => {
+    //     db.collection('users').doc(user.uid).collection('portfolios').onSnapshot(snapshot => {
+    //         const result = snapshot.docs.map(doc => {
+    //             const data = doc.data()
+    //             const id = doc.id
+    //             return { id, ...data}
+    //         })
+    //         setUserPortfolios(result)
+    // })
+    // },[])
+
+    console.log(user.uid)
 
     useEffect(() => {
-        db.collection('users').doc(user.uid).collection('portfolios').onSnapshot(snapshot => {
-            const result = snapshot.docs.map(doc => {
-                const data = doc.data()
-                const id = doc.id
-                return { id, ...data}
-            })
-            setUserPortfolios(result)
-    })
+        db.collection('users').doc('xh92jbnDwPTCRNga3F8Z81O2x9n1').get().then((doc) => {
+            console.log(doc.data())
+        })
     },[])
 
     console.log(userPortfolios)
@@ -87,7 +95,7 @@ const Portfolio = () => {
             </FormModal>
 
             <div>
-                {userPortfolios.map(item => <p>{item.name}</p>)}
+                {/* {userPortfolios.map(item => <p>{item.name}</p>)} */}
                 {/* {userPortfolios[0].transactions.map(item => 
                     <div>
                         <h2>{item.date} {item.runningBal}</h2>

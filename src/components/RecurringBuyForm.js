@@ -53,6 +53,7 @@ const RecurringBuyForm = (props) => {
                         name={item.name}
                         label={item.label}
                         value={inputs[item.name]}
+                        size='medium'
                         onChange={handleChange}
                         type={item.type}
                         InputProps={{
@@ -62,7 +63,7 @@ const RecurringBuyForm = (props) => {
                     />
                     )
             }
-            <Button variant='contained'>Add Recurring Buy</Button>
+            <Button variant='contained' size='large'>Add Recurring Buy</Button>
         </Form>
     )
 }
@@ -72,5 +73,6 @@ export default RecurringBuyForm
 const Form = styled.form`
     display: grid;
     gap: 1rem;
+    padding: 2rem 1rem;
 
 `

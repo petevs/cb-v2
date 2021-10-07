@@ -10,6 +10,7 @@ import { updateHistoricalData } from 'state/actions/calculatorActions'
 import { setUser } from 'state/actions/authActions'
 import { auth } from 'firebase'
 import { authReducer, initialAuthState } from 'state/reducers/authReducer'
+import { db } from 'firebase'
 
 
 export const GlobalContext = createContext()
@@ -37,6 +38,13 @@ export const GlobalProvider = ({children}) => {
             setPending(false);
           });
     },[])
+
+    //GET & SET USER DETAILS
+    useEffect(() => {
+
+        db.collection('users').doc(state.user.uid)
+            .onSnapshot((doc) => console.log(doc.data()))
+    },[state.user.uid])
 
 
     //GET MARKET & HISTORICAL DATA

@@ -1,10 +1,19 @@
 import ProfileCard from 'components/ProfileCard'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import SideBarItem from './SideBarItem'
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import { Button } from '@mui/material';
+import FormModal from 'components/FormModal';
+import AddPortfolioForm from 'components/AddPortfolioForm';
 
 const Sidebar = () => {
+
+        //Modal
+        const [open, setOpen] = useState(false);
+        const handleOpen = () => setOpen(true);
+        const handleClose = () => setOpen(false);
+
     return (
         <Container>
             <ProfileCard />
@@ -13,6 +22,10 @@ const Sidebar = () => {
                 title='Portfolio'
                 icon={<BusinessCenterIcon />}
             />
+            <Button variant='contained' onClick={handleOpen}>Add New Portfolio</Button>
+            <FormModal open={open} onClose={handleClose}>
+                <AddPortfolioForm handleClose={handleClose} />
+            </FormModal>
         </Container>
     )
 }
