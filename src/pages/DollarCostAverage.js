@@ -1,4 +1,4 @@
-import { Button, InputAdornment } from '@mui/material'
+import { Button, InputAdornment, InputLabel, MenuItem, Select } from '@mui/material'
 import Scorecard from 'components/Scorecard'
 import Calculator from 'layouts/Calculator'
 import React, { useContext, useState} from 'react'
@@ -7,6 +7,7 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import { updateDcaCalculator } from 'state/actions/calculatorActions'
 import styled from 'styled-components'
 import Chart from "react-apexcharts";
+import MySelect from 'styledComponents/MySelect'
 
 const DollarCostAverage = () => {
 
@@ -23,7 +24,8 @@ const DollarCostAverage = () => {
         value,
         profit,
         roi,
-        days
+        days,
+        averageCost
     } = dca.lastEntry()
 
     console.log(dca)
@@ -134,9 +136,7 @@ const DollarCostAverage = () => {
                <Header>
                     <h1>Dollar Cost Average Calculator</h1>
                     <p>
-                        Bitcoin dollar cost averaging consists in investing a fixed amount of USD, into BTC, on regular time intervals. You’ll often see it referenced by its abbreviation of "DCA".
-                        
-                        Purchasing $10 every week, for example, would be dollar cost averaging.
+                        Bitcoin dollar cost averaging consists in investing a fixed amount into BTC, on regular time intervals. You’ll often see it referenced by its abbreviation of "DCA".
                 
                         This strategy is mostly used by investors that are looking to purchase Bitcoin for the long-term, since it protects them from potentially allocating all their capital at a price peak.'
                     </p>
@@ -160,12 +160,24 @@ const DollarCostAverage = () => {
                             value={runningBal}
                             prefix=''
                             suffix='' 
-            />
+                        />
+                        <Scorecard 
+                            title='ROI'
+                            value={roi}
+                            prefix=''
+                            suffix='%' 
+                        />
+                        <Scorecard 
+                            title='Average Cost'
+                            value={numberWithCommas(averageCost)}
+                            prefix='$'
+                            suffix='' 
+                        />
                     </ScoreCards>
                     <CalcBox>
                         <Calc>
                             <InputField
-                                label='Dollar Amount'
+                                label='Daily Purchase Amount'
                                 InputProps={{
                                     startAdornment: (<InputAdornment position='start'>$</InputAdornment>),
                                 }}
@@ -186,7 +198,7 @@ const DollarCostAverage = () => {
                         </Calc>
                         <Results>
                             Today <br />
-                            <h2>You'd Have {runningBal} Bitcoin, Worth ${value} {state.settings.currency}</h2>
+                            <h2>You'd Have {runningBal} Bitcoin = Worth ${numberWithCommas(value)} {state.settings.currency}</h2>
                             {`If you would've invested $${dca.purchaseAmount} every day, since ${dca.startDate}`}
                             <Chart
                                 series={series}
@@ -212,6 +224,7 @@ const Wrapper = styled.div`
     background-color: ${props => props.theme.body};
     color: ${props => props.theme.fontColor};
     padding: 0 2rem;
+    overflow-y: scroll;
 
     @media (max-width: 1024px) {
         grid-column: 1 / span 2 ;
@@ -275,8 +288,9 @@ const Results = styled.div`
 
 const ScoreCards = styled.div`
     display: grid;
-    grid-auto-flow: column;
-    justify-content: start;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    justify-items: start;
     gap: 1rem;
     
     @media (max-width: 1024px) {

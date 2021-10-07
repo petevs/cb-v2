@@ -16,7 +16,7 @@ export default Scorecard
 
 const Card = styled.div`
     display: grid;
-    justify-self: start;
+    justify-self: stretch;
     background-color: ${props => props.theme.backgroundColor};
     color: ${props => props.theme.fontColor};
     box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05),
@@ -24,10 +24,10 @@ const Card = styled.div`
     border-radius: 6px;
     padding: 0.75rem 1rem;
     gap: .5rem;
+    text-align: left;
 
     @media (max-width: 1024px) {
       justify-self: stretch;
-      text-align: left;
   }
 `
 
