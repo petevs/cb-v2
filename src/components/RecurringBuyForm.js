@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import InputField from 'styledComponents/InputField'
 import moment from 'moment'
 import styled from 'styled-components'
 import { Button, InputAdornment } from '@mui/material'
 import { db } from 'firebase'
+import { GlobalContext } from 'state/contexts/GlobalContext'
+import { recurringBuy } from 'utils/recurringBuy'
 
 const RecurringBuyForm = (props) => {
+
+    const { state } = useContext(GlobalContext)
 
     const initialForm = {
         purchaseAmount: 0,
@@ -29,23 +33,33 @@ const RecurringBuyForm = (props) => {
         })
     }
 
+    const prices = state.calculators.dca.historicalData
+
+
+    const test = recurringBuy(inputs.purchaseAmount, inputs.startDate, inputs.endDate, prices)
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        // db.collection('users').doc(user.uid).collection('portfolios').doc(
+        db.collection('users').doc(state.user.uid).update({
+            portfolio: {
+                ...state.portfolio.portfolioObj,
+                [props.id]: {
+                    ...state.portfolio.portfolioObj[props.id],
+                    transactions: test
+                }
+            }
+        })
+        props.handleClose()
+        setInputs(initialForm)
     }
 
+    console.log(state.calculators.dca.historicalData)
 
-
-    // db.collection('users').doc(user.uid).collection('portfolios').doc().set({
-    //     name: portfolio,
-    //     transactions: portTrans
-    // })
-    // setPortfolio('')
 
 
 
     return (
-        <Form>
+        <Form onSubmit={handleSubmit}>
             <h2>Add a Recurring Buy</h2>
             {
                 fields.map(item => 
@@ -63,7 +77,7 @@ const RecurringBuyForm = (props) => {
                     />
                     )
             }
-            <Button variant='contained' size='large'>Add Recurring Buy</Button>
+            <Button variant='contained' size='large' type='submit'>Add Recurring Buy</Button>
         </Form>
     )
 }

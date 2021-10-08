@@ -101,7 +101,7 @@ const Portfolio = () => {
             </FormModal>
 
             <FormModal open={open} onClose={handleClose}>
-                <RecurringBuyForm />
+                <RecurringBuyForm handleClose={handleClose} id={id}/>
             </FormModal>
 
             <div>
