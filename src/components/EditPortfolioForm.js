@@ -5,8 +5,11 @@ import styled from 'styled-components'
 import { Button, InputAdornment } from '@mui/material'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
+import { useHistory } from 'react-router'
 
 const EditPortfolioForm = ({details, handleClose, id}) => {
+
+    const history = useHistory()
 
     const { state } = useContext(GlobalContext)
 
@@ -37,6 +40,22 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
         setInputs(initialForm)
     }
 
+    const handleDelete = () => {
+
+        const updatedPortfolio = {...state.portfolio.portfolioObj}
+        delete updatedPortfolio[id]
+
+        db.collection('users').doc(state.user.uid).update({
+            portfolio:
+            {
+                ...updatedPortfolio
+            }
+        })
+        history.push('/portfolio')
+        handleClose()
+        
+    }
+
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -64,6 +83,14 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
                 type='submit'
             >
                 Save Changes
+            </Button>
+            <Button
+                variant='contained'
+                size='large'
+                color='warning'
+                onClick={handleDelete}
+            >
+                Delete
             </Button>
         </Form>
     )
