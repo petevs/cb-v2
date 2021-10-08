@@ -44,19 +44,19 @@ const Portfolio = () => {
     console.log(state)
 
     //Create Recurring Buy List
-    const recurringBuyList = []
+        const recurringBuyList = []
 
-    if('recurringBuys' in details){
-        for (const key in details.recurringBuys){
-            const buy = details.recurringBuys[key]
-            recurringBuyList.push({
-                id: key,
-                purchaseAmount: buy['purchaseAmount'],
-                startDate: buy['startDate'],
-                endDate: buy['endDate']
-            })
-        }
-    }    
+        if('recurringBuys' in details){
+            for (const key in details.recurringBuys){
+                const buy = details.recurringBuys[key]
+                recurringBuyList.push({
+                    id: key,
+                    purchaseAmount: buy['purchaseAmount'],
+                    startDate: buy['startDate'],
+                    endDate: buy['endDate']
+                })
+            }
+        }    
 
     return (
         <>
@@ -94,7 +94,7 @@ const Portfolio = () => {
                         onClick={() => handleOpen(
                             <RecurringBuyForm 
                                 handleClose={handleClose} 
-                                id={id} 
+                                portfolioId={id} 
                                 type='add'
                             />
                         )}>
@@ -120,13 +120,21 @@ const Portfolio = () => {
                                 <TableCell>{row.startDate}</TableCell>
                                 <TableCell>{row.endDate}</TableCell>
                                 <TableCell>
-                                    <button
+                                    <Button
+                                        color='info'
                                         onClick={() => handleOpen(
-                                            <div>Edit Recurring Buy</div>
+                                            <RecurringBuyForm
+                                                type='edit'
+                                                portfolioId={id}
+                                                handleClose={handleClose}
+                                                {...row}
+                                            >
+                                                Edit Recurring Buy
+                                            </RecurringBuyForm>
                                         )}
                                     >
                                         Edit
-                                    </button>
+                                    </Button>
                                 
                                 </TableCell>
                             </MyTableRow>

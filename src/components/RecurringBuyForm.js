@@ -9,16 +9,18 @@ import { recurringBuy } from 'utils/recurringBuy'
 
 const RecurringBuyForm = (props) => {
 
+    console.log(props)
+
     const { state } = useContext(GlobalContext)
 
+    // If editing a recurring buy initial then pass the props otherwise set initial
     const initialForm = {
-        purchaseAmount: 0,
-        startDate: moment().subtract(1, 'years').format('YYYY-MM-DD'),
-        endDate: moment().format('YYYY-MM-DD')
+        purchaseAmount: props.purchaseAmount || 0,
+        startDate: props.startDate || moment().subtract(1, 'years').format('YYYY-MM-DD'),
+        endDate: props.endDate || moment().format('YYYY-MM-DD')
     }
 
     const [inputs, setInputs] = useState(initialForm)
-
     
     const fields = [
         {name: 'purchaseAmount', label: 'Purchase Amount', type: 'numeric', adornment: '$'},
@@ -36,23 +38,25 @@ const RecurringBuyForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        db.collection('users').doc(state.user.uid).update({
-            portfolio: {
-                ...state.portfolio.portfolioObj,
-                [props.id]: {
-                    ...state.portfolio.portfolioObj[props.id],
-                    recurringBuys: {
-                        ...state.portfolio.portfolioObj[props.id].recurringBuys,
-                        [Date.now()]: inputs
+
+        const firebaseId = props.id || Date.now()
+
+            db.collection('users').doc(state.user.uid).update({
+                portfolio: {
+                    ...state.portfolio.portfolioObj,
+                    [props.portfolioId]: {
+                        ...state.portfolio.portfolioObj[props.portfolioId],
+                        recurringBuys: {
+                            ...state.portfolio.portfolioObj[props.portfolioId].recurringBuys,
+                            [firebaseId]: inputs
+                        }
                     }
                 }
-            }
-        })
+            })
+
         props.handleClose()
         setInputs(initialForm)
     }
-
-    console.log(state.calculators.dca.historicalData)
 
 
 
