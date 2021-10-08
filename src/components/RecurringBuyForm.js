@@ -33,10 +33,6 @@ const RecurringBuyForm = (props) => {
         })
     }
 
-    const prices = state.calculators.dca.historicalData
-
-
-    const test = recurringBuy(inputs.purchaseAmount, inputs.startDate, inputs.endDate, prices)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -45,7 +41,10 @@ const RecurringBuyForm = (props) => {
                 ...state.portfolio.portfolioObj,
                 [props.id]: {
                     ...state.portfolio.portfolioObj[props.id],
-                    transactions: test
+                    recurringBuys: {
+                        ...state.portfolio.portfolioObj[props.id].recurringBuys,
+                        [Date.now()]: inputs
+                    }
                 }
             }
         })

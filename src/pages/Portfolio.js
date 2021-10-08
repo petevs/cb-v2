@@ -1,4 +1,4 @@
-import { Button, Table, TableRow, TableCell} from '@mui/material'
+import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
 import React, { useState, useContext, useEffect } from 'react'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import MyTableHead from 'styledComponents/MyTableHead'
 import { useParams } from 'react-router'
 import EditPortfolioForm from 'components/EditPortfolioForm'
+import MyTableRow from 'styledComponents/MyTableRow'
 
 const Portfolio = () => {
 
@@ -81,6 +82,22 @@ const Portfolio = () => {
     // })
     // },[])
 
+    console.log(details)
+
+    const recurringBuyList = []
+
+    for (const key in details.recurringBuys){
+        const buy = details.recurringBuys[key]
+        recurringBuyList.push({
+            id: key,
+            purchaseAmount: buy['purchaseAmount'],
+            startDate: buy['startDate'],
+            endDate: buy['endDate']
+        })
+    }
+
+    console.log(recurringBuyList)
+
     if(state.portfolio.portfolioList.length < 1){
         return(
             <>
@@ -128,6 +145,18 @@ const Portfolio = () => {
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </MyTableHead>
+                    <TableBody>
+                    {recurringBuyList.map((row) => (
+                            <MyTableRow
+                                key={row.id}
+                            >
+                                <TableCell>{row.purchaseAmount}</TableCell>
+                                <TableCell>{row.startDate}</TableCell>
+                                <TableCell>{row.endDate}</TableCell>
+                                <TableCell>Edit</TableCell>
+                            </MyTableRow>
+                        ))}
+                    </TableBody>
                 </Table>
             </Box>
             <Box>
@@ -144,6 +173,8 @@ const Portfolio = () => {
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </MyTableHead>
+                    <TableBody>
+                    </TableBody>
                 </Table>
             </Box>
 
