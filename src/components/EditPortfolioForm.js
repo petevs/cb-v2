@@ -6,13 +6,13 @@ import { Button, InputAdornment } from '@mui/material'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 
-const AddPortfolioForm = (props) => {
+const EditPortfolioForm = ({details, handleClose, id}) => {
 
     const { state } = useContext(GlobalContext)
 
     const initialForm = {
-        portfolioName: '',
-        portfolioDescription: ''
+        portfolioName: details.portfolioName,
+        portfolioDescription: details.portfolioDescription
     }
 
     const [inputs, setInputs] = useState(initialForm)
@@ -30,17 +30,17 @@ const AddPortfolioForm = (props) => {
             portfolio: 
                 {
                     ...state.portfolio.portfolioObj,
-                    [Date.now()]: inputs
+                    [id]: inputs
                 }
         })
-        props.handleClose()
+        handleClose()
         setInputs(initialForm)
     }
 
 
     return (
         <Form onSubmit={handleSubmit}>
-            <h2>Add New Portfolio</h2>
+            <h2>Edit Portfolio</h2>
             <InputField
                 name='portfolioName'
                 label='Portfolio Name'
@@ -63,13 +63,13 @@ const AddPortfolioForm = (props) => {
                 size='large'
                 type='submit'
             >
-                Add Portfolio
+                Save Changes
             </Button>
         </Form>
     )
 }
 
-export default AddPortfolioForm
+export default EditPortfolioForm
 
 const Form = styled.form`
     display: grid;

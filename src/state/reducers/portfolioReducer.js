@@ -1,7 +1,8 @@
 export const SET_PORTFOLIOS = "SET_PORTFOLIOS";
 
 export const initialPortfolioState = {
-  portfolios: []
+  portfolioList: [],
+  portfolioObj: {}
 };
 
 export const portfolioReducer = (state, action) => {
@@ -9,7 +10,8 @@ export const portfolioReducer = (state, action) => {
     case SET_PORTFOLIOS:
       return {
         ...state,
-        portfolios: action.payload
+        portfolioList: action.payload.portfolioList,
+        portfolioObj: action.payload.portfolioObj
       };
     default:
       return state;

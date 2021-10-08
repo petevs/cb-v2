@@ -8,18 +8,18 @@ import FormModal from 'components/FormModal';
 import AddPortfolioForm from 'components/AddPortfolioForm';
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Link } from 'react-router-dom';
+import { portfolioReducer } from 'state/reducers/portfolioReducer';
 
 const Sidebar = () => {
 
         const { state } = useContext(GlobalContext)
-        const {portfolios } = state.portfolio
+        const {portfolioList } = state.portfolio
         
         //Modal
         const [open, setOpen] = useState(false);
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
 
-    
 
     return (
         <Container>
@@ -31,8 +31,8 @@ const Sidebar = () => {
             />
             <Portfolios>
             {
-            portfolios &&
-            portfolios.map(item => 
+            portfolioList &&
+            portfolioList.map(item => 
                 <li> 
                     <Link
                     to={`/portfolio/${item.id}`}

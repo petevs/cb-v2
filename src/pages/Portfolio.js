@@ -8,33 +8,32 @@ import FormModal from 'components/FormModal'
 import styled from 'styled-components'
 import MyTableHead from 'styledComponents/MyTableHead'
 import { useParams } from 'react-router'
+import EditPortfolioForm from 'components/EditPortfolioForm'
 
 const Portfolio = () => {
 
     let { id } = useParams()
     const { state } = useContext(GlobalContext)
+    const { portfolioObj } = state.portfolio
+
+    const details = portfolioObj[id]
     
-    const [portfolio, setPortfolio] = useState()
-
-    useEffect(() => {
-        db.collection('users').doc(state.user.uid).collection('portfolios').doc(id).onSnapshot((doc) => setPortfolio(doc.data()))
-        console.log(portfolio)
-    },[id])
-
-    
-
-
     const [inputs, setInputs] = useState({
         startDate: '2020-01-01',
         endDate: '2021-10-01',
         purchaseAmount: 5,
     })
 
-
-    //Modal
+    //Recurring Buy Modal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    //Edit Portfolio Details Modal
+    const [openEditPort, setOpenEditPort] = useState(false);
+    const handleOpenEditPort = () => setOpenEditPort(true);
+    const handleCloseEditPort = () => setOpenEditPort(false);
+
     
     
     const [transactions, setTransactions] = useState([])
@@ -45,7 +44,7 @@ const Portfolio = () => {
     const { user } = state
 
     const handleChange = (e) => {
-        setPortfolio(e.target.value)
+        // setPortfolio(e.target.value)
     }
 
     const handleDateChange = (e) => {
@@ -82,19 +81,25 @@ const Portfolio = () => {
     // })
     // },[])
 
-
-    // if(userPortfolios.length < 1){
-    //     return(
-    //         <>
-    //         ...loading
-    //         </>
-    //     )
-    // }
+    if(state.portfolio.portfolioList.length < 1){
+        return(
+            <>
+                Add Details...
+            </>
+        )
+    }
+    
 
     return (
         <Wrapper>
-            <h2>{portfolio.portfolioName}</h2>
-            <p>{portfolio.portfolioDescription}</p>
+            <h2>{details.portfolioName}</h2>
+            <p>{details.portfolioDescription}</p>
+            <Button onClick={handleOpenEditPort} variant='contained'>Edit</Button>
+
+            <FormModal open={openEditPort} onClose={handleCloseEditPort}>
+                <EditPortfolioForm details={details} handleClose={handleCloseEditPort} id={id}/>
+            </FormModal>
+
             <FormModal open={open} onClose={handleClose}>
                 <RecurringBuyForm />
             </FormModal>
@@ -112,6 +117,22 @@ const Portfolio = () => {
             <Box>
                 <HeaderRow>
                     <h2>Recurring Buys</h2>
+                    <Button variant='contained' onClick={() => setOpen(true)}>Add New</Button>
+                </HeaderRow>
+                <Table>
+                    <MyTableHead>
+                        <TableRow>
+                            <TableCell>Amount</TableCell>
+                            <TableCell>Start</TableCell>
+                            <TableCell>End</TableCell>
+                            <TableCell>Actions</TableCell>
+                        </TableRow>
+                    </MyTableHead>
+                </Table>
+            </Box>
+            <Box>
+                <HeaderRow>
+                    <h2>Transactions</h2>
                     <Button variant='contained' onClick={() => setOpen(true)}>Add New</Button>
                 </HeaderRow>
                 <Table>
