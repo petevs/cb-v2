@@ -56,6 +56,24 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
         
     }
 
+    const handleClone = () => {
+
+        const inputCopy = {
+            ...inputs,
+            portfolioName: `${inputs.portfolioName} (COPY) `
+        }
+        db.collection('users').doc(state.user.uid).update({
+            portfolio: 
+                {
+                    ...state.portfolio.portfolioObj,
+                    [Date.now() ]: inputCopy
+                }
+        })
+        handleClose()
+        setInputs(initialForm)
+
+    }
+
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -91,6 +109,14 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
                 onClick={handleDelete}
             >
                 Delete
+            </Button>
+            <Button
+                variant='contained'
+                size='large'
+                color='secondary'
+                onClick={handleClone}
+            >
+                Clone
             </Button>
         </Form>
     )
