@@ -1,6 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
-import React, { useState, useContext, useEffect } from 'react'
-import { db } from 'firebase'
+import React, { useState, useContext } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { recurringBuy } from 'utils/recurringBuy'
 import RecurringBuyForm from 'components/RecurringBuyForm'
@@ -10,6 +9,7 @@ import MyTableHead from 'styledComponents/MyTableHead'
 import { useParams } from 'react-router'
 import EditPortfolioForm from 'components/EditPortfolioForm'
 import MyTableRow from 'styledComponents/MyTableRow'
+import TransactionForm from 'components/TransactionForm'
 
 const Portfolio = () => {
 
@@ -145,7 +145,16 @@ const Portfolio = () => {
             <Box>
                 <HeaderRow>
                     <h2>Transactions</h2>
-                    <Button variant='contained' onClick={() => setOpen(true)}>Add New</Button>
+                    <Button 
+                        variant='contained' 
+                        onClick={() => handleOpen(
+                            <TransactionForm 
+                                type='add' 
+                                handleClose={handleClose}
+                                portfolioId={id}
+                            />
+                        )}
+                    >Add New</Button>
                 </HeaderRow>
                 <Table>
                     <MyTableHead>

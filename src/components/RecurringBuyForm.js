@@ -9,9 +9,7 @@ import { recurringBuy } from 'utils/recurringBuy'
 import { useHistory } from 'react-router-dom'
 
 const RecurringBuyForm = (props) => {
-
-    console.log(props)
-
+    
     const history = useHistory()
 
     const { state } = useContext(GlobalContext)

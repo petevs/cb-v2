@@ -45,12 +45,6 @@ export const GlobalProvider = ({children}) => {
     //GET & SET USER DETAILS
 
         useEffect(() => {
-            // db.collection('users').doc(state.user.uid).collection('portfolios').onSnapshot(snapshot => {
-            //     const result = snapshot.docs.map(doc => {
-            //         const data = doc.data()
-            //         const id = doc.id
-            //         return { id, ...data}
-            //     })
 
             db.collection('users').doc(state.user.uid).onSnapshot((doc) => {
                 const result = doc.data()
