@@ -63,7 +63,9 @@ export const GlobalProvider = ({children}) => {
                         portfolioList.push({
                             id: key,
                             portfolioDescription: portfolio[key].portfolioDescription,
-                            portfolioName: portfolio[key].portfolioName
+                            portfolioName: portfolio[key].portfolioName,
+                            transactions: portfolio[key].transactions || [],
+                            recurringBuys: portfolio[key].recurringBuys || {}
                         })
                     }
 

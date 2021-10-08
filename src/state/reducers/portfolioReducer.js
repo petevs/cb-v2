@@ -2,7 +2,7 @@ export const SET_PORTFOLIOS = "SET_PORTFOLIOS";
 
 export const initialPortfolioState = {
   portfolioList: [],
-  portfolioObj: {}
+  portfolioObj: {},
 };
 
 export const portfolioReducer = (state, action) => {
