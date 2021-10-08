@@ -45,14 +45,35 @@ export const GlobalProvider = ({children}) => {
     //GET & SET USER DETAILS
 
         useEffect(() => {
-            db.collection('users').doc(state.user.uid).collection('portfolios').onSnapshot(snapshot => {
-                const result = snapshot.docs.map(doc => {
-                    const data = doc.data()
-                    const id = doc.id
-                    return { id, ...data}
-                })
-                dispatch(setPortfolios(result))
-        })
+            // db.collection('users').doc(state.user.uid).collection('portfolios').onSnapshot(snapshot => {
+            //     const result = snapshot.docs.map(doc => {
+            //         const data = doc.data()
+            //         const id = doc.id
+            //         return { id, ...data}
+            //     })
+
+            db.collection('users').doc(state.user.uid).onSnapshot((doc) => {
+                const result = doc.data()
+
+                if(result){
+
+                    const { portfolio } = result    
+                    const portfolioList = []
+                    for (const key in portfolio){
+                        portfolioList.push({
+                            id: key,
+                            portfolioDescription: portfolio[key].portfolioDescription,
+                            portfolioName: portfolio[key].portfolioName
+                        })
+                    }
+
+                    dispatch(setPortfolios({
+                        portfolioList: portfolioList,
+                        portfolioObj: result.portfolio
+                    }))
+                }
+            })
+
         },[state.user.uid])
 
 
