@@ -6,10 +6,13 @@ import { Button, InputAdornment } from '@mui/material'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { recurringBuy } from 'utils/recurringBuy'
+import { useHistory } from 'react-router-dom'
 
 const RecurringBuyForm = (props) => {
 
     console.log(props)
+
+    const history = useHistory()
 
     const { state } = useContext(GlobalContext)
 
@@ -58,12 +61,28 @@ const RecurringBuyForm = (props) => {
         setInputs(initialForm)
     }
 
+    const handleDelete = () => {
+
+        const updatedPortfolio = {...state.portfolio.portfolioObj}
+        delete updatedPortfolio[props.portfolioId].recurringBuys[props.id]
+
+        db.collection('users').doc(state.user.uid).update({
+            portfolio:
+            {
+                ...updatedPortfolio
+            }
+        })
+        history.push(`/portfolio/${props.portfolioId}`)
+        props.handleClose()
+
+    }
+
 
 
 
     return (
         <Form onSubmit={handleSubmit}>
-            <h2>Add a Recurring Buy</h2>
+            <h2>{props.type === 'add' ? 'Add' : 'Edit'} Recurring Buy</h2>
             {
                 fields.map(item => 
                     <InputField
@@ -80,7 +99,12 @@ const RecurringBuyForm = (props) => {
                     />
                     )
             }
-            <Button variant='contained' size='large' type='submit'>Add Recurring Buy</Button>
+            <Button variant='contained' size='large' type='submit'>
+                {props.type === 'add' ? 'Add Recurring Buy' : 'Save Changes'}
+            </Button>
+            {props.type === 'edit' &&
+            <Button variant='contained' size='large' color='warning' type='submit' onClick={handleDelete}>Delete</Button>
+            }
         </Form>
     )
 }
