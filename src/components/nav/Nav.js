@@ -6,6 +6,7 @@ import MobileMenu from './MobileMenu'
 import Drawer from './Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import CurrencySelect from './CurrencySelect'
+import { numberWithCommas } from 'utils/formatting'
 
 const Nav= () => {
 
@@ -27,7 +28,7 @@ const Nav= () => {
         <Container columns='auto 1fr auto'>
             <Logo />
             <Center>
-                <h2>{price[currency]}</h2>
+                <h2>${numberWithCommas(price[currency])}</h2>
                 <span>{priceChange[currency]} ({percentChange[currency]}%)</span>
             </Center>
             <End>
