@@ -104,7 +104,7 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
             </Button>
             <Button
                 variant='contained'
-                size='large'
+                size='small'
                 color='warning'
                 onClick={handleDelete}
             >
@@ -112,7 +112,7 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
             </Button>
             <Button
                 variant='contained'
-                size='large'
+                size='small'
                 color='secondary'
                 onClick={handleClone}
             >

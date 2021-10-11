@@ -70,7 +70,6 @@ const RecurringBuyForm = (props) => {
                 ...updatedPortfolio
             }
         })
-        history.push(`/portfolio/${props.portfolioId}`)
         props.handleClose()
 
     }
@@ -101,7 +100,7 @@ const RecurringBuyForm = (props) => {
                 {props.type === 'add' ? 'Add Recurring Buy' : 'Save Changes'}
             </Button>
             {props.type === 'edit' &&
-            <Button variant='contained' size='large' color='warning' type='submit' onClick={handleDelete}>Delete</Button>
+            <Button variant='contained' size='small' color='warning' type='submit' onClick={handleDelete}>Delete</Button>
             }
         </Form>
     )
