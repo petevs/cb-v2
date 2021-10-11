@@ -41,7 +41,7 @@ const Portfolio = () => {
         )
     }
 
-    console.log(state)
+    console.log(details)
 
     //Create Recurring Buy List
         const recurringBuyList = []
@@ -57,6 +57,23 @@ const Portfolio = () => {
                 })
             }
         }    
+
+
+    // Create Transaction List
+
+    const transactions = []
+
+    if('transactions' in details){
+        for ( const key in details.transactions){
+            const transaction = details.transactions[key]
+            
+            transactions.push({
+                id: key,
+                amount: transaction['amount'],
+                date: transaction['date']
+            })
+        }
+    }
 
     return (
         <>
@@ -159,13 +176,34 @@ const Portfolio = () => {
                 <Table>
                     <MyTableHead>
                         <TableRow>
+                            <TableCell>Date</TableCell>
                             <TableCell>Amount</TableCell>
-                            <TableCell>Start</TableCell>
-                            <TableCell>End</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell>Edit</TableCell>
                         </TableRow>
                     </MyTableHead>
                     <TableBody>
+                        {
+                            transactions && transactions.map(row =>
+                                <MyTableRow key={row.id}> 
+                                    <TableCell>{row.date}</TableCell>
+                                    <TableCell>{row.amount}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            onClick={() => handleOpen(
+                                                <TransactionForm
+                                                    type='edit'
+                                                    handleClose={handleClose}
+                                                    portfolioId={id}
+                                                    {...row}
+                                                />
+                                            )}
+                                        >
+                                            Edit
+                                        </Button>
+                                    </TableCell>
+                                </MyTableRow>
+                                )
+                        }
                     </TableBody>
                 </Table>
             </Box>

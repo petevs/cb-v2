@@ -83,7 +83,9 @@ export const GlobalProvider = ({children}) => {
                  const { data } = await axios.get('https://api.coingecko.com/api/v3/coins/bitcoin?localization=cad')
 
                  dispatch(setMarketData(data.market_data))
- 
+
+
+                console.log(data)
  
              } catch (err) {
                  console.log(err)

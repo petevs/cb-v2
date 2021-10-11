@@ -32,7 +32,7 @@ const TransactionForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const firebaseId = props.transactionId || Date.now()
+        const firebaseId = props.id || Date.now()
 
         db.collection('users').doc(state.user.uid).update({
             portfolio: {
@@ -49,7 +49,6 @@ const TransactionForm = (props) => {
 
         props.handleClose()
     }
-
 
 
     return (
