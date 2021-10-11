@@ -28,7 +28,7 @@ const Nav= () => {
         <Container columns='auto 1fr auto'>
             <Logo />
             <Center>
-                <h2>${numberWithCommas(price[currency])}</h2>
+                <h2>{`$${numberWithCommas(price[currency])}`}</h2>
                 <span>{numberWithCommas(priceChange[currency])} ({percentChange[currency]}%)</span>
             </Center>
             <End>
