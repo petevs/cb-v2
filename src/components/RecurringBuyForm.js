@@ -18,7 +18,8 @@ const RecurringBuyForm = (props) => {
     const initialForm = {
         purchaseAmount: props.purchaseAmount || 0,
         startDate: props.startDate || moment().subtract(1, 'years').format('YYYY-MM-DD'),
-        endDate: props.endDate || moment().format('YYYY-MM-DD')
+        endDate: props.endDate || moment().format('YYYY-MM-DD'),
+        condition: props.condition || 'none'
     }
 
     const [inputs, setInputs] = useState(initialForm)
@@ -27,6 +28,7 @@ const RecurringBuyForm = (props) => {
         {name: 'purchaseAmount', label: 'Purchase Amount', type: 'numeric', adornment: '$'},
         {name: 'startDate', label: 'Start Date', type: 'date'},
         {name: 'endDate', label: 'End Date', type: 'date'},
+        {name: 'condition', label: 'Condition', type: 'select'}
     ]
     
     const handleChange = (e) => {

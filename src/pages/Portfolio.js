@@ -53,7 +53,8 @@ const Portfolio = () => {
                     id: key,
                     purchaseAmount: buy['purchaseAmount'],
                     startDate: buy['startDate'],
-                    endDate: buy['endDate']
+                    endDate: buy['endDate'],
+                    condition: buy['condition']
                 })
             }
         }    
@@ -125,6 +126,7 @@ const Portfolio = () => {
                             <TableCell>Amount</TableCell>
                             <TableCell>Start</TableCell>
                             <TableCell>End</TableCell>
+                            <TableCell>Condition</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </MyTableHead>
@@ -136,6 +138,7 @@ const Portfolio = () => {
                                 <TableCell>{row.purchaseAmount}</TableCell>
                                 <TableCell>{row.startDate}</TableCell>
                                 <TableCell>{row.endDate}</TableCell>
+                                <TableCell>{row.condition && row.condition}</TableCell>
                                 <TableCell>
                                     <Button
                                         color='info'
