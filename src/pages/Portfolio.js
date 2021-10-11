@@ -108,7 +108,8 @@ const Portfolio = () => {
                 <HeaderRow>
                     <h2>Recurring Buys</h2>
                     <Button 
-                        variant='contained' 
+                        variant='contained'
+                        size='small' 
                         onClick={() => handleOpen(
                             <RecurringBuyForm 
                                 handleClose={handleClose} 
@@ -166,7 +167,8 @@ const Portfolio = () => {
                 <HeaderRow>
                     <h2>Transactions</h2>
                     <Button 
-                        variant='contained' 
+                        variant='contained'
+                        size='small' 
                         onClick={() => handleOpen(
                             <TransactionForm 
                                 type='add' 
@@ -238,7 +240,7 @@ const Box = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 3rem 1.5rem;
   background-color: #212b36;
   box-shadow: rgb(145 158 171 / 24%) 0px 0px 2px 0px,
     rgb(145 158 171 / 24%) 0px 16px 32px -4px;
@@ -253,6 +255,8 @@ const HeaderRow = styled.div`
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
+  align-items: end;
+  padding-bottom: 1rem;
   color: ${props => props.theme.fontColor};
   & h2 {
       justify-self: start;

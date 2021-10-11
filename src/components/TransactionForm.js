@@ -86,9 +86,12 @@ const TransactionForm = (props) => {
                 <Button variant='contained' size='large' type='submit'>
                 {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
+                {
+                    props.type === 'edit' &&
                 <Button variant='contained' size='small' color='warning' onClick={handleDelete}>
                     Delete
                 </Button>
+                }
             </Form>
     )
 }
