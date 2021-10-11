@@ -106,7 +106,7 @@ const Portfolio = () => {
 
             <Box>
                 <HeaderRow>
-                    <h2>Recurring Buys</h2>
+                    <h2>Recurring Transactions</h2>
                     <Button 
                         variant='contained'
                         size='small' 
@@ -165,7 +165,7 @@ const Portfolio = () => {
             </Box>
             <Box>
                 <HeaderRow>
-                    <h2>Transactions</h2>
+                    <h2>One-Off Transactions</h2>
                     <Button 
                         variant='contained'
                         size='small' 

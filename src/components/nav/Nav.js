@@ -29,7 +29,7 @@ const Nav= () => {
             <Logo />
             <Center>
                 <h2>${numberWithCommas(price[currency])}</h2>
-                <span>{priceChange[currency]} ({percentChange[currency]}%)</span>
+                <span>{numberWithCommas(priceChange[currency])} ({percentChange[currency]}%)</span>
             </Center>
             <End>
                 <CurrencySelect />
