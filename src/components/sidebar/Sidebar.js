@@ -70,7 +70,7 @@ const Portfolios = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-    padding-left: 2.5rem;
+    padding: 0 2.5rem;
     color: rgb(99,115,129);
     font-size: 0.875rem;
 
