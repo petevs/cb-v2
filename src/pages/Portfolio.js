@@ -1,5 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { recurringBuy } from 'utils/recurringBuy'
 import RecurringBuyForm from 'components/RecurringBuyForm'
@@ -11,12 +11,12 @@ import EditPortfolioForm from 'components/EditPortfolioForm'
 import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
 import Chart from 'react-apexcharts'
-import { db } from 'firebase'
+import { toggleModal } from 'state/actions/modalActions'
 
 const Portfolio = () => {
 
     let { id } = useParams()
-    const { state } = useContext(GlobalContext)
+    const { state, dispatch } = useContext(GlobalContext)
     const { portfolioObj } = state.portfolio
 
     const details = portfolioObj[id]
@@ -24,46 +24,50 @@ const Portfolio = () => {
     // MODAL
 
     const [modalContent, setModalContent] = useState()
-    const [open, setOpen] = useState(false);
     
     const handleOpen = (type) => {
         setModalContent(type)
-        setOpen(true)
+        dispatch(toggleModal(true))
     };
     
-    const handleClose = () => setOpen(false);
-
-
-    //If No Portfolio Data...
-    if(state.portfolio.portfolioList.length < 1 ){
-        return(
-            <>
-                Add Details...
-            </>
-        )
-    }
+    const handleClose = () => dispatch(toggleModal(false));
 
 
     // Create Transaction List
+    
+    
+    const transactions = useMemo(() => {
 
-    const transactions = []
-
-    if('transactions' in details){
-        for ( const key in details.transactions){
-            const transaction = details.transactions[key]
-            
-            transactions.push({
-                id: key,
-                amount: transaction['amount'],
-                date: transaction['date']
-            })
+        if(state.portfolio.portfolioList.length < 1 ){
+            return
         }
-    }
+    
+        const transList = []
+    
+        if('transactions' in details){
+            for ( const key in details.transactions){
+                const transaction = details.transactions[key]
+                
+                transList.push({
+                    id: key,
+                    amount: transaction['amount'],
+                    date: transaction['date']
+                })
+            }
+        }
+        return transList
+    }, [details])
 
-    console.log(state)
+
 
     //Create All Transactions
     
+    const calculatedTransactions = useMemo(() => {
+
+    if(state.portfolio.portfolioList.length < 1 ){
+        return
+    }
+
     let allTransactions = []
 
 
@@ -110,7 +114,7 @@ const Portfolio = () => {
     let runningBal = 0
     let totalInvested = 0
 
-    const calculatedTransactions = allTransactions.map(item => {
+    const finalCalculatedTransactions = allTransactions.map(item => {
 
         totalInvested = Number(totalInvested) + Number(item.amount)
         const bitcoinAdded = Number((item.amount / item.price))
@@ -133,6 +137,10 @@ const Portfolio = () => {
         }
 
     })
+
+    return finalCalculatedTransactions
+
+    },[details])
 
 
     //CHART SERIES & OPTIONS
@@ -207,13 +215,21 @@ const Portfolio = () => {
       ];
 
 
+    //If No Portfolio Data...
+    if(state.portfolio.portfolioList.length < 1 ){
+        return(
+            <>
+                Add Details...
+            </>
+        )
+    }
   
 
 
     return (
         <>
         {/* MODAL */}
-        <FormModal open={open} onClose={handleClose}>
+        <FormModal open={state.modal.open} onClose={handleClose}>
             {modalContent}
         </FormModal>
 

@@ -13,6 +13,7 @@ import { authReducer, initialAuthState } from 'state/reducers/authReducer'
 import { db } from 'firebase'
 import { initialPortfolioState, portfolioReducer } from 'state/reducers/portfolioReducer'
 import { setPortfolios, updateHistoricalDataPF } from 'state/actions/portfolioActions'
+import { initialModalState, modalReducer } from 'state/reducers/modalReducer'
 
 
 export const GlobalContext = createContext()
@@ -25,7 +26,8 @@ export const GlobalProvider = ({children}) => {
         settings: useReducer(settingsReducer, initialSettings),
         calculators: useReducer(calculatorReducer, initialCalculators),
         user: useReducer(authReducer, initialAuthState),
-        portfolio: useReducer(portfolioReducer, initialPortfolioState)
+        portfolio: useReducer(portfolioReducer, initialPortfolioState),
+        modal: useReducer(modalReducer, initialModalState)
     })
 
     const [pending, setPending] = useState(true);
