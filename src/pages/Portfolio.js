@@ -143,6 +143,17 @@ const Portfolio = () => {
     },[details])
 
 
+        //If No Portfolio Data...
+        if(state.portfolio.portfolioList.length < 1 ){
+            return(
+                <>
+                    Add Details...
+                </>
+            )
+        }
+      
+
+
     //CHART SERIES & OPTIONS
 
     const options = {
@@ -213,17 +224,6 @@ const Portfolio = () => {
           }).reverse(),
         },
       ];
-
-
-    //If No Portfolio Data...
-    if(state.portfolio.portfolioList.length < 1 ){
-        return(
-            <>
-                Add Details...
-            </>
-        )
-    }
-  
 
 
     return (

@@ -32,7 +32,10 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
             portfolio: 
                 {
                     ...state.portfolio.portfolioObj,
-                    [id]: inputs
+                    [id]: {
+                        ...state.portfolio.portfolioObj[id],
+                        ...inputs
+                    }
                 }
         })
         handleClose()
@@ -65,7 +68,10 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
             portfolio: 
                 {
                     ...state.portfolio.portfolioObj,
-                    [Date.now() ]: inputCopy
+                    [Date.now()]: {
+                        ...state.portfolio.portfolioObj[id],
+                        ...inputCopy
+                    }
                 }
         })
         handleClose()
