@@ -10,6 +10,7 @@ import { useParams } from 'react-router'
 import EditPortfolioForm from 'components/EditPortfolioForm'
 import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
+import Chart from 'react-apexcharts'
 
 const Portfolio = () => {
 
@@ -121,14 +122,13 @@ const Portfolio = () => {
 
     let runningBal = 0
     let totalInvested = 0
-    let value = 0
 
     const calculatedTransactions = allTransactions.map(item => {
 
         totalInvested = Number(totalInvested) + Number(item.amount)
         const bitcoinAdded = Number((item.amount / item.price))
         runningBal = runningBal + bitcoinAdded
-        const value = Number((item.price * item.runningBal).toFixed(2));
+        const value = (item.price * runningBal).toFixed(2);
         const profit = value - totalInvested;
         const roi = ((value - totalInvested) / totalInvested) * 100;
 
@@ -148,6 +148,79 @@ const Portfolio = () => {
     })
 
     console.log(calculatedTransactions)
+
+    //CHART SERIES & OPTIONS
+
+    const options = {
+        chart: {
+          toolbar: {
+            show: false,
+            // tools: {
+            //     download: false,
+            // }
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        yaxis: {
+          labels: {
+            show: false,
+            // formatter: function (value) {
+            //   return "$" + numberWithCommas(value);
+            // },
+            // style: {
+            //   colors: ["#fff"],
+            // },
+          },
+          // opposite: true,
+        },
+        xaxis: {
+          type: "datetime",
+          categories: calculatedTransactions.map((item) => {
+            return item.date;
+          }).reverse(),
+          labels: {
+            style: {
+              colors: "#fff",
+            },
+          },
+        },
+        colors: ["#2E99FE", "#FF2F30"],
+        tooltip: {
+          x: {
+            format: "dd MMM HH:mm",
+          },
+          theme: "dark",
+        },
+        annotations: {
+        },
+        grid: {
+          yaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        legend: {
+          position: "top",
+          horizontalAlign: "right",
+          labels: {
+            colors: "#fff",
+          },
+        },
+      };
+    
+      const series = [
+        {
+          name: `Portfolio Value (${state.settings.currency})`,
+          data: calculatedTransactions.map((item) => {
+            return item.value;
+          }).reverse(),
+        },
+      ];
+
+
   
 
 
@@ -178,6 +251,15 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
+            <ChartWrapper>
+                <Chart
+                        series={series}
+                        options={options}
+                        type='area'
+                        width='100%'
+                        height="400px"
+                    />
+            </ChartWrapper>
 
             <Box>
                 <HeaderRow>
@@ -339,4 +421,8 @@ const HeaderRow = styled.div`
   & button {
       justify-self: end;
   }
+`
+
+const ChartWrapper = styled.div`
+    margin: 0 0 0 -1rem;
 `
