@@ -12,7 +12,7 @@ import { auth } from 'firebase'
 import { authReducer, initialAuthState } from 'state/reducers/authReducer'
 import { db } from 'firebase'
 import { initialPortfolioState, portfolioReducer } from 'state/reducers/portfolioReducer'
-import { setPortfolios } from 'state/actions/portfolioActions'
+import { setPortfolios, updateHistoricalDataPF } from 'state/actions/portfolioActions'
 
 
 export const GlobalContext = createContext()
@@ -76,6 +76,7 @@ export const GlobalProvider = ({children}) => {
     //GET MARKET & HISTORICAL DATA
     useEffect(() => {
 
+        //GET CURRENT MARKET DATA
         const getData = async () => {
              try {
  
@@ -92,6 +93,7 @@ export const GlobalProvider = ({children}) => {
              }
          }
 
+         //GET HISTORICAL DATA 
          const getHistorical = async () => {
 
              const { data } = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${state.settings.currency}&days=3650&interval=daily`)
@@ -99,6 +101,7 @@ export const GlobalProvider = ({children}) => {
              const { prices } = data
 
              dispatch(updateHistoricalData(prices))
+             dispatch(updateHistoricalDataPF(prices))
 
          }
 
