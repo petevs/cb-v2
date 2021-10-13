@@ -1,4 +1,3 @@
-import { CatchingPokemonSharp } from '@mui/icons-material';
 import moment from 'moment'
 
 export const SET_PORTFOLIOS = "SET_PORTFOLIOS";
@@ -133,6 +132,43 @@ export const initialPortfolioState = {
     }
 
     return parentRbTrans
+  },
+  oneOffTransactions: function(){
+
+    let parentOneOffTransactions = {}
+
+    if(this.portfolioObj){
+
+      //Go through each portfolio and get the one off transactions
+      for(const portfolio in this.portfolioObj){
+
+        const currentPortfolio = this.portfolioObj[portfolio]
+
+        const currentPortfolioTransactions = []
+
+        if('transactions' in currentPortfolio){
+          for( const transaction in currentPortfolio.transactions){
+
+            const currentTrans = currentPortfolio.transactions[transaction]
+
+            currentPortfolioTransactions.push({
+              id: transaction,
+              amount: currentTrans['amount'],
+              date: currentTrans['date'],
+              price: this.historicalDataObj()[currentTrans['date']]
+            })
+          }
+        }
+
+        parentOneOffTransactions = {
+          ...parentOneOffTransactions,
+          [portfolio]: currentPortfolioTransactions
+        }
+      }
+    }
+
+    return parentOneOffTransactions
+
   }
 
 };
