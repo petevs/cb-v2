@@ -1,3 +1,4 @@
+import { CatchingPokemonSharp } from '@mui/icons-material';
 import moment from 'moment'
 
 export const SET_PORTFOLIOS = "SET_PORTFOLIOS";
@@ -70,7 +71,70 @@ export const initialPortfolioState = {
 
     return recurringBuyList
 
+  },
+  recurringBuyTransactions: function() {
+
+    let parentRbTrans = {}
+  
+    if(this.recurringBuyList()){
+
+      //GO THROUGH EACH PORTFOLIO IN RECURRING BUY LIST
+      for (const portfolio in this.recurringBuyList()){
+        const currentPortfolio = this.recurringBuyList()[portfolio]
+
+        let portfolioTransactions = []
+
+        //GO THROUGH EACH RECURRING BUY IN CURRENT PORTFOLIO
+        for(const buy in currentPortfolio){
+
+          const dataLength = this.historicalData.length
+
+          const currentBuy = currentPortfolio[buy]
+            
+          const today = moment()
+          const endDate = moment(currentBuy.endDate)
+          const startDate = moment(currentBuy.startDate)
+
+          const daysFromStart = today.diff(startDate, 'days')
+          const daysFromEnd = today.diff(endDate, 'days')
+
+          const startIndex = dataLength - daysFromStart - 1
+          const endIndex = dataLength - daysFromEnd - 1
+
+          const currentBuyTransactions = this.historicalData.slice(startIndex, endIndex).map(item => {
+            const friendlyDate = moment(item[0]).format('YYYY-MM-DD')
+            const price = item[1]
+
+            return {
+              date: friendlyDate,
+              price: Math.round(price),
+              amount: Number(currentBuy.purchaseAmount)
+            }
+          })
+
+          portfolioTransactions = [...portfolioTransactions, ...currentBuyTransactions]
+
+        }
+
+        //SORT PORTFOLIO TRANSACTIONS BY DATE
+
+        portfolioTransactions = portfolioTransactions.sort((a,b) => {
+          return new Date(a.date).getTime() - new Date(b.date).getTime()
+        })
+
+        //ADD TRANSACTIONS TO PARENT RECURRING BUY TRANSACTIONS
+
+        parentRbTrans = {
+          ...parentRbTrans,
+          [portfolio]: portfolioTransactions
+        }
+
+      }
+    }
+
+    return parentRbTrans
   }
+
 };
 
 export const portfolioReducer = (state, action) => {

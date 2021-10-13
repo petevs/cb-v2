@@ -33,7 +33,7 @@ const Portfolio = () => {
     
     const handleClose = () => setOpen(false);
 
-    console.log(state.portfolio.recurringBuyList()[id])
+    console.log(state.portfolio.recurringBuyTransactions())
 
     //If No Portfolio Data...
     if(state.portfolio.portfolioList.length < 1 ){
