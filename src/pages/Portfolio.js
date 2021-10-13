@@ -41,8 +41,6 @@ const Portfolio = () => {
         )
     }
 
-    console.log(details)
-
     //Create Recurring Buy List
         const recurringBuyList = []
 
@@ -75,6 +73,37 @@ const Portfolio = () => {
             })
         }
     }
+
+    //Create All Transactions
+
+    console.log(details)
+    
+    let allTransactions = []
+
+
+    //Go through each recurring buy and add to all Transactions
+    for (const key in details.recurringBuys) {
+
+        const item = details.recurringBuys[key]
+        
+        const buyList = recurringBuy(
+            item.purchaseAmount,
+            item.startDate,
+            item.endDate,
+            state.portfolio.historicalData
+        )
+
+        allTransactions = [...allTransactions, ...buyList]
+    
+    }
+
+    //Add all one-off transactions to all transactions
+
+
+
+    console.log(allTransactions)
+
+
 
     return (
         <>
