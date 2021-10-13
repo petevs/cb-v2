@@ -4,7 +4,7 @@ export const UPDATE_HISTORICAL_DATA_PF = "UPDATE_HISTORICAL_DATA_PF"
 export const initialPortfolioState = {
   portfolioList: [],
   portfolioObj: {},
-  historicalData: []
+  historicalData: [],
 };
 
 export const portfolioReducer = (state, action) => {

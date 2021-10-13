@@ -1,13 +1,11 @@
-import { Button, InputAdornment, InputLabel, MenuItem, Select } from '@mui/material'
+import { Button, InputAdornment } from '@mui/material'
 import Scorecard from 'components/Scorecard'
-import Calculator from 'layouts/Calculator'
 import React, { useContext, useState} from 'react'
 import InputField from 'styledComponents/InputField'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { updateDcaCalculator } from 'state/actions/calculatorActions'
 import styled from 'styled-components'
 import Chart from "react-apexcharts";
-import MySelect from 'styledComponents/MySelect'
 
 const DollarCostAverage = () => {
 

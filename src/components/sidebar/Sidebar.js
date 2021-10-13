@@ -8,7 +8,6 @@ import FormModal from 'components/FormModal';
 import AddPortfolioForm from 'components/AddPortfolioForm';
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Link } from 'react-router-dom';
-import { portfolioReducer } from 'state/reducers/portfolioReducer';
 
 const Sidebar = () => {
 

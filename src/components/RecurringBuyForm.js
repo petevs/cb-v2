@@ -5,12 +5,9 @@ import styled from 'styled-components'
 import { Button, InputAdornment } from '@mui/material'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
-import { recurringBuy } from 'utils/recurringBuy'
-import { useHistory } from 'react-router-dom'
 
 const RecurringBuyForm = (props) => {
     
-    const history = useHistory()
 
     const { state } = useContext(GlobalContext)
 
