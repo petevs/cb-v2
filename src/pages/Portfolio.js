@@ -99,10 +99,15 @@ const Portfolio = () => {
 
     //Add all one-off transactions to all transactions
 
+    allTransactions = [...allTransactions, ...transactions]
 
+    //Sort by Date
+    allTransactions = allTransactions.sort(function(a,b){
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
+    })
 
     console.log(allTransactions)
-
+  
 
 
     return (
