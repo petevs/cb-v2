@@ -33,7 +33,6 @@ const Portfolio = () => {
     
     const handleClose = () => setOpen(false);
 
-    console.log(state.portfolio.oneOffTransactions()[id])
 
     //If No Portfolio Data...
     if(state.portfolio.portfolioList.length < 1 ){
@@ -65,147 +64,147 @@ const Portfolio = () => {
 
     //Create All Transactions
     
-    // let allTransactions = []
+    let allTransactions = []
 
 
-    //Go through each recurring buy and add to all Transactions
-    // for (const key in details.recurringBuys) {
+    // Go through each recurring buy and add to all Transactions
+    for (const key in details.recurringBuys) {
 
-    //     const item = details.recurringBuys[key]
+        const item = details.recurringBuys[key]
         
-    //     const buyList = recurringBuy(
-    //         item.purchaseAmount,
-    //         item.startDate,
-    //         item.endDate,
-    //         state.portfolio.historicalData
-    //     )
+        const buyList = recurringBuy(
+            item.purchaseAmount,
+            item.startDate,
+            item.endDate,
+            state.portfolio.historicalData
+        )
 
-    //     allTransactions = [...allTransactions, ...buyList]
+        allTransactions = [...allTransactions, ...buyList]
     
-    // }
+    }
 
     //Get Price on the Date of Each One-Off Transaction and Then Add to All Transactions
 
-    // const histData = state.portfolio.historicalDataObj()
+    const histData = state.portfolio.historicalDataObj()
 
-    // const transactionsWithPrice = transactions.map(item => {
-    //     return {
-    //         date: item.date,
-    //         amount: Number(item.amount),
-    //         price: histData[item.date]
-    //     }
-    // })
+    const transactionsWithPrice = transactions.map(item => {
+        return {
+            date: item.date,
+            amount: Number(item.amount),
+            price: histData[item.date]
+        }
+    })
 
 
 
-    // allTransactions = [...allTransactions, ...transactionsWithPrice]
+    allTransactions = [...allTransactions, ...transactionsWithPrice]
 
     //Sort by Date
-    // allTransactions = allTransactions.sort(function(a,b){
-    //     return new Date(a.date).getTime() - new Date(b.date).getTime()
-    // })
+    allTransactions = allTransactions.sort(function(a,b){
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
+    })
 
 
     //Get Running Balance and Other Calculations for All Transactions
 
-    // let runningBal = 0
-    // let totalInvested = 0
+    let runningBal = 0
+    let totalInvested = 0
 
-    // const calculatedTransactions = allTransactions.map(item => {
+    const calculatedTransactions = allTransactions.map(item => {
 
-    //     totalInvested = Number(totalInvested) + Number(item.amount)
-    //     const bitcoinAdded = Number((item.amount / item.price))
-    //     runningBal = runningBal + bitcoinAdded
-    //     const value = (item.price * runningBal).toFixed(2);
-    //     const profit = value - totalInvested;
-    //     const roi = ((value - totalInvested) / totalInvested) * 100;
+        totalInvested = Number(totalInvested) + Number(item.amount)
+        const bitcoinAdded = Number((item.amount / item.price))
+        runningBal = runningBal + bitcoinAdded
+        const value = (item.price * runningBal).toFixed(2);
+        const profit = value - totalInvested;
+        const roi = ((value - totalInvested) / totalInvested) * 100;
 
 
-    //     return {
-    //         date: item.date,
-    //         price: item.price,
-    //         amount: item.amount,
-    //         totalInvested: totalInvested,
-    //         runningBal: runningBal,
-    //         value: value,
-    //         profit: profit,
-    //         roi: roi
+        return {
+            date: item.date,
+            price: item.price,
+            amount: item.amount,
+            totalInvested: totalInvested,
+            runningBal: runningBal,
+            value: value,
+            profit: profit,
+            roi: roi
 
-    //     }
+        }
 
-    // })
+    })
 
 
     //CHART SERIES & OPTIONS
 
-    // const options = {
-    //     chart: {
-    //       toolbar: {
-    //         show: false,
-    //         // tools: {
-    //         //     download: false,
-    //         // }
-    //       },
-    //     },
-    //     dataLabels: {
-    //       enabled: false,
-    //     },
-    //     yaxis: {
-    //       labels: {
-    //         show: false,
-    //         // formatter: function (value) {
-    //         //   return "$" + numberWithCommas(value);
-    //         // },
-    //         // style: {
-    //         //   colors: ["#fff"],
-    //         // },
-    //       },
-    //       // opposite: true,
-    //     },
-    //     xaxis: {
-    //       type: "datetime",
-    //       categories: dbTransactions.map((item) => {
-    //         return item.date;
-    //       }).reverse(),
-    //       labels: {
-    //         style: {
-    //           colors: "#fff",
-    //         },
-    //       },
-    //     },
-    //     colors: ["#2E99FE", "#FF2F30"],
-    //     tooltip: {
-    //       x: {
-    //         format: "dd MMM HH:mm",
-    //       },
-    //       theme: "dark",
-    //     },
-    //     annotations: {
-    //     },
-    //     grid: {
-    //       yaxis: {
-    //         lines: {
-    //           show: false,
-    //         },
-    //       },
-    //     },
-    //     legend: {
-    //       position: "top",
-    //       horizontalAlign: "right",
-    //       labels: {
-    //         colors: "#fff",
-    //       },
-    //     },
-    //   };
+    const options = {
+        chart: {
+          toolbar: {
+            show: false,
+            // tools: {
+            //     download: false,
+            // }
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        yaxis: {
+          labels: {
+            show: false,
+            // formatter: function (value) {
+            //   return "$" + numberWithCommas(value);
+            // },
+            // style: {
+            //   colors: ["#fff"],
+            // },
+          },
+          // opposite: true,
+        },
+        xaxis: {
+          type: "datetime",
+          categories: calculatedTransactions.map((item) => {
+            return item.date;
+          }).reverse(),
+          labels: {
+            style: {
+              colors: "#fff",
+            },
+          },
+        },
+        colors: ["#2E99FE", "#FF2F30"],
+        tooltip: {
+          x: {
+            format: "dd MMM HH:mm",
+          },
+          theme: "dark",
+        },
+        annotations: {
+        },
+        grid: {
+          yaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        legend: {
+          position: "top",
+          horizontalAlign: "right",
+          labels: {
+            colors: "#fff",
+          },
+        },
+      };
     
-    //   const series = [
-    //     {
-    //       name: `Portfolio Value (${state.settings.currency})`,
-    //       data: dbTransactions.map((item) => {
-    //         return item.value;
-    //       }).reverse(),
-    //     },
-    //   ];
+      const series = [
+        {
+          name: `Portfolio Value (${state.settings.currency})`,
+          data: calculatedTransactions.map((item) => {
+            return item.value;
+          }).reverse(),
+        },
+      ];
 
 
   
@@ -238,7 +237,7 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
-            {/* <ChartWrapper>
+            <ChartWrapper>
                 <Chart
                         series={series}
                         options={options}
@@ -246,7 +245,7 @@ const Portfolio = () => {
                         width='100%'
                         height="400px"
                     />
-            </ChartWrapper> */}
+            </ChartWrapper>
 
             <Box>
                 <HeaderRow>

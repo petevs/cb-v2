@@ -71,105 +71,105 @@ export const initialPortfolioState = {
     return recurringBuyList
 
   },
-  recurringBuyTransactions: function() {
+//   recurringBuyTransactions: function() {
 
-    let parentRbTrans = {}
+//     let parentRbTrans = {}
   
-    if(this.recurringBuyList()){
+//     if(this.recurringBuyList()){
 
-      //GO THROUGH EACH PORTFOLIO IN RECURRING BUY LIST
-      for (const portfolio in this.recurringBuyList()){
-        const currentPortfolio = this.recurringBuyList()[portfolio]
+//       //GO THROUGH EACH PORTFOLIO IN RECURRING BUY LIST
+//       for (const portfolio in this.recurringBuyList()){
+//         const currentPortfolio = this.recurringBuyList()[portfolio]
 
-        let portfolioTransactions = []
+//         let portfolioTransactions = []
 
-        //GO THROUGH EACH RECURRING BUY IN CURRENT PORTFOLIO
-        for(const buy in currentPortfolio){
+//         //GO THROUGH EACH RECURRING BUY IN CURRENT PORTFOLIO
+//         for(const buy in currentPortfolio){
 
-          const dataLength = this.historicalData.length
+//           const dataLength = this.historicalData.length
 
-          const currentBuy = currentPortfolio[buy]
+//           const currentBuy = currentPortfolio[buy]
             
-          const today = moment()
-          const endDate = moment(currentBuy.endDate)
-          const startDate = moment(currentBuy.startDate)
+//           const today = moment()
+//           const endDate = moment(currentBuy.endDate)
+//           const startDate = moment(currentBuy.startDate)
 
-          const daysFromStart = today.diff(startDate, 'days')
-          const daysFromEnd = today.diff(endDate, 'days')
+//           const daysFromStart = today.diff(startDate, 'days')
+//           const daysFromEnd = today.diff(endDate, 'days')
 
-          const startIndex = dataLength - daysFromStart - 1
-          const endIndex = dataLength - daysFromEnd - 1
+//           const startIndex = dataLength - daysFromStart - 1
+//           const endIndex = dataLength - daysFromEnd - 1
 
-          const currentBuyTransactions = this.historicalData.slice(startIndex, endIndex).map(item => {
-            const friendlyDate = moment(item[0]).format('YYYY-MM-DD')
-            const price = item[1]
+//           const currentBuyTransactions = this.historicalData.slice(startIndex, endIndex).map(item => {
+//             const friendlyDate = moment(item[0]).format('YYYY-MM-DD')
+//             const price = item[1]
 
-            return {
-              date: friendlyDate,
-              price: Math.round(price),
-              amount: Number(currentBuy.purchaseAmount)
-            }
-          })
+//             return {
+//               date: friendlyDate,
+//               price: Math.round(price),
+//               amount: Number(currentBuy.purchaseAmount)
+//             }
+//           })
 
-          portfolioTransactions = [...portfolioTransactions, ...currentBuyTransactions]
+//           portfolioTransactions = [...portfolioTransactions, ...currentBuyTransactions]
 
-        }
+//         }
 
-        //SORT PORTFOLIO TRANSACTIONS BY DATE
+//         //SORT PORTFOLIO TRANSACTIONS BY DATE
 
-        portfolioTransactions = portfolioTransactions.sort((a,b) => {
-          return new Date(a.date).getTime() - new Date(b.date).getTime()
-        })
+//         portfolioTransactions = portfolioTransactions.sort((a,b) => {
+//           return new Date(a.date).getTime() - new Date(b.date).getTime()
+//         })
 
-        //ADD TRANSACTIONS TO PARENT RECURRING BUY TRANSACTIONS
+//         //ADD TRANSACTIONS TO PARENT RECURRING BUY TRANSACTIONS
 
-        parentRbTrans = {
-          ...parentRbTrans,
-          [portfolio]: portfolioTransactions
-        }
+//         parentRbTrans = {
+//           ...parentRbTrans,
+//           [portfolio]: portfolioTransactions
+//         }
 
-      }
-    }
+//       }
+//     }
 
-    return parentRbTrans
-  },
-  oneOffTransactions: function(){
+//     return parentRbTrans
+//   },
+//   oneOffTransactions: function(){
 
-    let parentOneOffTransactions = {}
+//     let parentOneOffTransactions = {}
 
-    if(this.portfolioObj){
+//     if(this.portfolioObj){
 
-      //Go through each portfolio and get the one off transactions
-      for(const portfolio in this.portfolioObj){
+//       //Go through each portfolio and get the one off transactions
+//       for(const portfolio in this.portfolioObj){
 
-        const currentPortfolio = this.portfolioObj[portfolio]
+//         const currentPortfolio = this.portfolioObj[portfolio]
 
-        const currentPortfolioTransactions = []
+//         const currentPortfolioTransactions = []
 
-        if('transactions' in currentPortfolio){
-          for( const transaction in currentPortfolio.transactions){
+//         if('transactions' in currentPortfolio){
+//           for( const transaction in currentPortfolio.transactions){
 
-            const currentTrans = currentPortfolio.transactions[transaction]
+//             const currentTrans = currentPortfolio.transactions[transaction]
 
-            currentPortfolioTransactions.push({
-              id: transaction,
-              amount: currentTrans['amount'],
-              date: currentTrans['date'],
-              price: this.historicalDataObj()[currentTrans['date']]
-            })
-          }
-        }
+//             currentPortfolioTransactions.push({
+//               id: transaction,
+//               amount: currentTrans['amount'],
+//               date: currentTrans['date'],
+//               price: this.historicalDataObj()[currentTrans['date']]
+//             })
+//           }
+//         }
 
-        parentOneOffTransactions = {
-          ...parentOneOffTransactions,
-          [portfolio]: currentPortfolioTransactions
-        }
-      }
-    }
+//         parentOneOffTransactions = {
+//           ...parentOneOffTransactions,
+//           [portfolio]: currentPortfolioTransactions
+//         }
+//       }
+//     }
 
-    return parentOneOffTransactions
+//     return parentOneOffTransactions
 
-  }
+//   }
 
 };
 
