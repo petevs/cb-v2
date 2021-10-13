@@ -75,8 +75,6 @@ const Portfolio = () => {
     }
 
     //Create All Transactions
-
-    console.log(details)
     
     let allTransactions = []
 
@@ -99,11 +97,19 @@ const Portfolio = () => {
 
     //Get Price on the Date of Each One-Off Transaction and Then Add to All Transactions
 
-    console.log(state.portfolio.historicalDataObj())
+    const histData = state.portfolio.historicalDataObj()
+
+    const transactionsWithPrice = transactions.map(item => {
+        return {
+            date: item.date,
+            amount: Number(item.amount),
+            price: histData[item.date]
+        }
+    })
 
 
 
-    allTransactions = [...allTransactions]
+    allTransactions = [...allTransactions, ...transactionsWithPrice]
 
     //Sort by Date
     allTransactions = allTransactions.sort(function(a,b){
@@ -113,22 +119,35 @@ const Portfolio = () => {
 
     //Get Running Balance and Other Calculations for All Transactions
 
-    // let runningBal = 0
-    // let totalInvested = 0
-    // let value = 0
+    let runningBal = 0
+    let totalInvested = 0
+    let value = 0
 
-    // const calculatedTransactions = allTransactions.map(item => {
+    const calculatedTransactions = allTransactions.map(item => {
+
+        totalInvested = Number(totalInvested) + Number(item.amount)
+        const bitcoinAdded = Number((item.amount / item.price))
+        runningBal = runningBal + bitcoinAdded
+        const value = Number((item.price * item.runningBal).toFixed(2));
+        const profit = value - totalInvested;
+        const roi = ((value - totalInvested) / totalInvested) * 100;
 
 
-    //     return {
-    //         date: item.date,
-    //         price: item.price,
+        return {
+            date: item.date,
+            price: item.price,
+            amount: item.amount,
+            totalInvested: totalInvested,
+            runningBal: runningBal,
+            value: value,
+            profit: profit,
+            roi: roi
 
-    //     }
+        }
 
+    })
 
-
-    // })
+    console.log(calculatedTransactions)
   
 
 
