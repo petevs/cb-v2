@@ -97,16 +97,38 @@ const Portfolio = () => {
     
     }
 
-    //Add all one-off transactions to all transactions
+    //Get Price on the Date of Each One-Off Transaction and Then Add to All Transactions
 
-    allTransactions = [...allTransactions, ...transactions]
+    console.log(state.portfolio.historicalDataObj())
+
+
+
+    allTransactions = [...allTransactions]
 
     //Sort by Date
     allTransactions = allTransactions.sort(function(a,b){
         return new Date(a.date).getTime() - new Date(b.date).getTime()
     })
 
-    console.log(allTransactions)
+
+    //Get Running Balance and Other Calculations for All Transactions
+
+    // let runningBal = 0
+    // let totalInvested = 0
+    // let value = 0
+
+    // const calculatedTransactions = allTransactions.map(item => {
+
+
+    //     return {
+    //         date: item.date,
+    //         price: item.price,
+
+    //     }
+
+
+
+    // })
   
 
 
