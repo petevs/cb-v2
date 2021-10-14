@@ -64,6 +64,10 @@ const Portfolio = () => {
 
         const transactionList = []
 
+        if(!details.transactions){
+            return transactionList
+        }
+
         if('transactions'in details){
             for (const transactionID in details.transactions){
                 const transaction = details.transactions[transactionID]
@@ -85,7 +89,12 @@ const Portfolio = () => {
 
     }
 
-    let oneOffPortfolioList = makeFillerTransactions(oneOffTransactions(), state.portfolio.historicalDataObj)
+    let oneOffPortfolioList = []
+
+    if(oneOffTransactions().length > 1){
+
+        oneOffPortfolioList = makeFillerTransactions(oneOffTransactions(), state.portfolio.historicalDataObj)
+    }
 
     oneOffPortfolioList = [...oneOffPortfolioList, ...oneOffTransactions()]
 
