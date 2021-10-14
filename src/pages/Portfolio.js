@@ -82,89 +82,72 @@ const Portfolio = () => {
 
     //Create All Transactions
     
-    // const calculatedTransactions = useMemo(() => {
+    const calculatedTransactions = useMemo(() => {
 
-    // if(state.portfolio.portfolioList.length < 1 ){
-    //     return
-    // }
+        if(state.portfolio.portfolioList.length < 1 ){
+            return
+        }
 
-    let allTransactions = []
+        let allTransactions = []
 
 
-    // Go through each recurring buy and add to all Transactions
-    for (const key in recurringBuyList()) {
+        // Go through each recurring buy and add to all Transactions
+        for (const key in recurringBuyList()) {
 
-        const item = recurringBuyList()[key]
+            const item = recurringBuyList()[key]
+            
+            const buyList = recurringTransactions(
+                item.purchaseAmount,
+                item.startDate,
+                item.endDate,
+                state.portfolio.historicalDataObj
+            )
+
+            allTransactions = [...allTransactions, ...buyList]
         
-        const buyList = recurringTransactions(
-            item.purchaseAmount,
-            item.startDate,
-            item.endDate,
-            state.portfolio.historicalDataObj
-        )
+        }
 
-        allTransactions = [...allTransactions, ...buyList]
-    
-    }
-
-    console.log(allTransactions)
+        allTransactions = [...allTransactions, ...oneOffTransactions()]
 
 
-
-    //Get Price on the Date of Each One-Off Transaction and Then Add to All Transactions
-
-    // const histData = state.portfolio.historicalDataObj()
-
-    // const transactionsWithPrice = transactions.map(item => {
-    //     return {
-    //         date: item.date,
-    //         amount: Number(item.amount),
-    //         price: histData[item.date]
-    //     }
-    // })
+        //Sort by Date
+        allTransactions = allTransactions.sort(function(a,b){
+            return new Date(a.date).getTime() - new Date(b.date).getTime()
+        })
 
 
+        // Get Running Balance and Other Calculations for All Transactions
 
-    // allTransactions = [...allTransactions, ...transactionsWithPrice]
+        let runningBal = 0
+        let totalInvested = 0
 
-    // //Sort by Date
-    // allTransactions = allTransactions.sort(function(a,b){
-    //     return new Date(a.date).getTime() - new Date(b.date).getTime()
-    // })
+        const finalCalculatedTransactions = allTransactions.map(item => {
 
-
-    //Get Running Balance and Other Calculations for All Transactions
-
-    // let runningBal = 0
-    // let totalInvested = 0
-
-    // const finalCalculatedTransactions = allTransactions.map(item => {
-
-    //     totalInvested = Number(totalInvested) + Number(item.amount)
-    //     const bitcoinAdded = Number((item.amount / item.price))
-    //     runningBal = runningBal + bitcoinAdded
-    //     const value = (item.price * runningBal).toFixed(2);
-    //     const profit = value - totalInvested;
-    //     const roi = ((value - totalInvested) / totalInvested) * 100;
+            totalInvested = Number(totalInvested) + Number(item.amount)
+            const bitcoinAdded = Number((item.amount / item.price))
+            runningBal = runningBal + bitcoinAdded
+            const value = (item.price * runningBal).toFixed(2);
+            const profit = value - totalInvested;
+            const roi = ((value - totalInvested) / totalInvested) * 100;
 
 
-    //     return {
-    //         date: item.date,
-    //         price: item.price,
-    //         amount: item.amount,
-    //         totalInvested: totalInvested,
-    //         runningBal: runningBal,
-    //         value: value,
-    //         profit: profit,
-    //         roi: roi
+            return {
+                date: item.date,
+                price: item.price,
+                amount: item.amount,
+                totalInvested: totalInvested,
+                runningBal: runningBal,
+                value: value,
+                profit: profit,
+                roi: roi
 
-    //     }
+            }
 
-    // })
+        })
 
-    // return finalCalculatedTransactions
+        return finalCalculatedTransactions
 
-    // },[details])
+    },[details])
 
 
         //If No Portfolio Data...
@@ -180,74 +163,74 @@ const Portfolio = () => {
 
     //CHART SERIES & OPTIONS
 
-    // const options = {
-    //     chart: {
-    //       toolbar: {
-    //         show: false,
-    //         // tools: {
-    //         //     download: false,
-    //         // }
-    //       },
-    //     },
-    //     dataLabels: {
-    //       enabled: false,
-    //     },
-    //     yaxis: {
-    //       labels: {
-    //         show: false,
-    //         // formatter: function (value) {
-    //         //   return "$" + numberWithCommas(value);
-    //         // },
-    //         // style: {
-    //         //   colors: ["#fff"],
-    //         // },
-    //       },
-    //       // opposite: true,
-    //     },
-    //     xaxis: {
-    //       type: "datetime",
-    //       categories: calculatedTransactions.map((item) => {
-    //         return item.date;
-    //       }).reverse(),
-    //       labels: {
-    //         style: {
-    //           colors: "#fff",
-    //         },
-    //       },
-    //     },
-    //     colors: ["#2E99FE", "#FF2F30"],
-    //     tooltip: {
-    //       x: {
-    //         format: "dd MMM HH:mm",
-    //       },
-    //       theme: "dark",
-    //     },
-    //     annotations: {
-    //     },
-    //     grid: {
-    //       yaxis: {
-    //         lines: {
-    //           show: false,
-    //         },
-    //       },
-    //     },
-    //     legend: {
-    //       position: "top",
-    //       horizontalAlign: "right",
-    //       labels: {
-    //         colors: "#fff",
-    //       },
-    //     },
-    //   };
+    const options = {
+        chart: {
+          toolbar: {
+            show: false,
+            // tools: {
+            //     download: false,
+            // }
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        yaxis: {
+          labels: {
+            show: false,
+            // formatter: function (value) {
+            //   return "$" + numberWithCommas(value);
+            // },
+            // style: {
+            //   colors: ["#fff"],
+            // },
+          },
+          // opposite: true,
+        },
+        xaxis: {
+          type: "datetime",
+          categories: calculatedTransactions.map((item) => {
+            return item.date;
+          }).reverse(),
+          labels: {
+            style: {
+              colors: "#fff",
+            },
+          },
+        },
+        colors: ["#2E99FE", "#FF2F30"],
+        tooltip: {
+          x: {
+            format: "dd MMM HH:mm",
+          },
+          theme: "dark",
+        },
+        annotations: {
+        },
+        grid: {
+          yaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        legend: {
+          position: "top",
+          horizontalAlign: "right",
+          labels: {
+            colors: "#fff",
+          },
+        },
+      };
     
-    //   const series = [
-    //     {
-    //       name: `Portfolio Value (${state.settings.currency})`,
-    //       data: calculatedTransactions.map((item) => {
-    //         return item.value;
-    //       }).reverse(),
-    //     },
-    //   ];
+      const series = [
+        {
+          name: `Portfolio Value (${state.settings.currency})`,
+          data: calculatedTransactions.map((item) => {
+            return item.value;
+          }).reverse(),
+        },
+      ];
 
 
     return (
@@ -277,7 +260,7 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
-            {/* <ChartWrapper>
+            <ChartWrapper>
                 <Chart
                         series={series}
                         options={options}
@@ -285,7 +268,7 @@ const Portfolio = () => {
                         width='100%'
                         height="400px"
                     />
-            </ChartWrapper> */}
+            </ChartWrapper>
 
             <Box>
                 <HeaderRow>
