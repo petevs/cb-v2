@@ -88,27 +88,27 @@ const Portfolio = () => {
     //     return
     // }
 
-    // let allTransactions = []
+    let allTransactions = []
 
 
     // Go through each recurring buy and add to all Transactions
-    // for (const key in recurringBuyList()) {
+    for (const key in recurringBuyList()) {
 
-    //     const item = details.recurringBuys[key]
+        const item = recurringBuyList()[key]
         
-    //     const buyList = recurringTransactions(
-    //         item.purchaseAmount,
-    //         item.startDate,
-    //         item.endDate,
-    //         state.portfolio.historicalDataObj
-    //     )
+        const buyList = recurringTransactions(
+            item.purchaseAmount,
+            item.startDate,
+            item.endDate,
+            state.portfolio.historicalDataObj
+        )
 
-    //     allTransactions = [...allTransactions, ...buyList]
+        allTransactions = [...allTransactions, ...buyList]
     
-    // }
+    }
 
+    console.log(allTransactions)
 
-    console.log(recurringBuyList())
 
 
     //Get Price on the Date of Each One-Off Transaction and Then Add to All Transactions
