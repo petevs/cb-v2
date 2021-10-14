@@ -90,7 +90,7 @@ export const GlobalProvider = ({children}) => {
 
          //GET HISTORICAL DATA 
         db.collection('historicalData').doc('cad').onSnapshot((doc) => {
-            const result = doc.data().marketData
+            const result = doc.data()
             dispatch(updateHistoricalDataObj({...result}))
         })
  

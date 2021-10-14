@@ -1,4 +1,6 @@
 import moment from 'moment'
+import { makeFillerTransactions } from 'utils/makeFillerTransactions';
+import { recurringTransactions } from 'utils/recurringTransactions';
 
 export const SET_PORTFOLIOS = "SET_PORTFOLIOS";
 export const UPDATE_HISTORICAL_DATA_PF = "UPDATE_HISTORICAL_DATA_PF"
@@ -30,22 +32,102 @@ export const initialPortfolioState = {
     return buyList
 
   },
-  historicalDataObj: function(){
+  oneOffTransactions: function(id){
+    const transactionList = []
 
-    let data = []
+    const details = this.portfolioObj[id]
 
-      this.historicalData.forEach(item => {
+    if(details && 'transactions' in details){
+      for (const transactionID in details.transactions){
+        const transaction = details.transactions[transactionID]
 
-        const friendlyDate = moment(item[0]).format('YYYY-MM-DD')
+        transactionList.push({
+            id: transactionID,
+            amount: transaction['amount'],
+            date: transaction['date'],
+            price: this.historicalData[transaction['date']]
 
-        data = {
-          ...data,
-          [friendlyDate]: item[1]
-        }
-      })
+        })
+      }
+    }
 
-    return data
+    return transactionList.sort((a,b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime()
+    })
   },
+  calculatedTransactions: function(id){
+
+    let oneOffPortfolioList = []
+
+    if(this.oneOffTransactions(id).length > 1){
+      oneOffPortfolioList = makeFillerTransactions(
+        this.oneOffTransactions(id), 
+        this.historicalData)
+    }
+
+    oneOffPortfolioList = [...oneOffPortfolioList, ...this.oneOffTransactions(id)]
+
+    // Create All Transactions
+
+    if(this.portfolioList.length < 1){
+      return
+    }
+
+    let allTransactions = []
+
+    // Go through each recurring buy and add to all transactions
+
+    for (const key in this.recurringBuyList(id)) {
+      const item = this.recurringBuyList(id)[key]
+
+      const buyList = recurringTransactions(
+        item.purchaseAmount,
+        item.startDate,
+        item.endDate,
+        this.historicalData
+      )
+
+      allTransactions = [...allTransactions, ...buyList]
+    }
+
+    allTransactions = [...allTransactions, ...oneOffPortfolioList]
+
+    //Sort by Date
+    allTransactions = allTransactions.sort((a,b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime()
+    })
+
+    // Get running balance and other calculations for all transactions
+
+    let runningBal = 0
+    let totalInvested = 0
+
+    const finalCalculatedTransactions = allTransactions.map(item => {
+            totalInvested = Number(totalInvested) + Number(item.amount)
+            const bitcoinAdded = Number((item.amount / item.price))
+            runningBal = runningBal + bitcoinAdded
+            const value = (item.price * runningBal).toFixed(2);
+            const profit = value - totalInvested;
+            const roi = ((value - totalInvested) / totalInvested) * 100;
+
+
+            return {
+                date: item.date,
+                price: item.price,
+                amount: item.amount,
+                totalInvested: totalInvested,
+                runningBal: runningBal,
+                value: value,
+                profit: profit,
+                roi: roi
+
+            }
+    })
+
+    return finalCalculatedTransactions
+  }
+
+
 };
 
 export const portfolioReducer = (state, action) => {
@@ -64,7 +146,7 @@ export const portfolioReducer = (state, action) => {
     case UPDATE_HISTORICAL_DATA_OBJ:
       return {
         ...state,
-        historicalDataObj: action.payload
+        historicalData: action.payload
       };
     default:
       return state;
