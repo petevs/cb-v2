@@ -1,7 +1,6 @@
 import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
 import React, { useState, useContext, useMemo } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
-import { recurringBuy } from 'utils/recurringBuy'
 import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
 import styled from 'styled-components'
@@ -12,11 +11,8 @@ import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
 import Chart from 'react-apexcharts'
 import { toggleModal } from 'state/actions/modalActions'
-import { getDatesBetween } from 'utils/getDatesBetween'
-import { recurringTransactions } from 'utils/recurringTransactions'
-import { sortByDate } from 'utils/sortByDate'
-import { makeFillerTransactions } from 'utils/makeFillerTransactions'
-import moment from 'moment'
+import PortfolioChart from 'components/PortfolioChart'
+
 
 const Portfolio = () => {
 
@@ -51,68 +47,12 @@ const Portfolio = () => {
       
 
 
-    // //CHART SERIES & OPTIONS
+    //CHART SERIES & OPTIONS
 
-    const options = {
-        chart: {
-          toolbar: {
-            show: false,
-            // tools: {
-            //     download: false,
-            // }
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        yaxis: {
-          labels: {
-            show: false,
-            // formatter: function (value) {
-            //   return "$" + numberWithCommas(value);
-            // },
-            // style: {
-            //   colors: ["#fff"],
-            // },
-          },
-          // opposite: true,
-        },
-        xaxis: {
-          type: "datetime",
-          categories: portfolio.calculatedTransactions(id).map((item) => {
-            return item.date;
-          }).reverse(),
-          labels: {
-            style: {
-              colors: "#fff",
-            },
-          },
-        },
-        colors: ["#2E99FE", "#FF2F30"],
-        tooltip: {
-          x: {
-            format: "dd MMM HH:mm",
-          },
-          theme: "dark",
-        },
-        annotations: {
-        },
-        grid: {
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-        legend: {
-          position: "top",
-          horizontalAlign: "right",
-          labels: {
-            colors: "#fff",
-          },
-        },
-      };
-    
+      const categories = portfolio.calculatedTransactions(id).map((item) => {
+        return item.date;
+      }).reverse()
+
       const series = [
         {
           name: `Portfolio Value (${state.settings.currency})`,
@@ -151,17 +91,10 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
-            <ChartWrapper>
-                <Chart
-                        series={series}
-                        options={options}
-                        type='area'
-                        width='100%'
-                        height="400px"
-                    />
-            </ChartWrapper>
-           
-
+            <PortfolioChart
+                categories={categories}
+                data={series}
+            />
             <Box> 
                 <HeaderRow>
                     <h2>Recurring Transactions</h2>
@@ -324,8 +257,4 @@ const HeaderRow = styled.div`
   & button {
       justify-self: end;
   }
-`
-
-const ChartWrapper = styled.div`
-    margin: 0 0 0 -1rem;
 `
