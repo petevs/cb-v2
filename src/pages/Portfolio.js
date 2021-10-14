@@ -14,6 +14,8 @@ import Chart from 'react-apexcharts'
 import { toggleModal } from 'state/actions/modalActions'
 import { getDatesBetween } from 'utils/getDatesBetween'
 import { recurringTransactions } from 'utils/recurringTransactions'
+import { sortByDate } from 'utils/sortByDate'
+import { makeFillerTransactions } from 'utils/makeFillerTransactions'
 
 const Portfolio = () => {
 
@@ -76,9 +78,16 @@ const Portfolio = () => {
             }
         }
 
-        return transactionList
+
+        return transactionList.sort((a,b) => {
+            return new Date(a.date).getTime() - new Date(b.date).getTime()
+        })
 
     }
+
+    let oneOffPortfolioList = makeFillerTransactions(oneOffTransactions(), state.portfolio.historicalDataObj)
+
+    oneOffPortfolioList = [...oneOffPortfolioList, ...oneOffTransactions()]
 
     //Create All Transactions
     
@@ -107,11 +116,11 @@ const Portfolio = () => {
         
         }
 
-        allTransactions = [...allTransactions, ...oneOffTransactions()]
+        allTransactions = [...allTransactions, ...oneOffPortfolioList]
 
 
         //Sort by Date
-        allTransactions = allTransactions.sort(function(a,b){
+        allTransactions = allTransactions.sort((a,b) => {
             return new Date(a.date).getTime() - new Date(b.date).getTime()
         })
 
