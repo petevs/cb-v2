@@ -12,6 +12,10 @@ import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
 import Chart from 'react-apexcharts'
 import { toggleModal } from 'state/actions/modalActions'
+import { getDatesBetween } from 'utils/getDatesBetween'
+import { recurringTransactions } from 'utils/recurringTransactions'
+import { sortByDate } from 'utils/sortByDate'
+import { makeFillerTransactions } from 'utils/makeFillerTransactions'
 
 const Portfolio = () => {
 
@@ -32,113 +36,125 @@ const Portfolio = () => {
     
     const handleClose = () => dispatch(toggleModal(false));
 
+    //MAKE LIST OF RECURRING BUYS
+    const recurringBuyList = () => {
 
-    // Create Transaction List
-    
-    
-    const transactions = useMemo(() => {
+        const buyList = []
 
-        if(state.portfolio.portfolioList.length < 1 ){
-            return
-        }
-    
-        const transList = []
-    
-        if('transactions' in details){
-            for ( const key in details.transactions){
-                const transaction = details.transactions[key]
-                
-                transList.push({
-                    id: key,
-                    amount: transaction['amount'],
-                    date: transaction['date']
+        if('recurringBuys' in details){
+            for (const buyID in details.recurringBuys){
+                const current = details.recurringBuys[buyID]
+
+                buyList.push({
+                    id: buyID,
+                    purchaseAmount: current['purchaseAmount'],
+                    startDate: current['startDate'],
+                    endDate: current['endDate'],
+                    condition: current['condition']
                 })
             }
         }
-        return transList
-    }, [details])
+        return buyList
+    }
 
 
+    // Create Transaction List
+
+    const oneOffTransactions = () => {
+
+        const transactionList = []
+
+        if('transactions'in details){
+            for (const transactionID in details.transactions){
+                const transaction = details.transactions[transactionID]
+
+                transactionList.push({
+                    id: transactionID,
+                    amount: transaction['amount'],
+                    date: transaction['date'],
+                    price: state.portfolio.historicalDataObj[transaction['date']]
+
+                })
+            }
+        }
+
+
+        return transactionList.sort((a,b) => {
+            return new Date(a.date).getTime() - new Date(b.date).getTime()
+        })
+
+    }
+
+    let oneOffPortfolioList = makeFillerTransactions(oneOffTransactions(), state.portfolio.historicalDataObj)
+
+    oneOffPortfolioList = [...oneOffPortfolioList, ...oneOffTransactions()]
 
     //Create All Transactions
     
     const calculatedTransactions = useMemo(() => {
 
-    if(state.portfolio.portfolioList.length < 1 ){
-        return
-    }
+        if(state.portfolio.portfolioList.length < 1 ){
+            return
+        }
 
-    let allTransactions = []
+        let allTransactions = []
 
 
-    // Go through each recurring buy and add to all Transactions
-    for (const key in details.recurringBuys) {
+        // Go through each recurring buy and add to all Transactions
+        for (const key in recurringBuyList()) {
 
-        const item = details.recurringBuys[key]
+            const item = recurringBuyList()[key]
+            
+            const buyList = recurringTransactions(
+                item.purchaseAmount,
+                item.startDate,
+                item.endDate,
+                state.portfolio.historicalDataObj
+            )
+
+            allTransactions = [...allTransactions, ...buyList]
         
-        const buyList = recurringBuy(
-            item.purchaseAmount,
-            item.startDate,
-            item.endDate,
-            state.portfolio.historicalData
-        )
-
-        allTransactions = [...allTransactions, ...buyList]
-    
-    }
-
-    //Get Price on the Date of Each One-Off Transaction and Then Add to All Transactions
-
-    const histData = state.portfolio.historicalDataObj()
-
-    const transactionsWithPrice = transactions.map(item => {
-        return {
-            date: item.date,
-            amount: Number(item.amount),
-            price: histData[item.date]
-        }
-    })
-
-
-
-    allTransactions = [...allTransactions, ...transactionsWithPrice]
-
-    //Sort by Date
-    allTransactions = allTransactions.sort(function(a,b){
-        return new Date(a.date).getTime() - new Date(b.date).getTime()
-    })
-
-
-    //Get Running Balance and Other Calculations for All Transactions
-
-    let runningBal = 0
-    let totalInvested = 0
-
-    const finalCalculatedTransactions = allTransactions.map(item => {
-
-        totalInvested = Number(totalInvested) + Number(item.amount)
-        const bitcoinAdded = Number((item.amount / item.price))
-        runningBal = runningBal + bitcoinAdded
-        const value = (item.price * runningBal).toFixed(2);
-        const profit = value - totalInvested;
-        const roi = ((value - totalInvested) / totalInvested) * 100;
-
-
-        return {
-            date: item.date,
-            price: item.price,
-            amount: item.amount,
-            totalInvested: totalInvested,
-            runningBal: runningBal,
-            value: value,
-            profit: profit,
-            roi: roi
-
         }
 
-    })
+        allTransactions = [...allTransactions, ...oneOffPortfolioList]
 
-    return finalCalculatedTransactions
+
+        //Sort by Date
+        allTransactions = allTransactions.sort((a,b) => {
+            return new Date(a.date).getTime() - new Date(b.date).getTime()
+        })
+
+
+        // Get Running Balance and Other Calculations for All Transactions
+
+        let runningBal = 0
+        let totalInvested = 0
+
+        const finalCalculatedTransactions = allTransactions.map(item => {
+
+            totalInvested = Number(totalInvested) + Number(item.amount)
+            const bitcoinAdded = Number((item.amount / item.price))
+            runningBal = runningBal + bitcoinAdded
+            const value = (item.price * runningBal).toFixed(2);
+            const profit = value - totalInvested;
+            const roi = ((value - totalInvested) / totalInvested) * 100;
+
+
+            return {
+                date: item.date,
+                price: item.price,
+                amount: item.amount,
+                totalInvested: totalInvested,
+                runningBal: runningBal,
+                value: value,
+                profit: profit,
+                roi: roi
+
+            }
+
+        })
+
+        return finalCalculatedTransactions
 
     },[details])
 
@@ -291,7 +307,7 @@ const Portfolio = () => {
                         </TableRow>
                     </MyTableHead>
                     <TableBody>
-                    {state.portfolio.recurringBuyList()[id].map((row) => (
+                    {recurringBuyList().map((row) => (
                             <MyTableRow
                                 key={row.id}
                             >
@@ -342,15 +358,17 @@ const Portfolio = () => {
                         <TableRow>
                             <TableCell>Date</TableCell>
                             <TableCell>Amount</TableCell>
+                            <TableCell>Price</TableCell>
                             <TableCell>Edit</TableCell>
                         </TableRow>
                     </MyTableHead>
                     <TableBody>
                         {
-                            transactions && transactions.map(row =>
+                            oneOffTransactions() && oneOffTransactions().map(row =>
                                 <MyTableRow key={row.id}> 
                                     <TableCell>{row.date}</TableCell>
                                     <TableCell>{row.amount}</TableCell>
+                                    <TableCell>{row.price}</TableCell>
                                     <TableCell>
                                         <Button
                                             onClick={() => handleOpen(
