@@ -12,8 +12,9 @@ import { auth } from 'firebase'
 import { authReducer, initialAuthState } from 'state/reducers/authReducer'
 import { db } from 'firebase'
 import { initialPortfolioState, portfolioReducer } from 'state/reducers/portfolioReducer'
-import { setPortfolios, updateHistoricalDataPF } from 'state/actions/portfolioActions'
+import { setPortfolios, updateHistoricalDataPF, updateHistoricalDataObj } from 'state/actions/portfolioActions'
 import { initialModalState, modalReducer } from 'state/reducers/modalReducer'
+import moment from 'moment'
 
 
 export const GlobalContext = createContext()
@@ -104,6 +105,11 @@ export const GlobalProvider = ({children}) => {
 
          }
 
+        db.collection('historicalData').doc('cad').onSnapshot((doc) => {
+            const result = doc.data()
+
+            dispatch(updateHistoricalDataObj(result))
+        })
  
          getData()
          getHistorical()
@@ -111,6 +117,33 @@ export const GlobalProvider = ({children}) => {
      }, [state.settings.currency])
 
 
+     //ADD TO FIREBASE
+
+    //  useEffect(() => {
+
+    //     const getHistorical = async () => {
+    //         const {data} = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=cad&days=3650&interval=daily`)
+    //         const { prices } = data
+
+    //         let historical = {}
+            
+    //         prices.forEach(item => {
+    
+    //         const friendlyDate = moment(item[0]).format('YYYY-MM-DD')
+    
+    //         historical = {
+    //             ...historical,
+    //             [friendlyDate]: item[1]
+    //         }
+    //         })
+            
+    //         db.collection('historicalData').doc('cad').set(historical)
+
+    //     }
+
+    //     getHistorical()
+    //     console.log('all done')
+    //  },[])
 
     return (
         <GlobalContext.Provider

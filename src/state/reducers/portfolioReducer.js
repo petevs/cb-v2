@@ -2,11 +2,12 @@ import moment from 'moment'
 
 export const SET_PORTFOLIOS = "SET_PORTFOLIOS";
 export const UPDATE_HISTORICAL_DATA_PF = "UPDATE_HISTORICAL_DATA_PF"
+export const UPDATE_HISTORICAL_DATA_OBJ = "UPDATE_HISTORICAL_DATA_OBJ"
 
 export const initialPortfolioState = {
   portfolioList: [],
   portfolioObj: {},
-  historicalData: [],
+  historicalData: {},
   historicalDataObj: function(){
 
     let data = []
@@ -185,7 +186,12 @@ export const portfolioReducer = (state, action) => {
       return {
         ...state,
         historicalData: action.payload
-      }
+      };
+    case UPDATE_HISTORICAL_DATA_OBJ:
+      return {
+        ...state,
+        historicalDataObj: action.payload
+      };
     default:
       return state;
   }
