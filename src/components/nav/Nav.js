@@ -17,7 +17,7 @@ const Nav= () => {
     const {
         current_price: price,
         price_change_24h_in_currency: priceChange,
-        price_change_percentage_24h_in_currency: percentChange
+        price_change_percentage_24h_in_currency: percentChange,
     } = marketData.marketData
 
     const { currency } = settings

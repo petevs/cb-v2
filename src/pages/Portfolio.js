@@ -16,14 +16,17 @@ import { getDatesBetween } from 'utils/getDatesBetween'
 import { recurringTransactions } from 'utils/recurringTransactions'
 import { sortByDate } from 'utils/sortByDate'
 import { makeFillerTransactions } from 'utils/makeFillerTransactions'
+import moment from 'moment'
 
 const Portfolio = () => {
 
     let { id } = useParams()
     const { state, dispatch } = useContext(GlobalContext)
+    const { portfolio } = state
     const { portfolioObj } = state.portfolio
 
     const details = portfolioObj[id]
+
     
     // MODAL
 
@@ -36,136 +39,138 @@ const Portfolio = () => {
     
     const handleClose = () => dispatch(toggleModal(false));
 
+    console.log(state.portfolio.recurringBuyList(id))
+
     //MAKE LIST OF RECURRING BUYS
-    const recurringBuyList = () => {
+    // const recurringBuyList = () => {
 
-        const buyList = []
+    //     const buyList = []
 
-        if('recurringBuys' in details){
-            for (const buyID in details.recurringBuys){
-                const current = details.recurringBuys[buyID]
+    //     if('recurringBuys' in details){
+    //         for (const buyID in details.recurringBuys){
+    //             const current = details.recurringBuys[buyID]
 
-                buyList.push({
-                    id: buyID,
-                    purchaseAmount: current['purchaseAmount'],
-                    startDate: current['startDate'],
-                    endDate: current['endDate'],
-                    condition: current['condition']
-                })
-            }
-        }
-        return buyList
-    }
-
-
-    // Create Transaction List
-
-    const oneOffTransactions = () => {
-
-        const transactionList = []
-
-        if(!details.transactions){
-            return transactionList
-        }
-
-        if('transactions'in details){
-            for (const transactionID in details.transactions){
-                const transaction = details.transactions[transactionID]
-
-                transactionList.push({
-                    id: transactionID,
-                    amount: transaction['amount'],
-                    date: transaction['date'],
-                    price: state.portfolio.historicalDataObj[transaction['date']]
-
-                })
-            }
-        }
+    //             buyList.push({
+    //                 id: buyID,
+    //                 purchaseAmount: current['purchaseAmount'],
+    //                 startDate: current['startDate'],
+    //                 endDate: current['endDate'],
+    //                 condition: current['condition']
+    //             })
+    //         }
+    //     }
+    //     return buyList
+    // }
 
 
-        return transactionList.sort((a,b) => {
-            return new Date(a.date).getTime() - new Date(b.date).getTime()
-        })
+    // // Create Transaction List
 
-    }
+    // const oneOffTransactions = () => {
 
-    let oneOffPortfolioList = []
+    //     const transactionList = []
 
-    if(oneOffTransactions().length > 1){
+    //     if(!details){
+    //         return transactionList
+    //     }
 
-        oneOffPortfolioList = makeFillerTransactions(oneOffTransactions(), state.portfolio.historicalDataObj)
-    }
+    //     if('transactions'in details){
+    //         for (const transactionID in details.transactions){
+    //             const transaction = details.transactions[transactionID]
 
-    oneOffPortfolioList = [...oneOffPortfolioList, ...oneOffTransactions()]
+    //             transactionList.push({
+    //                 id: transactionID,
+    //                 amount: transaction['amount'],
+    //                 date: transaction['date'],
+    //                 price: state.portfolio.historicalDataObj[transaction['date']]
 
-    //Create All Transactions
+    //             })
+    //         }
+    //     }
+
+
+    //     return transactionList.sort((a,b) => {
+    //         return new Date(a.date).getTime() - new Date(b.date).getTime()
+    //     })
+
+    // }
+
+    // let oneOffPortfolioList = []
+
+    // if(oneOffTransactions().length > 1){
+
+    //     oneOffPortfolioList = makeFillerTransactions(oneOffTransactions(), state.portfolio.historicalDataObj)
+    // }
+
+    // oneOffPortfolioList = [...oneOffPortfolioList, ...oneOffTransactions()]
+
+    // //Create All Transactions
     
-    const calculatedTransactions = useMemo(() => {
+    // const calculatedTransactions = useMemo(() => {
 
-        if(state.portfolio.portfolioList.length < 1 ){
-            return
-        }
+    //     if(state.portfolio.portfolioList.length < 1 ){
+    //         return
+    //     }
 
-        let allTransactions = []
+    //     let allTransactions = []
 
 
-        // Go through each recurring buy and add to all Transactions
-        for (const key in recurringBuyList()) {
+    //     // Go through each recurring buy and add to all Transactions
+    //     for (const key in recurringBuyList()) {
 
-            const item = recurringBuyList()[key]
+    //         const item = recurringBuyList()[key]
             
-            const buyList = recurringTransactions(
-                item.purchaseAmount,
-                item.startDate,
-                item.endDate,
-                state.portfolio.historicalDataObj
-            )
+    //         const buyList = recurringTransactions(
+    //             item.purchaseAmount,
+    //             item.startDate,
+    //             item.endDate,
+    //             state.portfolio.historicalDataObj
+    //         )
 
-            allTransactions = [...allTransactions, ...buyList]
+    //         allTransactions = [...allTransactions, ...buyList]
         
-        }
+    //     }
 
-        allTransactions = [...allTransactions, ...oneOffPortfolioList]
-
-
-        //Sort by Date
-        allTransactions = allTransactions.sort((a,b) => {
-            return new Date(a.date).getTime() - new Date(b.date).getTime()
-        })
+    //     allTransactions = [...allTransactions, ...oneOffPortfolioList]
 
 
-        // Get Running Balance and Other Calculations for All Transactions
-
-        let runningBal = 0
-        let totalInvested = 0
-
-        const finalCalculatedTransactions = allTransactions.map(item => {
-
-            totalInvested = Number(totalInvested) + Number(item.amount)
-            const bitcoinAdded = Number((item.amount / item.price))
-            runningBal = runningBal + bitcoinAdded
-            const value = (item.price * runningBal).toFixed(2);
-            const profit = value - totalInvested;
-            const roi = ((value - totalInvested) / totalInvested) * 100;
+    //     //Sort by Date
+    //     allTransactions = allTransactions.sort((a,b) => {
+    //         return new Date(a.date).getTime() - new Date(b.date).getTime()
+    //     })
 
 
-            return {
-                date: item.date,
-                price: item.price,
-                amount: item.amount,
-                totalInvested: totalInvested,
-                runningBal: runningBal,
-                value: value,
-                profit: profit,
-                roi: roi
+    //     // Get Running Balance and Other Calculations for All Transactions
 
-            }
+    //     let runningBal = 0
+    //     let totalInvested = 0
 
-        })
+    //     const finalCalculatedTransactions = allTransactions.map(item => {
 
-        return finalCalculatedTransactions
+    //         totalInvested = Number(totalInvested) + Number(item.amount)
+    //         const bitcoinAdded = Number((item.amount / item.price))
+    //         runningBal = runningBal + bitcoinAdded
+    //         const value = (item.price * runningBal).toFixed(2);
+    //         const profit = value - totalInvested;
+    //         const roi = ((value - totalInvested) / totalInvested) * 100;
 
-    },[details])
+
+    //         return {
+    //             date: item.date,
+    //             price: item.price,
+    //             amount: item.amount,
+    //             totalInvested: totalInvested,
+    //             runningBal: runningBal,
+    //             value: value,
+    //             profit: profit,
+    //             roi: roi
+
+    //         }
+
+    //     })
+
+    //     return finalCalculatedTransactions
+
+    // },[details])
 
 
         //If No Portfolio Data...
@@ -179,84 +184,85 @@ const Portfolio = () => {
       
 
 
-    //CHART SERIES & OPTIONS
+    // //CHART SERIES & OPTIONS
 
-    const options = {
-        chart: {
-          toolbar: {
-            show: false,
-            // tools: {
-            //     download: false,
-            // }
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        yaxis: {
-          labels: {
-            show: false,
-            // formatter: function (value) {
-            //   return "$" + numberWithCommas(value);
-            // },
-            // style: {
-            //   colors: ["#fff"],
-            // },
-          },
-          // opposite: true,
-        },
-        xaxis: {
-          type: "datetime",
-          categories: calculatedTransactions.map((item) => {
-            return item.date;
-          }).reverse(),
-          labels: {
-            style: {
-              colors: "#fff",
-            },
-          },
-        },
-        colors: ["#2E99FE", "#FF2F30"],
-        tooltip: {
-          x: {
-            format: "dd MMM HH:mm",
-          },
-          theme: "dark",
-        },
-        annotations: {
-        },
-        grid: {
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-        legend: {
-          position: "top",
-          horizontalAlign: "right",
-          labels: {
-            colors: "#fff",
-          },
-        },
-      };
+    // const options = {
+    //     chart: {
+    //       toolbar: {
+    //         show: false,
+    //         // tools: {
+    //         //     download: false,
+    //         // }
+    //       },
+    //     },
+    //     dataLabels: {
+    //       enabled: false,
+    //     },
+    //     yaxis: {
+    //       labels: {
+    //         show: false,
+    //         // formatter: function (value) {
+    //         //   return "$" + numberWithCommas(value);
+    //         // },
+    //         // style: {
+    //         //   colors: ["#fff"],
+    //         // },
+    //       },
+    //       // opposite: true,
+    //     },
+    //     xaxis: {
+    //       type: "datetime",
+    //       categories: calculatedTransactions.map((item) => {
+    //         return item.date;
+    //       }).reverse(),
+    //       labels: {
+    //         style: {
+    //           colors: "#fff",
+    //         },
+    //       },
+    //     },
+    //     colors: ["#2E99FE", "#FF2F30"],
+    //     tooltip: {
+    //       x: {
+    //         format: "dd MMM HH:mm",
+    //       },
+    //       theme: "dark",
+    //     },
+    //     annotations: {
+    //     },
+    //     grid: {
+    //       yaxis: {
+    //         lines: {
+    //           show: false,
+    //         },
+    //       },
+    //     },
+    //     legend: {
+    //       position: "top",
+    //       horizontalAlign: "right",
+    //       labels: {
+    //         colors: "#fff",
+    //       },
+    //     },
+    //   };
     
-      const series = [
-        {
-          name: `Portfolio Value (${state.settings.currency})`,
-          data: calculatedTransactions.map((item) => {
-            return item.value;
-          }).reverse(),
-        },
-      ];
+    //   const series = [
+    //     {
+    //       name: `Portfolio Value (${state.settings.currency})`,
+    //       data: calculatedTransactions.map((item) => {
+    //         return item.value;
+    //       }).reverse(),
+    //     },
+    //   ];
 
+     
 
     return (
         <>
         {/* MODAL */}
-        <FormModal open={state.modal.open} onClose={handleClose}>
+        {/* <FormModal open={state.modal.open} onClose={handleClose}>
             {modalContent}
-        </FormModal>
+        </FormModal> */}
 
         {/* CONTENT */}
         <Wrapper>
@@ -264,7 +270,7 @@ const Portfolio = () => {
             <p>{details.portfolioDescription}</p>
 
             {/* EDIT PORTFOLIO BUTTON - OPENS MODAL WITH EDIT FORM */}
-            <Button
+            {/* <Button
                 variant='contained' 
                 onClick={() => handleOpen(
 
@@ -277,8 +283,8 @@ const Portfolio = () => {
                 )} 
             >
                 Edit
-            </Button>
-            <ChartWrapper>
+            </Button> */}
+            {/* <ChartWrapper>
                 <Chart
                         series={series}
                         options={options}
@@ -287,8 +293,9 @@ const Portfolio = () => {
                         height="400px"
                     />
             </ChartWrapper>
+            */}
 
-            <Box>
+            <Box> 
                 <HeaderRow>
                     <h2>Recurring Transactions</h2>
                     <Button 
@@ -316,7 +323,7 @@ const Portfolio = () => {
                         </TableRow>
                     </MyTableHead>
                     <TableBody>
-                    {recurringBuyList().map((row) => (
+                    {portfolio.recurringBuyList(id).map((row) => (
                             <MyTableRow
                                 key={row.id}
                             >
@@ -347,7 +354,7 @@ const Portfolio = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <Box>
+            {/* <Box>
                 <HeaderRow>
                     <h2>One-Off Transactions</h2>
                     <Button 
@@ -397,7 +404,7 @@ const Portfolio = () => {
                         }
                     </TableBody>
                 </Table>
-            </Box>
+            </Box> */}
 
         </Wrapper>
 

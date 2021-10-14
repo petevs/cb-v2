@@ -80,41 +80,21 @@ export const GlobalProvider = ({children}) => {
     useEffect(() => {
 
         //GET CURRENT MARKET DATA
-        const getData = async () => {
-             try {
- 
-                 //GET MARKET DATA & DISPATCH TO CONTEXT
-                 const { data } = await axios.get('https://api.coingecko.com/api/v3/coins/bitcoin?localization=cad')
 
-                 dispatch(setMarketData(data.market_data))
- 
-             } catch (err) {
-                 console.log(err)
-             }
-         }
+        //GET MARKET DATA & DISPATCH TO CONTEXT
+
+        db.collection('marketData').doc('data').onSnapshot((doc) => {
+            const result = doc.data()
+            dispatch(setMarketData(result))
+        })
 
          //GET HISTORICAL DATA 
-         const getHistorical = async () => {
-
-             const { data } = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${state.settings.currency}&days=3650&interval=daily`)
-
-             const { prices } = data
-
-             dispatch(updateHistoricalData(prices))
-             dispatch(updateHistoricalDataPF(prices))
-
-         }
-
         db.collection('historicalData').doc('cad').onSnapshot((doc) => {
-            const result = doc.data()
-
-            dispatch(updateHistoricalDataObj(result))
+            const result = doc.data().marketData
+            dispatch(updateHistoricalDataObj({...result}))
         })
  
-         getData()
-         getHistorical()
- 
-     }, [state.settings.currency])
+     }, [])
 
 
      //ADD TO FIREBASE

@@ -26,7 +26,7 @@ function App() {
     
 
 
-  if (state.marketData.loading || state.calculators.loading || pending ) {
+  if (state.marketData.loading || pending ) {
       return (
       <Backdrop sx={{ backgroundColor: 'black'}} open>
         <CircularProgress />
