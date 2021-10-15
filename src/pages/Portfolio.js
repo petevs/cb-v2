@@ -53,11 +53,41 @@ const Portfolio = () => {
         const length = calculatedTransactions.length
         const last = calculatedTransactions[length - 1]
 
+        let summary = {
+            totalInvested: '0.00',
+            balance: '0.00000000',
+            value: '0.00',
+            profit: '0.00',
+            roi: '0.00' 
+        }
+
+        if (last){
+
+            const totalInvested = last['totalInvested']
+            const balance = last['runningBal'].toFixed(8)
+            const value = (Number(balance) * Number(price[currency])).toFixed(2)
+            const profit = Math.round(Number(value) - Number(totalInvested))
+            const roi = (Number(profit) / Number(totalInvested)) * 100
+
+
+            summary = {
+                ...summary,
+                totalInvested: totalInvested,
+                balance: balance,
+                value: value,
+                profit: profit,
+                roi: roi
+            }
+        }
+
         return [
-            {title: 'Total Invested', value: last['totalInvested'], prefix: '$', suffix: ''},
-            {title: 'Bitcoin Holdings', value: last['runningBal'].toFixed(8), prefix: '', suffix: ''}
+            {title: 'Total Invested', value: summary.totalInvested  , prefix: '$', suffix: ''},
+            {title: 'Bitcoin Holdings', value: summary.balance, prefix: '', suffix: ''},
+            {title: 'Current Value', value: summary.value, prefix: '$', suffix: ''},
+            {title: 'Gain / Loss', value: summary.profit, prefix: '$', suffix: ''},
+            {title: 'ROI', value: summary.roi, prefix: '', suffix: '%'},
         ]
-    }
+        }
 
 
     //If No Portfolio Data...
@@ -123,7 +153,7 @@ const Portfolio = () => {
                             title={item.title}
                             value={item.value}
                             prefix={item.prefix}
-                            suffx={item.suffix}
+                            suffix={item.suffix}
                         />
                         )
                 }
