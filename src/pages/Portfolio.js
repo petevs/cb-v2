@@ -1,5 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useMemo } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
@@ -39,32 +39,35 @@ const Portfolio = () => {
     
     const handleClose = () => dispatch(toggleModal(false));
 
+    const calculatedTransactions = useMemo(() => {
+        return portfolio.calculatedTransactions(id)
+    },[portfolio, id])
 
-        //If No Portfolio Data...
-        if(state.portfolio.portfolioList.length < 1 ){
-            return(
-                <>
-                    Add Details...
-                </>
-            )
-        }
-      
+    //If No Portfolio Data...
+    if(state.portfolio.portfolioList.length < 1 ){
+        return(
+            <>
+                Add Details...
+            </>
+        )
+    }
+
 
 
     //CHART SERIES & OPTIONS
 
-    //   const categories = portfolio.calculatedTransactions(id).map((item) => {
-    //     return item.date;
-    //   }).reverse()
+      const categories = calculatedTransactions.map((item) => {
+        return item.date;
+      }).reverse()
 
-    //   const series = [
-    //     {
-    //       name: `Portfolio Value (${state.settings.currency})`,
-    //       data: portfolio.calculatedTransactions(id).map((item) => {
-    //         return item.value;
-    //       }).reverse(),
-    //     },
-    //   ];
+      const series = [
+        {
+          name: `Portfolio Value (${state.settings.currency})`,
+          data: calculatedTransactions.map((item) => {
+            return item.value;
+          }).reverse(),
+        },
+      ];
 
      
 
@@ -95,10 +98,10 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
-            {/* <PortfolioChart
+            <PortfolioChart
                 categories={categories}
                 data={series}
-            /> */}
+            />
             <Box> 
                 <HeaderRow>
                     <h2>Recurring Transactions</h2>

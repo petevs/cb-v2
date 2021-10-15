@@ -12,6 +12,9 @@ const PortfolioChart = ({categories, customOptions, data}) => {
             //     download: false,
             // }
           },
+          animations: {
+            enabled: false,
+          }
         },
         dataLabels: {
           enabled: false,
@@ -47,12 +50,8 @@ const PortfolioChart = ({categories, customOptions, data}) => {
         annotations: {
         },
         grid: {
-          yaxis: {
-            lines: {
-              show: false,
-            },
+          show: false,
           },
-        },
         legend: {
           position: "top",
           horizontalAlign: "right",
@@ -60,6 +59,9 @@ const PortfolioChart = ({categories, customOptions, data}) => {
             colors: "#fff",
           },
         },
+        markers: {
+          size: 0,
+        }
       };
 
     const options = {
