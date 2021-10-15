@@ -9,6 +9,7 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { SiBitcoinsv } from 'react-icons/si'
 import { render } from '@testing-library/react'
 import IconButton from 'styledComponents/IconButton'
+import { numberWithCommas } from 'utils/formatting'
 
 const TransactionForm = (props) => {
 
@@ -82,7 +83,7 @@ const TransactionForm = (props) => {
                         <CompareArrowsIcon fontSize='large' color='primary'/>
                     </IconButton>
                     <div>
-                        From: Canadain Dollars <br />
+                        From: Dollars <br />
                         To: Bitcoin
                     </div>
                 </TypeSwitchBox>
@@ -108,10 +109,11 @@ const TransactionForm = (props) => {
                         startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
                     }}
                     />
-                    <PriceBox>
-                        Price <br />
-                        1 BTC = {state.portfolio.historicalData[inputs.date]}
-                    </PriceBox>
+                    <FormControlLabel control={<Switch />} label='Custom Bitcoin Price' />
+                <PriceBox>
+                    Price <br />
+                    1 BTC = $ {state.portfolio.historicalData[inputs.date]}
+                </PriceBox>
 
                 {/* {
                     fields.map(item => 
@@ -151,6 +153,10 @@ const Form = styled.form`
     gap: 1rem;
     padding: 2rem 1rem;
 
+    & h2 {
+        text-align: center;
+    }
+
     & svg {
         transform: rotate(90deg);
     }
@@ -163,8 +169,8 @@ const TypeSwitchBox = styled.div`
     align-items: center;
     text-transform: capitalize;
     gap: 1rem;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    // border-top: 1px solid #fff;
+    // border-bottom: 1px solid #fff;
     padding: .5rem 0;
     & div {
         line-height: 1.5rem;
@@ -173,8 +179,8 @@ const TypeSwitchBox = styled.div`
 
 const PriceBox = styled.div`
     text-align: center;
-    // border-top: 1px solid #fff;
-    // border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
     padding: 1rem 0;
 
 `
