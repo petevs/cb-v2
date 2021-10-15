@@ -1,7 +1,9 @@
 export const SET_CURRENCY = 'SET_CURRENCY'
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 
 export const initialSettings = {
-    currency: 'cad'
+    currency: 'cad',
+    currentPage: ''
 }
 
 export const settingsReducer = (state, action) => {
@@ -10,6 +12,11 @@ export const settingsReducer = (state, action) => {
             return {
                 ...state,
                 currency: action.payload
+            }
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.payload
             }
         default:
             return state;

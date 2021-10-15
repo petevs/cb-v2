@@ -18,10 +18,10 @@ const PortfolioChart = ({categories, customOptions, data}) => {
         },
         yaxis: {
           labels: {
-            show: false,
-            // formatter: function (value) {
-            //   return "$" + numberWithCommas(value);
-            // },
+            show: true,
+            formatter: function (value) {
+              return "$" + Math.round(value);
+            },
             // style: {
             //   colors: ["#fff"],
             // },

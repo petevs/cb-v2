@@ -13,6 +13,8 @@ const Sidebar = () => {
 
         const { state } = useContext(GlobalContext)
         const {portfolioList } = state.portfolio
+
+        const { currentPage } = state.settings
         
         //Modal
         const [open, setOpen] = useState(false);
@@ -36,6 +38,7 @@ const Sidebar = () => {
                     <Link
                     to={`/portfolio/${item.id}`}
                     key={item.id}
+                    className={item.id === currentPage && 'active'}
                 >
                     {item.portfolioName}
                 </Link>
@@ -88,6 +91,10 @@ const Portfolios = styled.div`
 
         &:hover {
             color: #fff;
+        }
+
+        &.active {
+            color: rgb(255, 48, 48);
         }
     }
 `

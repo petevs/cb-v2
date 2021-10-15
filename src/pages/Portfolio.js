@@ -1,5 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
-import React, { useState, useContext, useMemo } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
@@ -9,9 +9,9 @@ import { useParams } from 'react-router'
 import EditPortfolioForm from 'components/EditPortfolioForm'
 import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
-import Chart from 'react-apexcharts'
 import { toggleModal } from 'state/actions/modalActions'
 import PortfolioChart from 'components/PortfolioChart'
+import { setCurrentPage } from 'state/actions/settingsActions'
 
 
 const Portfolio = () => {
@@ -20,6 +20,10 @@ const Portfolio = () => {
     const { state, dispatch } = useContext(GlobalContext)
     const { portfolio } = state
     const { portfolioObj } = state.portfolio
+
+    useEffect(() => {
+        dispatch(setCurrentPage(id))
+    },[id])
 
     const details = portfolioObj[id]
 
@@ -49,18 +53,18 @@ const Portfolio = () => {
 
     //CHART SERIES & OPTIONS
 
-      const categories = portfolio.calculatedTransactions(id).map((item) => {
-        return item.date;
-      }).reverse()
+    //   const categories = portfolio.calculatedTransactions(id).map((item) => {
+    //     return item.date;
+    //   }).reverse()
 
-      const series = [
-        {
-          name: `Portfolio Value (${state.settings.currency})`,
-          data: portfolio.calculatedTransactions(id).map((item) => {
-            return item.value;
-          }).reverse(),
-        },
-      ];
+    //   const series = [
+    //     {
+    //       name: `Portfolio Value (${state.settings.currency})`,
+    //       data: portfolio.calculatedTransactions(id).map((item) => {
+    //         return item.value;
+    //       }).reverse(),
+    //     },
+    //   ];
 
      
 
@@ -91,10 +95,10 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
-            <PortfolioChart
+            {/* <PortfolioChart
                 categories={categories}
                 data={series}
-            />
+            /> */}
             <Box> 
                 <HeaderRow>
                     <h2>Recurring Transactions</h2>
