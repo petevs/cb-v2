@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import InputField from 'styledComponents/InputField'
 import moment from 'moment'
-import { Button, InputAdornment } from '@mui/material'
+import { Button, FormControlLabel, InputAdornment, InputLabel, MenuItem, Select, Switch, FormControl } from '@mui/material'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { db } from 'firebase'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
 const TransactionForm = (props) => {
 
@@ -18,8 +19,8 @@ const TransactionForm = (props) => {
     const [inputs, setInputs] = useState(initialForm)
 
     const fields = [
+        {name: 'date', label: 'Date', type: 'date'},
         {name: 'amount', label: 'Amount', type: 'numeric', adornment: '$'},
-        {name: 'date', label: 'Date', type: 'date'}
     ]
 
     const handleChange = (e) => {
@@ -63,10 +64,28 @@ const TransactionForm = (props) => {
         props.handleClose()
     }
 
+    const [from, setFrom] = useState('Dollars')
+
+    const handleFromChange = (event) => {
+        setFrom(event.target.value)
+    }
+
 
     return (
             <Form onSubmit={handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
+                <FormControl>
+                    <InputLabel id='from' sx={{color: '#fff'}}>From</InputLabel>
+                    <MySelect
+                        id='from'
+                        label='From'
+                        value={from}
+                        onChange={handleFromChange}
+                    >
+                        <MenuItem value='Dollars'>Dollars</MenuItem>
+                        <MenuItem value='Bitcoin'>Bitcoin</MenuItem>
+                    </MySelect>
+                </FormControl>
                 {
                     fields.map(item => 
                         <InputField
@@ -83,6 +102,8 @@ const TransactionForm = (props) => {
                         />
                         )
                 }
+                {/* <CompareArrowsIcon size='large' />
+                <FormControlLabel control={<Switch />} label='Custom Values' /> */}
                 <Button variant='contained' size='large' type='submit'>
                 {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
@@ -103,4 +124,30 @@ const Form = styled.form`
     gap: 1rem;
     padding: 2rem 1rem;
 
+    & svg {
+        transform: rotate(90deg);
+    }
+
+`
+
+const MySelect = styled(Select)`
+    & .MuiFormLabel-root {
+    color: #fff !important;
+  }
+
+  & .MuiInputBase-root {
+    color: #fff !important;
+  }
+
+  & .MuiOutlinedInput-notchedOutline {
+    border-color: #fff !important;
+  }
+
+  & ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  & p {
+      color: #fff;
+  }
 `
