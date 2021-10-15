@@ -6,6 +6,9 @@ import { Button, FormControlLabel, InputAdornment, InputLabel, MenuItem, Select,
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { db } from 'firebase'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import { SiBitcoinsv } from 'react-icons/si'
+import { render } from '@testing-library/react'
+import IconButton from 'styledComponents/IconButton'
 
 const TransactionForm = (props) => {
 
@@ -74,19 +77,43 @@ const TransactionForm = (props) => {
     return (
             <Form onSubmit={handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
-                <FormControl>
-                    <InputLabel id='from' sx={{color: '#fff'}}>From</InputLabel>
-                    <MySelect
-                        id='from'
-                        label='From'
-                        value={from}
-                        onChange={handleFromChange}
-                    >
-                        <MenuItem value='Dollars'>Dollars</MenuItem>
-                        <MenuItem value='Bitcoin'>Bitcoin</MenuItem>
-                    </MySelect>
-                </FormControl>
-                {
+                <TypeSwitchBox>
+                    <IconButton>
+                        <CompareArrowsIcon fontSize='large' color='primary'/>
+                    </IconButton>
+                    <div>
+                        From: Canadain Dollars <br />
+                        To: Bitcoin
+                    </div>
+                </TypeSwitchBox>
+                <InputField
+                    name='date'
+                    label='Date'
+                    type='date'
+                    value={inputs['date']}
+                    size='medium'
+                    onChange={handleChange}
+                    inputProps={{inputMode: 'date'}}
+                />
+
+                <InputField
+                    name='amount'
+                    label='Amount'
+                    type='numeric'
+                    value={inputs['amount']}
+                    size='medium'
+                    onChange={handleChange}
+                    inputProps={{inputMode: 'numeric'}}
+                    InputProps={{
+                        startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                    }}
+                    />
+                    <PriceBox>
+                        Price <br />
+                        1 BTC = {state.portfolio.historicalData[inputs.date]}
+                    </PriceBox>
+
+                {/* {
                     fields.map(item => 
                         <InputField
                         name={item.name}
@@ -101,7 +128,7 @@ const TransactionForm = (props) => {
                         inputProps={{inputMode: item.type}}
                         />
                         )
-                }
+                } */}
                 {/* <CompareArrowsIcon size='large' />
                 <FormControlLabel control={<Switch />} label='Custom Values' /> */}
                 <Button variant='contained' size='large' type='submit'>
@@ -130,6 +157,28 @@ const Form = styled.form`
 
 `
 
+const TypeSwitchBox = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    text-transform: capitalize;
+    gap: 1rem;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    padding: .5rem 0;
+    & div {
+        line-height: 1.5rem;
+    }
+`
+
+const PriceBox = styled.div`
+    text-align: center;
+    // border-top: 1px solid #fff;
+    // border-bottom: 1px solid #fff;
+    padding: 1rem 0;
+
+`
+
 const MySelect = styled(Select)`
     & .MuiFormLabel-root {
     color: #fff !important;
@@ -148,6 +197,10 @@ const MySelect = styled(Select)`
   }
 
   & p {
+      color: #fff;
+  }
+
+  & div#from {
       color: #fff;
   }
 `
