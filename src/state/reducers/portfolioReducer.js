@@ -55,14 +55,16 @@ export const initialPortfolioState = {
       return new Date(a.date).getTime() - new Date(b.date).getTime()
     })
   },
-  calculatedTransactions: function(id){
+  calculatedTransactions: function(id, currentPrice){
 
     let oneOffPortfolioList = []
 
     if(this.oneOffTransactions(id).length >= 1){
       oneOffPortfolioList = makeFillerTransactions(
         this.oneOffTransactions(id), 
-        this.historicalData)
+        this.historicalData,
+        currentPrice
+        )
     }
 
     oneOffPortfolioList = [...oneOffPortfolioList, ...this.oneOffTransactions(id)]
@@ -84,7 +86,8 @@ export const initialPortfolioState = {
         item.purchaseAmount,
         item.startDate,
         item.endDate,
-        this.historicalData
+        this.historicalData,
+        currentPrice
       )
 
       allTransactions = [...allTransactions, ...buyList]
@@ -125,6 +128,11 @@ export const initialPortfolioState = {
     })
 
     return finalCalculatedTransactions
+  },
+  summary: function(id){
+    const length = this.calculatedTransactions(id).length
+
+    return this.calculatedTransactions(id)[length - 1]
   }
 
 

@@ -12,6 +12,8 @@ import TransactionForm from 'components/TransactionForm'
 import { toggleModal } from 'state/actions/modalActions'
 import PortfolioChart from 'components/PortfolioChart'
 import { setCurrentPage } from 'state/actions/settingsActions'
+import ScoreCards from 'styledComponents/ScoreCards'
+import Scorecard from 'components/Scorecard'
 
 
 const Portfolio = () => {
@@ -21,12 +23,16 @@ const Portfolio = () => {
     const { portfolio } = state
     const { portfolioObj } = state.portfolio
 
+    const { current_price: price} = state.marketData.marketData
+    const { currency } = state.settings
+
     useEffect(() => {
         dispatch(setCurrentPage(id))
     },[id])
 
     const details = portfolioObj[id]
 
+    
     
     // MODAL
 
@@ -40,8 +46,10 @@ const Portfolio = () => {
     const handleClose = () => dispatch(toggleModal(false));
 
     const calculatedTransactions = useMemo(() => {
-        return portfolio.calculatedTransactions(id)
+        return portfolio.calculatedTransactions(id, price[currency])
     },[portfolio, id])
+
+    console.log(calculatedTransactions)
 
     //If No Portfolio Data...
     if(state.portfolio.portfolioList.length < 1 ){
@@ -98,6 +106,14 @@ const Portfolio = () => {
             >
                 Edit
             </Button>
+            <ScoreCards>
+                <Scorecard
+                    title='Total Invested'
+                    value={180000}
+                    prefix='$'
+                    suffix='' 
+                />
+            </ScoreCards>
             <PortfolioChart
                 categories={categories}
                 data={series}
