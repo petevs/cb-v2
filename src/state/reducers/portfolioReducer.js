@@ -32,7 +32,7 @@ export const initialPortfolioState = {
     return buyList
 
   },
-  oneOffTransactions: function(id){
+  oneOffTransactions: function(id, currentPrice){
     const transactionList = []
 
     const details = this.portfolioObj[id]
@@ -45,7 +45,7 @@ export const initialPortfolioState = {
             id: transactionID,
             amount: transaction['amount'],
             date: transaction['date'],
-            price: this.historicalData[transaction['date']]
+            price: this.historicalData[transaction['date']] || currentPrice
 
         })
       }
@@ -59,15 +59,15 @@ export const initialPortfolioState = {
 
     let oneOffPortfolioList = []
 
-    if(this.oneOffTransactions(id).length >= 1){
+    if(this.oneOffTransactions(id, currentPrice).length >= 1){
       oneOffPortfolioList = makeFillerTransactions(
-        this.oneOffTransactions(id), 
+        this.oneOffTransactions(id, currentPrice), 
         this.historicalData,
         currentPrice
         )
     }
 
-    oneOffPortfolioList = [...oneOffPortfolioList, ...this.oneOffTransactions(id)]
+    oneOffPortfolioList = [...oneOffPortfolioList, ...this.oneOffTransactions(id,currentPrice)]
 
     // Create All Transactions
 

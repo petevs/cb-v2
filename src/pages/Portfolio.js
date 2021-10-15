@@ -33,7 +33,6 @@ const Portfolio = () => {
     const details = portfolioObj[id]
 
     
-    
     // MODAL
 
     const [modalContent, setModalContent] = useState()
@@ -49,7 +48,17 @@ const Portfolio = () => {
         return portfolio.calculatedTransactions(id, price[currency])
     },[portfolio, id])
 
-    console.log(calculatedTransactions)
+
+    const summary = () => {
+        const length = calculatedTransactions.length
+        const last = calculatedTransactions[length - 1]
+
+        return [
+            {title: 'Total Invested', value: last['totalInvested'], prefix: '$', suffix: ''},
+            {title: 'Bitcoin Holdings', value: last['runningBal'].toFixed(8), prefix: '', suffix: ''}
+        ]
+    }
+
 
     //If No Portfolio Data...
     if(state.portfolio.portfolioList.length < 1 ){
@@ -107,12 +116,17 @@ const Portfolio = () => {
                 Edit
             </Button>
             <ScoreCards>
-                <Scorecard
-                    title='Total Invested'
-                    value={180000}
-                    prefix='$'
-                    suffix='' 
-                />
+                {
+                    summary().map(item => 
+                        <Scorecard
+                            key={item.title}
+                            title={item.title}
+                            value={item.value}
+                            prefix={item.prefix}
+                            suffx={item.suffix}
+                        />
+                        )
+                }
             </ScoreCards>
             <PortfolioChart
                 categories={categories}
@@ -203,7 +217,7 @@ const Portfolio = () => {
                     </MyTableHead>
                     <TableBody>
                         {
-                            portfolio.oneOffTransactions(id) && portfolio.oneOffTransactions(id).map(row =>
+                            portfolio.oneOffTransactions(id, price[currency]) && portfolio.oneOffTransactions(id, price[currency]).map(row =>
                                 <MyTableRow key={row.id}> 
                                     <TableCell>{row.date}</TableCell>
                                     <TableCell>{row.amount}</TableCell>
