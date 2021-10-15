@@ -34,7 +34,7 @@ const Sidebar = () => {
             {
             portfolioList &&
             portfolioList.map(item => 
-                <li> 
+                <li className={item.id === currentPage && 'active'}> 
                     <Link
                     to={`/portfolio/${item.id}`}
                     key={item.id}
@@ -76,25 +76,37 @@ const Portfolios = styled.div`
     color: rgb(99,115,129);
     font-size: 0.875rem;
 
+    &.active {
+        color: rgb(255, 48, 48);
+    }
+
     & button {
         justify-self: stretch;
     }
-    
+
+    & li {
+        &.active {
+            color: rgb(255, 48, 48);
+        }
+    }
+
     
     & li:hover {
         color: #fff;
+
     }
 
     & a {
         text-decoration: none;
         color: rgb(99,115,129);
 
+        &.active {
+            color: rgb(255, 48, 48);
+        }
+
         &:hover {
             color: #fff;
         }
 
-        &.active {
-            color: rgb(255, 48, 48);
-        }
     }
 `
