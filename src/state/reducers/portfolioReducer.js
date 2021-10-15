@@ -59,7 +59,7 @@ export const initialPortfolioState = {
 
     let oneOffPortfolioList = []
 
-    if(this.oneOffTransactions(id).length > 1){
+    if(this.oneOffTransactions(id).length >= 1){
       oneOffPortfolioList = makeFillerTransactions(
         this.oneOffTransactions(id), 
         this.historicalData)

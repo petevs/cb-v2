@@ -12,5 +12,7 @@ export const getDatesBetween = (start, end) => {
         current.add(1, 'days')
     }
 
+    console.log(dateList)
+
     return dateList
 }

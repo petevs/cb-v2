@@ -16,6 +16,6 @@ export const makeFillerTransactions = (transactions, historicalData) => {
             amount: 0,
             bitcoin: 0
         }
-    })
+    }).slice(1)
 
 }
