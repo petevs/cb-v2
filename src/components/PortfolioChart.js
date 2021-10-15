@@ -2,7 +2,7 @@ import React from 'react'
 import Chart from 'react-apexcharts'
 import styled from 'styled-components'
 
-const PortfolioChart = ({categories, customOptions, data}) => {
+const PortfolioChart = ({categories, customOptions, data, tooltip}) => {
 
     const defaultOptions = {
         chart: {
@@ -25,6 +25,7 @@ const PortfolioChart = ({categories, customOptions, data}) => {
             formatter: function (value) {
               return "$" + Math.round(value);
             },
+            type: 'numeric',
             // style: {
             //   colors: ["#fff"],
             // },
@@ -42,6 +43,7 @@ const PortfolioChart = ({categories, customOptions, data}) => {
         },
         colors: ["#2E99FE", "#FF2F30"],
         tooltip: {
+          ...tooltip,
           x: {
             format: "dd MMM HH:mm",
           },

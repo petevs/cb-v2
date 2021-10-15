@@ -67,7 +67,7 @@ const Portfolio = () => {
             const balance = last['runningBal'].toFixed(8)
             const value = (Number(balance) * Number(price[currency])).toFixed(2)
             const profit = Math.round(Number(value) - Number(totalInvested))
-            const roi = (Number(profit) / Number(totalInvested)) * 100
+            const roi = ((Number(profit) / Number(totalInvested)) * 100).toFixed(2)
 
 
             summary = {
@@ -111,10 +111,28 @@ const Portfolio = () => {
         {
           name: `Portfolio Value (${state.settings.currency})`,
           data: calculatedTransactions.map((item) => {
-            return item.value;
+            return { 
+                x: item.date, 
+                y: Number(item.value), 
+                price: Math.round(item.price),
+                totalInvested: item.totalInvested
+            };
           }).reverse(),
         },
       ];
+
+      const tooltip = {
+          custom: function({series, seriesIndex, dataPointIndex, w}){
+              const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex]
+              return `
+              <div style='padding: 2rem;'>
+              Total Invested: ${data.totalInvested}
+              <br />
+              Portfolio Value: ${data.y} <br /> Price: ${data.price} 
+              </div>
+              `
+          }
+      }
 
      
 
@@ -161,6 +179,7 @@ const Portfolio = () => {
             <PortfolioChart
                 categories={categories}
                 data={series}
+                tooltip={tooltip}
             />
             <Box> 
                 <HeaderRow>
