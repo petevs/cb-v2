@@ -15,6 +15,11 @@ const InputField = styled(TextField).attrs({
 
   & .MuiInputBase-root {
     color: #fff !important;
+
+    &.Mui-disabled {
+      -webkit-text-fill-color: #fff !important;
+    }
+    
   }
 
   & .MuiOutlinedInput-notchedOutline {
@@ -27,6 +32,11 @@ const InputField = styled(TextField).attrs({
 
   & p {
       color: #fff;
+  }
+
+  &.Mui-OutlinedInput.Mui-disabled {
+    -webkit-text-fill-color: #fff;
+    color: #fff;
   }
 `;
 

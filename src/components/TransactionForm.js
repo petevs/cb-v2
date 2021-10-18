@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import InputField from 'styledComponents/InputField'
 import moment from 'moment'
-import { Button, FormControlLabel, InputAdornment, InputLabel, MenuItem, Select, Switch, FormControl } from '@mui/material'
+import { Button, FormControlLabel, InputAdornment, InputLabel, MenuItem, Select, Switch, FormControl, ButtonGroup } from '@mui/material'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { db } from 'firebase'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
@@ -10,6 +10,8 @@ import { SiBitcoinsv } from 'react-icons/si'
 import { render } from '@testing-library/react'
 import IconButton from 'styledComponents/IconButton'
 import { numberWithCommas } from 'utils/formatting'
+import * as yup from 'yup'
+import { useFormik } from 'formik'
 
 const TransactionForm = (props) => {
 
@@ -74,67 +76,109 @@ const TransactionForm = (props) => {
         setFrom(event.target.value)
     }
 
+    //Form validation
+    const formSchema = yup.object({
+        date: yup.date(),
+        amount: yup.number()
+            .min(0, 'Enter number above 0!')
+            .required('Required!'),
+        bitcoin: yup.number()
+            .min(0, 'Enter number over 0')
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            amount: props.amount || 0,
+            date: props.date || moment().format('YYYY-MM-DD'),
+        },
+        validationSchema: formSchema,
+        onSubmit: {handleSubmit}
+    })
+
+    const initialFormType = {
+    type: 'buy',
+    buyButton: 'contained',
+    sellButton: ''
+}
+
+    const [formType, setFormType] = useState(initialFormType)
+
+    const handleFormChange = () => {
+
+        if (formType.type === 'buy'){
+            setFormType({
+                type: 'sell',
+                buyButton: '',
+                sellButton: 'contained'
+            })
+        }
+        
+        else {
+            setFormType(
+                initialFormType
+            )
+        }
+    }
+
 
     return (
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={formik.handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
-                <TypeSwitchBox>
-                    <IconButton>
-                        <CompareArrowsIcon fontSize='large' color='primary'/>
-                    </IconButton>
-                    <div>
-                        From: Dollars <br />
-                        To: Bitcoin
-                    </div>
-                </TypeSwitchBox>
+                <ButtonGroup >
+                    <Button variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
+                    <Button variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
+                </ButtonGroup>
                 <InputField
-                    error
+                    // error
                     name='date'
                     label='Date'
                     type='date'
-                    value={inputs['date']}
+                    value={formik.values.date}
                     size='medium'
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     inputProps={{inputMode: 'date'}}
-                    helperText='Enter date after May 1, 2015'
+                    // helperText='Enter date after May 1, 2015'
+                />          
+                <InputField
+                name='amount'
+                label='From: Dollars'
+                type='numeric'
+                value={formik.values.amount}
+                size='medium'
+                onChange={formik.handleChange}
+                inputProps={{inputMode: 'numeric'}}
+                InputProps={{
+                    startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                }}
+                error={formik.touched.amount && Boolean(formik.errors.amount)}
+                helperText={formik.touched.amount && formik.errors.amount}
                 />
-
+                <InputField
+                    label='Price'
+                    value={state.portfolio.historicalData[formik.values.date]}
+                    InputProps={{
+                        startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
+                    }}
+                    disabled
+                />
                 <InputField
                     name='amount'
-                    label='Amount'
+                    label='To: Bitcoin'
                     type='numeric'
-                    value={inputs['amount']}
+                    value={formik.values.amount / state.portfolio.historicalData[formik.values.date] || 0}
                     size='medium'
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     inputProps={{inputMode: 'numeric'}}
                     InputProps={{
-                        startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                        startAdornment: (<InputAdornment position='start'><SiBitcoinsv/></InputAdornment>)
                     }}
+                    error={formik.touched.amount && Boolean(formik.errors.amount)}
+                    helperText={formik.touched.amount && formik.errors.amount}
+                    disabled
                     />
-                    <FormControlLabel control={<Switch />} label='Custom Bitcoin Price' />
-                <PriceBox>
-                    Price <br />
-                    1 BTC = $ {state.portfolio.historicalData[inputs.date]}
-                </PriceBox>
 
-                {/* {
-                    fields.map(item => 
-                        <InputField
-                        name={item.name}
-                        label={item.label}
-                        value={inputs[item.name]}
-                        size='medium'
-                        onChange={handleChange}
-                        type={item.type}
-                        InputProps={{
-                            startAdornment: (<InputAdornment position='start'>{item.adornment}</InputAdornment>),
-                        }}
-                        inputProps={{inputMode: item.type}}
-                        />
-                        )
-                } */}
-                {/* <CompareArrowsIcon size='large' />
-                <FormControlLabel control={<Switch />} label='Custom Values' /> */}
+                    <FormControlLabel  control={<Switch size='small' />} label='Enter Custom' />
+
                 <Button variant='contained' size='large' type='submit'>
                 {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
@@ -160,9 +204,20 @@ const Form = styled.form`
     }
 
     & svg {
-        transform: rotate(90deg);
+        color: #F7931A;
     }
 
+`
+
+const SwitchBox = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-content: center;
+
+    & svg {
+        transform: rotate(90deg);
+    }
 `
 
 const TypeSwitchBox = styled.div`
@@ -180,11 +235,10 @@ const TypeSwitchBox = styled.div`
 `
 
 const PriceBox = styled.div`
-    text-align: center;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
-    padding: 1rem 0;
-
+    & span {
+        font-size: .5rem;
+        text-transform: uppercase;
+    }
 `
 
 const MySelect = styled(Select)`
