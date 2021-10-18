@@ -124,10 +124,12 @@ const TransactionForm = (props) => {
     return (
             <Form onSubmit={formik.handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
-                <ButtonGroup >
-                    <Button variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
-                    <Button variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
-                </ButtonGroup>
+                <Group>
+                    <ButtonGroup >
+                        <Button variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
+                        <Button variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
+                    </ButtonGroup>
+                </Group>
                 <InputField
                     // error
                     name='date'
@@ -138,10 +140,11 @@ const TransactionForm = (props) => {
                     onChange={formik.handleChange}
                     inputProps={{inputMode: 'date'}}
                     // helperText='Enter date after May 1, 2015'
-                />          
+                />
+                <OtherFields className={formType.type}>          
                 <InputField
                 name='amount'
-                label='From: Dollars'
+                label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
                 type='numeric'
                 value={formik.values.amount}
                 size='medium'
@@ -163,7 +166,7 @@ const TransactionForm = (props) => {
                 />
                 <InputField
                     name='amount'
-                    label='To: Bitcoin'
+                    label={formType.type === 'buy' ? 'To: Bitcoin' : 'From: Bitcoin'}
                     type='numeric'
                     value={formik.values.amount / state.portfolio.historicalData[formik.values.date] || 0}
                     size='medium'
@@ -176,9 +179,9 @@ const TransactionForm = (props) => {
                     helperText={formik.touched.amount && formik.errors.amount}
                     disabled
                     />
-
+                </OtherFields>
                     <FormControlLabel  control={<Switch size='small' />} label='Enter Custom' />
-
+                
                 <Button variant='contained' size='large' type='submit'>
                 {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
@@ -209,6 +212,11 @@ const Form = styled.form`
 
 `
 
+const Group = styled.div`
+    display: grid;
+    justify-content: center;
+`
+
 const SwitchBox = styled.div`
     display: grid;
     grid-template-columns: auto 1fr;
@@ -217,6 +225,16 @@ const SwitchBox = styled.div`
 
     & svg {
         transform: rotate(90deg);
+    }
+`
+
+const OtherFields = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &.sell{
+        flex-direction: column-reverse;
     }
 `
 
