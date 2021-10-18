@@ -7,7 +7,7 @@ export const makeFillerTransactions = (transactions, historicalData, currentPric
     const dateList = getDatesBetween(transactions[0].date, moment().format('YYYY-MM-DD'))
     
     return dateList.map(item => {
-
+        
         const price = historicalData[item] || currentPrice
 
         return {

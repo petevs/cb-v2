@@ -88,6 +88,7 @@ const TransactionForm = (props) => {
                     </div>
                 </TypeSwitchBox>
                 <InputField
+                    error
                     name='date'
                     label='Date'
                     type='date'
@@ -95,6 +96,7 @@ const TransactionForm = (props) => {
                     size='medium'
                     onChange={handleChange}
                     inputProps={{inputMode: 'date'}}
+                    helperText='Enter date after May 1, 2015'
                 />
 
                 <InputField

@@ -7,6 +7,10 @@ const InputField = styled(TextField).attrs({
 })`
   & .MuiFormLabel-root {
     color: #fff !important;
+
+    &.Mui-error {
+      color: #D32F3A !important;
+    }
   }
 
   & .MuiInputBase-root {
