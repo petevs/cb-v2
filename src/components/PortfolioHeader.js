@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Button } from '@mui/material';
 import EditPortfolioForm from './EditPortfolioForm';
 import EditIcon from '@mui/icons-material/Edit';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeletePortfolio from './DeletePortfolio';
 import ClonePortfolio from './ClonePortfolio';
+import SendIcon from '@mui/icons-material/Send';
 
 const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
 
@@ -17,7 +17,6 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
                 </div>
                 <ButtonGroup>
                 <Button 
-                    size='small'
                     startIcon={<EditIcon />}
                     onClick={() => handleOpen(
 
@@ -33,6 +32,7 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
                 </Button>
                     <ClonePortfolio state={state} id={id} details={details}/>
                     <DeletePortfolio state={state} id={id} details={details} />
+                    <Button startIcon={<SendIcon />}>Share</Button>
                 </ButtonGroup>
 
             </Row>
@@ -57,7 +57,7 @@ const Row = styled.div`
 
 const ButtonGroup = styled.div`
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(4, auto);
     justify-content: end;
     gap: 1rem;
     align-items: center;
