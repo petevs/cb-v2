@@ -5,6 +5,7 @@ import EditPortfolioForm from './EditPortfolioForm';
 import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeletePortfolio from './DeletePortfolio';
+import ClonePortfolio from './ClonePortfolio';
 
 const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
 
@@ -30,12 +31,8 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
                 >
                     Edit
                 </Button>
-                    <Button
-                        startIcon={<ContentCopyIcon />}
-                    >
-                        Clone
-                    </Button>
-                    <DeletePortfolio state={state} id={id} />
+                    <ClonePortfolio state={state} id={id} details={details}/>
+                    <DeletePortfolio state={state} id={id} details={details} />
                 </ButtonGroup>
 
             </Row>

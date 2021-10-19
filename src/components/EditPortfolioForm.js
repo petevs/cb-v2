@@ -42,43 +42,9 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
         setInputs(initialForm)
     }
 
-    const handleDelete = () => {
-
-        const updatedPortfolio = {...state.portfolio.portfolioObj}
-        delete updatedPortfolio[id]
-
-        db.collection('users').doc(state.user.uid).update({
-            portfolio:
-            {
-                ...updatedPortfolio
-            }
-        })
-        history.push('/portfolio')
-        handleClose()
-        
+    const changes = () => {
+        return initialForm === inputs
     }
-
-    const handleClone = () => {
-
-        const inputCopy = {
-            ...inputs,
-            portfolioName: `${inputs.portfolioName} (COPY) `
-        }
-        db.collection('users').doc(state.user.uid).update({
-            portfolio: 
-                {
-                    ...state.portfolio.portfolioObj,
-                    [Date.now()]: {
-                        ...state.portfolio.portfolioObj[id],
-                        ...inputCopy
-                    }
-                }
-        })
-        handleClose()
-        setInputs(initialForm)
-
-    }
-
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -104,24 +70,12 @@ const EditPortfolioForm = ({details, handleClose, id}) => {
                 variant='contained' 
                 size='large'
                 type='submit'
+                disabled={changes()}
             >
                 Save Changes
             </Button>
-            <Button
-                variant='contained'
-                size='small'
-                color='warning'
-                onClick={handleDelete}
-            >
-                Delete
-            </Button>
-            <Button
-                variant='contained'
-                size='small'
-                color='secondary'
-                onClick={handleClone}
-            >
-                Clone
+            <Button onClick={handleClose}>
+                Cancel
             </Button>
         </Form>
     )
