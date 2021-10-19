@@ -5,12 +5,11 @@ import EditPortfolioForm from './EditPortfolioForm';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import IconButton from 'styledComponents/IconButton';
+import DeletePortfolio from './DeletePortfolio';
 
-const PortfolioHeader = ({details, handleClose, handleOpen, id}) => {
+const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
 
     return (
-        <Wrapper>
             <Row>
                 <div>
                 <h2>{details.portfolioName}</h2>
@@ -37,24 +36,14 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id}) => {
                     >
                         Clone
                     </Button>
-                    <Button
-                        startIcon={<DeleteIcon />}
-                    >
-                        Delete
-                    </Button>
+                    <DeletePortfolio />
                 </ButtonGroup>
 
             </Row>
-        </Wrapper>
     )
 }
 
 export default PortfolioHeader
-
-const Wrapper = styled.div`
-    display: grid;
-    gap: 0;
-`
 
 const Row = styled.div`
     display: grid;
@@ -62,8 +51,11 @@ const Row = styled.div`
     align-items: start;
     align-content: start;
 
-    & button {
-        justify-self: end;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
     }
 `
 
@@ -74,4 +66,8 @@ const ButtonGroup = styled.div`
     gap: 1rem;
     align-items: center;
     align-content: start;
+
+    @media (max-width: 768px) {
+        justify-content: center;
+    }
 `

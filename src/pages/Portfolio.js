@@ -152,6 +152,7 @@ const Portfolio = () => {
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 id={id}
+                state={state}
             />
 
 
