@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Button } from '@mui/material';
 import EditPortfolioForm from './EditPortfolioForm';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeletePortfolio from './DeletePortfolio';
 
@@ -36,7 +35,7 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
                     >
                         Clone
                     </Button>
-                    <DeletePortfolio />
+                    <DeletePortfolio state={state} id={id} />
                 </ButtonGroup>
 
             </Row>
