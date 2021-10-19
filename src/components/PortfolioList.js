@@ -3,13 +3,18 @@ import styled from 'styled-components'
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { updateDrawer } from 'state/actions/themeActions';
 
 
 const PortfolioList = ({handleOpen}) => {
 
-    const { state } = useContext(GlobalContext)
+    const { state, dispatch } = useContext(GlobalContext)
     const {portfolioList } = state.portfolio
     const { currentPage } = state.settings
+
+    const handleClose = () => {
+        dispatch(updateDrawer(false))
+    }
 
     return (
         <Portfolios>
@@ -21,6 +26,7 @@ const PortfolioList = ({handleOpen}) => {
                 to={`/portfolio/${item.id}`}
                 key={item.id}
                 className={item.id === currentPage && 'active'}
+                onClick={handleClose}
             >
                 {item.portfolioName}
             </Link>

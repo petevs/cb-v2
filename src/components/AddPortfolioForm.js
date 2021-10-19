@@ -4,10 +4,14 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
+import { updateDrawer } from 'state/actions/themeActions'
+import { useHistory } from 'react-router'
+import { DateRangeTwoTone } from '@mui/icons-material'
 
 const AddPortfolioForm = (props) => {
 
-    const { state } = useContext(GlobalContext)
+    const { state, dispatch } = useContext(GlobalContext)
+    const history = useHistory()
 
     const initialForm = {
         portfolioName: '',
@@ -23,16 +27,21 @@ const AddPortfolioForm = (props) => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        db.collection('users').doc(state.user.uid).update({
+        const portfolioId = Date.now()
+        await db.collection('users').doc(state.user.uid).update({
             portfolio: 
                 {
                     ...state.portfolio.portfolioObj,
-                    [Date.now()]: inputs
+                    [portfolioId]: inputs
                 }
         })
+
+        history.push(`/portfolio/${portfolioId}`)
+        
         props.handleClose()
+        dispatch(updateDrawer(false))
         setInputs(initialForm)
     }
 

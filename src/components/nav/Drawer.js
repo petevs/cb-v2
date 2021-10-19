@@ -5,6 +5,8 @@ import ClickAwayListener from 'react-click-away-listener'
 import { updateDrawer } from 'state/actions/themeActions'
 import { motion } from 'framer-motion'
 import CurrencySelect from './CurrencySelect'
+import MenuContent from 'components/MenuContent'
+import ProfileCard from 'components/ProfileCard'
 
 const Drawer = () => {
 
@@ -45,7 +47,8 @@ const Drawer = () => {
                     exit='exit'
                     disableEnforceFocus
                 >
-                    <CurrencySelect />
+                    <ProfileCard />
+                    <MenuContent />
                 </DrawerBox>
             </ClickAwayListener>
             </BackDrop>
