@@ -1,12 +1,8 @@
 import ProfileCard from 'components/ProfileCard'
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
-import SideBarItem from './SideBarItem'
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import FormModal from 'components/FormModal';
-import AddPortfolioForm from 'components/AddPortfolioForm';
 import { GlobalContext } from 'state/contexts/GlobalContext';
-import PortfolioList from 'components/PortfolioList';
+import MenuContent from 'components/MenuContent';
 
 const Sidebar = () => {
 
@@ -21,15 +17,7 @@ const Sidebar = () => {
     return (
         <Container>
             <ProfileCard />
-            <SideBarItem
-                path='/portfolio'
-                title='Portfolio'
-                icon={<BusinessCenterIcon />}
-            />
-            <PortfolioList handleOpen={handleOpen} />
-            <FormModal open={open} onClose={handleClose}>
-                <AddPortfolioForm handleClose={handleClose} />
-            </FormModal>
+            <MenuContent />
         </Container>
     )
 }
