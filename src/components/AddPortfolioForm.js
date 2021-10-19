@@ -6,7 +6,6 @@ import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { updateDrawer } from 'state/actions/themeActions'
 import { useHistory } from 'react-router'
-import { DateRangeTwoTone } from '@mui/icons-material'
 
 const AddPortfolioForm = (props) => {
 

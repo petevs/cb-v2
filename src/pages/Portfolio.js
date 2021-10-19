@@ -14,6 +14,7 @@ import PortfolioChart from 'components/PortfolioChart'
 import { setCurrentPage } from 'state/actions/settingsActions'
 import ScoreCards from 'styledComponents/ScoreCards'
 import Scorecard from 'components/Scorecard'
+import PortfolioHeader from 'components/PortfolioHeader'
 
 
 const Portfolio = () => {
@@ -145,24 +146,15 @@ const Portfolio = () => {
 
         {/* CONTENT */}
         <Wrapper>
-            <h2>{details.portfolioName}</h2>
-            <p>{details.portfolioDescription}</p>
 
-            {/* EDIT PORTFOLIO BUTTON - OPENS MODAL WITH EDIT FORM */}
-            <Button
-                variant='contained' 
-                onClick={() => handleOpen(
+            <PortfolioHeader 
+                details={{...details}}
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                id={id}
+            />
 
-                    <EditPortfolioForm 
-                        details={details}
-                        handleClose={handleClose}
-                        id={id}
-                    />
 
-                )} 
-            >
-                Edit
-            </Button>
             <ScoreCards>
                 {
                     summary().map(item => 
@@ -312,6 +304,18 @@ const Wrapper = styled.div`
 
     & button {
         justify-self: start;
+    }
+`
+
+const Headline = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+
+    & button {
+        justify-self: end;
     }
 `
 
