@@ -7,10 +7,10 @@ const PortfolioChart = ({categories, customOptions, data, tooltip}) => {
     const defaultOptions = {
         chart: {
           toolbar: {
-            show: false,
-            // tools: {
-            //     download: false,
-            // }
+            // show: false,
+            tools: {
+                download: false,
+            }
           },
           animations: {
             enabled: false,

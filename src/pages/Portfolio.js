@@ -21,6 +21,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import MySelect from 'styledComponents/MySelect'
 
 
 const Portfolio = () => {
@@ -132,6 +133,15 @@ const Portfolio = () => {
             };
           }).reverse(),
         },
+        {
+            name: 'Total Invested',
+            data: calculatedTransactions.map((item) => {
+                return {
+                    x: item.date,
+                    y: Number(item.totalInvested)
+                }
+            })
+        }
       ];
 
       const tooltip = {
@@ -186,6 +196,10 @@ const Portfolio = () => {
                         )
                 }
             </ScoreCards>
+            <MySelect>
+                <option>Portfolio Value Over Time</option>
+                <option>Bitcoin Holdings</option>
+            </MySelect>
             <PortfolioChart
                 categories={categories}
                 data={series}
