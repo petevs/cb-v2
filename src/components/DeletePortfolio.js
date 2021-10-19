@@ -71,4 +71,14 @@ const MyDialog = styled(Dialog)`
         color: #fff;
         border: '1px solid rgba(145, 158, 171, 0.08)',
     }
+
+    & h2{
+        padding-top: 2rem;
+    }
+
+    & .MuiDialogActions-root {
+        border-top: 1px solid rgba(145,158,171,0.24);
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+    }
 `

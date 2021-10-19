@@ -16,6 +16,12 @@ import ScoreCards from 'styledComponents/ScoreCards'
 import Scorecard from 'components/Scorecard'
 import PortfolioHeader from 'components/PortfolioHeader'
 
+//ICONS
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 
 const Portfolio = () => {
 
@@ -179,7 +185,8 @@ const Portfolio = () => {
                     <h2>Recurring Transactions</h2>
                     <Button 
                         variant='contained'
-                        size='small' 
+                        size='small'
+                        startIcon={<AddIcon />} 
                         onClick={() => handleOpen(
                             <RecurringBuyForm 
                                 handleClose={handleClose} 
@@ -213,6 +220,7 @@ const Portfolio = () => {
                                 <TableCell>
                                     <Button
                                         color='info'
+                                        startIcon={<EditIcon />}
                                         onClick={() => handleOpen(
                                             <RecurringBuyForm
                                                 type='edit'
@@ -226,7 +234,6 @@ const Portfolio = () => {
                                     >
                                         Edit
                                     </Button>
-                                
                                 </TableCell>
                             </MyTableRow>
                         ))}
@@ -238,7 +245,8 @@ const Portfolio = () => {
                     <h2>One-Off Transactions</h2>
                     <Button 
                         variant='contained'
-                        size='small' 
+                        size='small'
+                        startIcon={<AddIcon />}  
                         onClick={() => handleOpen(
                             <TransactionForm 
                                 type='add' 
@@ -252,9 +260,10 @@ const Portfolio = () => {
                     <MyTableHead>
                         <TableRow>
                             <TableCell>Date</TableCell>
+                            <TableCell>Type</TableCell>
                             <TableCell>Amount</TableCell>
                             <TableCell>Price</TableCell>
-                            <TableCell>Edit</TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
                     </MyTableHead>
                     <TableBody>
@@ -262,10 +271,12 @@ const Portfolio = () => {
                             portfolio.oneOffTransactions(id, price[currency]) && portfolio.oneOffTransactions(id, price[currency]).map(row =>
                                 <MyTableRow key={row.id}> 
                                     <TableCell>{row.date}</TableCell>
+                                    <TableCell>BUY</TableCell>
                                     <TableCell>{row.amount}</TableCell>
                                     <TableCell>{row.price}</TableCell>
                                     <TableCell>
                                         <Button
+                                            startIcon={<EditIcon />}
                                             onClick={() => handleOpen(
                                                 <TransactionForm
                                                     type='edit'
@@ -277,6 +288,8 @@ const Portfolio = () => {
                                         >
                                             Edit
                                         </Button>
+                                        <Button startIcon={<ContentCopyIcon />}>Clone</Button>
+                                        <Button startIcon={<DeleteIcon />}>Delete</Button>
                                     </TableCell>
                                 </MyTableRow>
                                 )
