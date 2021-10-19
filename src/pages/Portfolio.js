@@ -78,6 +78,7 @@ const Portfolio = () => {
             const value = (Number(balance) * Number(price[currency])).toFixed(2)
             const profit = Math.round(Number(value) - Number(totalInvested))
             const roi = ((Number(profit) / Number(totalInvested)) * 100).toFixed(2)
+            const averageCost = (Number(totalInvested) / Number(balance)).toFixed(2)
 
 
             summary = {
@@ -86,7 +87,8 @@ const Portfolio = () => {
                 balance: balance,
                 value: value,
                 profit: profit,
-                roi: roi
+                roi: roi,
+                averageCost: averageCost
             }
         }
 
@@ -94,6 +96,7 @@ const Portfolio = () => {
             {title: 'Total Invested', value: summary.totalInvested  , prefix: '$', suffix: ''},
             {title: 'Bitcoin Holdings', value: summary.balance, prefix: '', suffix: ''},
             {title: 'Current Value', value: summary.value, prefix: '$', suffix: ''},
+            {title: 'Average Cost', value: summary.averageCost, prefix: '$', suffix: ''},
             {title: 'Gain / Loss', value: summary.profit, prefix: '$', suffix: ''},
             {title: 'ROI', value: summary.roi, prefix: '', suffix: '%'},
         ]

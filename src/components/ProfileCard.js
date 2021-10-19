@@ -9,6 +9,7 @@ const ProfileCard = ({ name, img }) => {
       <Avatar />
       <div>
         <h5>Welcome, Guest</h5>
+        <p>Sign up for full experience</p>
       </div>
     </MyProfileCard>
   );
@@ -26,4 +27,12 @@ const MyProfileCard = styled.div`
   gap: 1rem;
   align-items: center;
   margin: 1rem;
+  
+  & p {
+    font-size: .75rem;
+    text-decoration: underline;
+    line-height: 1.25rem;
+    color: #1976d2;
+    font-weight: 500;
+  }
 `;

@@ -7,7 +7,7 @@ import Drawer from './Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
-import { Avatar } from '@mui/material'
+import { Avatar, Button } from '@mui/material'
 
 const Nav= () => {
 
@@ -54,7 +54,8 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                <Avatar />
+                <Button variant='outlined'>Log In</Button>
+                <Button variant='contained'>Sign Up</Button>
             </End>
             <MobileMenu />
         </Container>
@@ -122,9 +123,9 @@ const Center = styled.div`
 
 const End = styled.div`
     display: grid;
-    grid-template-columns: 40px auto;
+    grid-template-columns: 40px auto auto;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     @media (max-width: 1024px){
         display: none;
     }
