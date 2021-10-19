@@ -19,7 +19,7 @@ export default ProfileCard;
 const MyProfileCard = styled.div`
   display: grid;
   grid-template-columns: 40px 1fr;
-  grid-template-rows: 50px;
+  grid-template-rows: 40px;
   background-color: #f2f3f5;
   border-radius: 1rem;
   padding: 1rem;

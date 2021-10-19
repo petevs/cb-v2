@@ -89,5 +89,6 @@ const PortfolioChart = ({categories, customOptions, data, tooltip}) => {
 export default PortfolioChart
 
 const ChartWrapper = styled.div`
-    margin: 0 0 0 -1rem;
+    // margin: 0 0 0 -1rem;
+
 `

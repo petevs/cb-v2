@@ -1,4 +1,4 @@
-import { Button, Table, TableRow, TableCell, TableBody} from '@mui/material'
+import { Button, Table, TableRow, TableCell, TableBody, useMediaQuery } from '@mui/material'
 import React, { useState, useContext, useEffect, useMemo } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import RecurringBuyForm from 'components/RecurringBuyForm'
@@ -54,6 +54,9 @@ const Portfolio = () => {
     const calculatedTransactions = useMemo(() => {
         return portfolio.calculatedTransactions(id, price[currency])
     },[portfolio, id])
+
+    //MediaQuery
+    const mobile = useMediaQuery('(min-width:1024px')
 
 
     const summary = () => {
@@ -141,6 +144,11 @@ const Portfolio = () => {
           }
       }
 
+      const customOptions = {
+        yaxis: {
+              show: mobile ? true : false,
+        }
+      }
      
 
     return (
@@ -179,6 +187,7 @@ const Portfolio = () => {
                 categories={categories}
                 data={series}
                 tooltip={tooltip}
+                customOptions={customOptions}
             />
             <Box> 
                 <HeaderRow>
@@ -309,6 +318,7 @@ export default Portfolio
 const Wrapper = styled.div`
     display: grid;
     align-content: start;
+    background-color: ${props => props.theme.body};
     gap: 2rem;
     @media (max-width: 1024px) {
         grid-column: 1 / span 2;

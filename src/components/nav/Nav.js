@@ -15,13 +15,19 @@ const Nav= () => {
 
     const { theme, settings, marketData } = state
 
+    const { currency } = settings
+
     const {
         current_price: price,
         price_change_24h_in_currency: priceChange,
         price_change_percentage_24h_in_currency: percentChange,
+        ath,
+        high_24h,
+        low_24h
+
     } = marketData.marketData
 
-    const { currency } = settings
+    console.log(marketData.marketData)
 
 
     return (
@@ -29,8 +35,22 @@ const Nav= () => {
         <Container columns='auto 1fr auto'>
             <Logo />
             <Center>
-                <h2>{`$${numberWithCommas(price[currency])}`}</h2>
-                <span>{numberWithCommas(priceChange[currency])} ({percentChange[currency]}%)</span>
+                <PriceBox>
+                    <h2>{`$${numberWithCommas(price[currency])}`}</h2>
+                    <span>{numberWithCommas(priceChange[currency])} ({percentChange[currency]}%)</span>
+                </PriceBox>
+                <TickerBox>
+                    <h6>24H HIGH ({currency})</h6>
+                    <h4>{`$${high_24h[currency]}`}</h4>
+                </TickerBox>
+                <TickerBox>
+                    <h6>24H LOW ({currency})</h6>
+                    <h4>{`$${low_24h[currency]}`}</h4>
+                </TickerBox>
+                <TickerBox>
+                    <h6>ATH ({currency})</h6>
+                    <h4>{`$${ath[currency]}`}</h4>
+                </TickerBox>
             </Center>
             <End>
                 <CurrencySelect />
@@ -44,6 +64,21 @@ const Nav= () => {
 }
 
 export default Nav
+
+const TickerBox = styled.div`
+    display: grid;
+    grid-template-columns: auto;
+    & h6 {
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+`
+
+const PriceBox = styled.div`
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: baseline;
+`
 
 const Container = styled.div`
     grid-column: 1 / span 2;
@@ -62,9 +97,10 @@ const Container = styled.div`
 
 const Center = styled.div`
     display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: baseline;
+    grid-auto-flow: column;
     justify-self: start;
+    gap: 2rem;
+    align-content: center;
     color: ${props => props.theme.fontColor};
     & span {
         & svg {
