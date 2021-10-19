@@ -7,6 +7,7 @@ import Drawer from './Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
+import { Avatar } from '@mui/material'
 
 const Nav= () => {
 
@@ -33,7 +34,7 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                {/* <Popover icon={<Flag />} placed='bottom-start' menuContent={<CurrencySelect />}/> */}
+                <Avatar />
             </End>
             <MobileMenu />
         </Container>
@@ -85,8 +86,9 @@ const Center = styled.div`
 
 const End = styled.div`
     display: grid;
-    grid-template-columns: 40px;
-    gap: 1rem;
+    grid-template-columns: 40px auto;
+    align-items: center;
+    gap: 2rem;
     @media (max-width: 1024px){
         display: none;
     }

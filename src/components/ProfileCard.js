@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 
 const ProfileCard = ({ name, img }) => {
 
@@ -9,7 +9,6 @@ const ProfileCard = ({ name, img }) => {
       <Avatar />
       <div>
         <h5>Welcome, Guest</h5>
-        <h6>Happy Calculating!</h6>
       </div>
     </MyProfileCard>
   );
@@ -20,7 +19,7 @@ export default ProfileCard;
 const MyProfileCard = styled.div`
   display: grid;
   grid-template-columns: 40px 1fr;
-  grid-template-rows: 40px;
+  grid-template-rows: 50px;
   background-color: #f2f3f5;
   border-radius: 1rem;
   padding: 1rem;

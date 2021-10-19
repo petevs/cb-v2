@@ -16,7 +16,7 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
                 <p>{details.portfolioDescription}</p>
                 </div>
                 <ButtonGroup>
-                <Button 
+                <Button
                     startIcon={<EditIcon />}
                     onClick={() => handleOpen(
 
