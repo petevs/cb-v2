@@ -2,20 +2,16 @@ import { createContext, useReducer, useEffect, useState } from 'react'
 import { initialMarketData, marketDataReducer } from 'state/reducers/marketDataReducer'
 import useCombinedReducers from 'use-combined-reducers'
 import { setMarketData } from 'state/actions/marketDataActions'
-import axios from 'axios'
 import { initialTheme, themeReducer } from 'state/reducers/themeReducer'
 import { initialSettings, settingsReducer } from 'state/reducers/settingsReducer'
 import { calculatorReducer, initialCalculators } from 'state/reducers/calculatorReducer'
-import { updateHistoricalData } from 'state/actions/calculatorActions'
 import { setUser } from 'state/actions/authActions'
 import { auth } from 'firebase'
 import { authReducer, initialAuthState } from 'state/reducers/authReducer'
 import { db } from 'firebase'
 import { initialPortfolioState, portfolioReducer } from 'state/reducers/portfolioReducer'
-import { setPortfolios, updateHistoricalDataPF, updateHistoricalDataObj } from 'state/actions/portfolioActions'
+import { setPortfolios, updateHistoricalDataObj } from 'state/actions/portfolioActions'
 import { initialModalState, modalReducer } from 'state/reducers/modalReducer'
-import moment from 'moment'
-
 
 export const GlobalContext = createContext()
 
@@ -79,8 +75,6 @@ export const GlobalProvider = ({children}) => {
     //GET MARKET & HISTORICAL DATA
     useEffect(() => {
 
-        //GET CURRENT MARKET DATA
-
         //GET MARKET DATA & DISPATCH TO CONTEXT
 
         db.collection('marketData').doc('data').onSnapshot((doc) => {
@@ -95,35 +89,6 @@ export const GlobalProvider = ({children}) => {
         })
  
      }, [])
-
-
-     //ADD TO FIREBASE
-
-    //  useEffect(() => {
-
-    //     const getHistorical = async () => {
-    //         const {data} = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=cad&days=3650&interval=daily`)
-    //         const { prices } = data
-
-    //         let historical = {}
-            
-    //         prices.forEach(item => {
-    
-    //         const friendlyDate = moment(item[0]).format('YYYY-MM-DD')
-    
-    //         historical = {
-    //             ...historical,
-    //             [friendlyDate]: item[1]
-    //         }
-    //         })
-            
-    //         db.collection('historicalData').doc('cad').set(historical)
-
-    //     }
-
-    //     getHistorical()
-    //     console.log('all done')
-    //  },[])
 
     return (
         <GlobalContext.Provider

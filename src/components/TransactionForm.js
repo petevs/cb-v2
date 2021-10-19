@@ -17,26 +17,7 @@ const TransactionForm = (props) => {
 
     const { state } = useContext(GlobalContext)
 
-    const initialForm = {
-        amount: props.amount || 0,
-        date: props.date || moment().format('YYYY-MM-DD')
-    }
-
-    const [inputs, setInputs] = useState(initialForm)
-
-    const fields = [
-        {name: 'date', label: 'Date', type: 'date'},
-        {name: 'amount', label: 'Amount', type: 'numeric', adornment: '$'},
-    ]
-
-    const handleChange = (e) => {
-        setInputs({
-            ...inputs,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleSubmit = (e) => {
+    const handleSubmit = (values, e) => {
         e.preventDefault()
 
         const firebaseId = props.id || Date.now()
@@ -48,7 +29,7 @@ const TransactionForm = (props) => {
                     ...state.portfolio.portfolioObj[props.portfolioId],
                     transactions: {
                         ...state.portfolio.portfolioObj[props.portfolioId].transactions,
-                        [firebaseId]: inputs
+                        [firebaseId]: values
                     }
                 }
             }
@@ -70,11 +51,34 @@ const TransactionForm = (props) => {
         props.handleClose()
     }
 
-    const [from, setFrom] = useState('Dollars')
-
-    const handleFromChange = (event) => {
-        setFrom(event.target.value)
+     //TOGGLE FORM TYPE
+     const initialFormType = {
+        type: 'buy',
+        buyButton: 'contained',
+        sellButton: ''
     }
+    
+        const [formType, setFormType] = useState(initialFormType)
+    
+        const handleFormChange = () => {
+    
+            if (formType.type === 'buy'){
+                setFormType({
+                    type: 'sell',
+                    buyButton: '',
+                    sellButton: 'contained'
+                })
+            }
+            
+            else {
+                setFormType(
+                    initialFormType
+                )
+            }
+        }
+
+
+  
 
     //Form validation
     const formSchema = yup.object({
@@ -90,35 +94,27 @@ const TransactionForm = (props) => {
         initialValues: {
             amount: props.amount || 0,
             date: props.date || moment().format('YYYY-MM-DD'),
+            bitcoin: function() {
+                
+            }
         },
         validationSchema: formSchema,
-        onSubmit: {handleSubmit}
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+          },
     })
 
-    const initialFormType = {
-    type: 'buy',
-    buyButton: 'contained',
-    sellButton: ''
-}
+    //Handle Custom Bitcoin details
 
-    const [formType, setFormType] = useState(initialFormType)
+    const [customValues, setCustomValues] = useState(false)
 
-    const handleFormChange = () => {
-
-        if (formType.type === 'buy'){
-            setFormType({
-                type: 'sell',
-                buyButton: '',
-                sellButton: 'contained'
-            })
-        }
-        
-        else {
-            setFormType(
-                initialFormType
-            )
-        }
+    const toggleCustom = () => {
+        setCustomValues(!customValues)
     }
+
+    const autoFields = {
+        bitcoinAmount: formik.values.amount / state.portfolio.historicalData[formik.values.date] || 0
+    }  
 
 
     return (
@@ -162,13 +158,13 @@ const TransactionForm = (props) => {
                     InputProps={{
                         startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                     }}
-                    disabled
+                    disabled={!customValues}
                 />
                 <InputField
                     name='amount'
                     label={formType.type === 'buy' ? 'To: Bitcoin' : 'From: Bitcoin'}
                     type='numeric'
-                    value={formik.values.amount / state.portfolio.historicalData[formik.values.date] || 0}
+                    value={autoFields.bitcoinAmount}
                     size='medium'
                     onChange={formik.handleChange}
                     inputProps={{inputMode: 'numeric'}}
@@ -177,10 +173,10 @@ const TransactionForm = (props) => {
                     }}
                     error={formik.touched.amount && Boolean(formik.errors.amount)}
                     helperText={formik.touched.amount && formik.errors.amount}
-                    disabled
+                    disabled={!customValues}
                     />
                 </OtherFields>
-                    <FormControlLabel  control={<Switch size='small' />} label='Enter Custom' />
+                    <FormControlLabel  control={<Switch size='small' checked={customValues} onChange={toggleCustom} />} label='Enter Custom' />
                 
                 <Button variant='contained' size='large' type='submit'>
                 {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
@@ -217,17 +213,6 @@ const Group = styled.div`
     justify-content: center;
 `
 
-const SwitchBox = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1rem;
-    align-content: center;
-
-    & svg {
-        transform: rotate(90deg);
-    }
-`
-
 const OtherFields = styled.div`
     display: flex;
     flex-direction: column;
@@ -236,51 +221,4 @@ const OtherFields = styled.div`
     &.sell{
         flex-direction: column-reverse;
     }
-`
-
-const TypeSwitchBox = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    text-transform: capitalize;
-    gap: 1rem;
-    // border-top: 1px solid #fff;
-    // border-bottom: 1px solid #fff;
-    padding: .5rem 0;
-    & div {
-        line-height: 1.5rem;
-    }
-`
-
-const PriceBox = styled.div`
-    & span {
-        font-size: .5rem;
-        text-transform: uppercase;
-    }
-`
-
-const MySelect = styled(Select)`
-    & .MuiFormLabel-root {
-    color: #fff !important;
-  }
-
-  & .MuiInputBase-root {
-    color: #fff !important;
-  }
-
-  & .MuiOutlinedInput-notchedOutline {
-    border-color: #fff !important;
-  }
-
-  & ::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-  }
-
-  & p {
-      color: #fff;
-  }
-
-  & div#from {
-      color: #fff;
-  }
 `
