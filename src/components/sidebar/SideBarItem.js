@@ -21,7 +21,7 @@ const Heading = styled.div`
     align-items: center;
     gap: .5rem;
     font-size: .875rem;
-    color: ${props => props.theme.fontColor};
+    color: ${props => props.theme.sidebarColor};
     font-weight: 400;
     padding: 1rem 2rem;
     cursor: pointer;

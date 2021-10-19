@@ -11,6 +11,7 @@ export const initialTheme = {
         backgroundColor: 'rgb(33, 43, 54)',
         bgHover: '#2A343F',
         iconHover: '#21252E',
+        sidebarColor: 'rgb(145,158,171)',
         colors: {
             green: '#408e36',
             red: '#f72e2f'

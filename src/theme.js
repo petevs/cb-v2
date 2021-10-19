@@ -7,5 +7,6 @@ export const lightTheme = {
 
 export const darkTheme = {
     body: '#161C24',
-    fontColor: '#fff'
+    fontColor: '#fff',
+    sidebarColor: 'rgb(145,158,171)'
 }
