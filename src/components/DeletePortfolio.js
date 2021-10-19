@@ -3,6 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useHistory } from 'react-router-dom'
 import { db } from 'firebase'
+import styled from 'styled-components'
 
 
 const DeletePortfolio = ({state, id}) => {
@@ -32,11 +33,12 @@ const DeletePortfolio = ({state, id}) => {
         
     }
    
+
     
     return (
         <Fragment>
 
-            <Dialog
+            <MyDialog
                 open={open}
                 onClose={handleClose}
             >
@@ -48,7 +50,7 @@ const DeletePortfolio = ({state, id}) => {
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button color='warning' onClick={handleDelete}>Delete</Button>
                 </DialogActions>
-            </Dialog>
+            </MyDialog>
 
             <Button
                 startIcon={<DeleteIcon />}
@@ -61,3 +63,12 @@ const DeletePortfolio = ({state, id}) => {
 }
 
 export default DeletePortfolio
+
+
+const MyDialog = styled(Dialog)`
+    & .MuiDialog-paper {
+        background-color: rgb(33, 43, 54);
+        color: #fff;
+        border: '1px solid rgba(145, 158, 171, 0.08)',
+    }
+`
