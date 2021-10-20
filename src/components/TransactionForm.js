@@ -11,11 +11,27 @@ import { render } from '@testing-library/react'
 import IconButton from 'styledComponents/IconButton'
 import { numberWithCommas } from 'utils/formatting'
 import * as yup from 'yup'
-import { useFormik } from 'formik'
+import { useFormik, Field} from 'formik'
 
 const TransactionForm = (props) => {
 
     const { state } = useContext(GlobalContext)
+
+    const initialValues = {
+        amount: props.amount || 0,
+        date: props.date || moment().format('YYYY-MM-DD'),
+        type: 'buy'
+    }
+
+    const [inputs, setInputs] = useState(initialValues)
+
+
+    const handleChange = (e) => {
+        setInputs({
+            ...inputs,
+            [e.target.name]: e.target.value
+        })
+    }
 
     const handleSubmit = (values, e) => {
         e.preventDefault()
@@ -29,7 +45,7 @@ const TransactionForm = (props) => {
                     ...state.portfolio.portfolioObj[props.portfolioId],
                     transactions: {
                         ...state.portfolio.portfolioObj[props.portfolioId].transactions,
-                        [firebaseId]: values
+                        [firebaseId]: inputs
                     }
                 }
             }
@@ -58,67 +74,28 @@ const TransactionForm = (props) => {
         sellButton: ''
     }
     
-        const [formType, setFormType] = useState(initialFormType)
-    
-        const handleFormChange = () => {
-    
-            if (formType.type === 'buy'){
-                setFormType({
-                    type: 'sell',
-                    buyButton: '',
-                    sellButton: 'contained'
-                })
-            }
-            
-            else {
-                setFormType(
-                    initialFormType
-                )
-            }
+    const [formType, setFormType] = useState(initialFormType)
+
+    const handleFormChange = () => {
+
+        if (formType.type === 'buy'){
+            setFormType({
+                type: 'sell',
+                buyButton: '',
+                sellButton: 'contained'
+            })
         }
-
-
-  
-
-    //Form validation
-    const formSchema = yup.object({
-        date: yup.date(),
-        amount: yup.number()
-            .min(0, 'Enter number above 0!')
-            .required('Required!'),
-        bitcoin: yup.number()
-            .min(0, 'Enter number over 0')
-    })
-
-    const formik = useFormik({
-        initialValues: {
-            amount: props.amount || 0,
-            date: props.date || moment().format('YYYY-MM-DD'),
-            bitcoin: function() {
-                
-            }
-        },
-        validationSchema: formSchema,
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-          },
-    })
-
-    //Handle Custom Bitcoin details
-
-    const [customValues, setCustomValues] = useState(false)
-
-    const toggleCustom = () => {
-        setCustomValues(!customValues)
+        
+        else {
+            setFormType(
+                initialFormType
+            )
+        }
     }
-
-    const autoFields = {
-        bitcoinAmount: formik.values.amount / state.portfolio.historicalData[formik.values.date] || 0
-    }  
 
 
     return (
-            <Form onSubmit={formik.handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
                 <Group>
                     <ButtonGroup >
@@ -127,40 +104,36 @@ const TransactionForm = (props) => {
                     </ButtonGroup>
                 </Group>
                 <InputField
-                    // error
+                    
                     name='date'
                     label='Date'
                     type='date'
-                    value={formik.values.date}
+                    value={inputs.date}
                     size='medium'
-                    onChange={formik.handleChange}
+                    onChange={handleChange}
                     inputProps={{inputMode: 'date'}}
-                    // helperText='Enter date after May 1, 2015'
                 />
                 <OtherFields className={formType.type}>          
-                <InputField
-                name='amount'
-                label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
-                type='numeric'
-                value={formik.values.amount}
-                size='medium'
-                onChange={formik.handleChange}
-                inputProps={{inputMode: 'numeric'}}
-                InputProps={{
-                    startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
-                }}
-                error={formik.touched.amount && Boolean(formik.errors.amount)}
-                helperText={formik.touched.amount && formik.errors.amount}
+                    <InputField
+                    name='amount'
+                    label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
+                    type='numeric'
+                    value={inputs.amount}
+                    size='medium'
+                    onChange={handleChange}
+                    inputProps={{inputMode: 'numeric'}}
+                    InputProps={{
+                        startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                    }}
                 />
                 <InputField
                     label='Price'
-                    value={state.portfolio.historicalData[formik.values.date]}
+                    value={state.portfolio.historicalData[inputs.date]}
                     InputProps={{
                         startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                     }}
-                    disabled={!customValues}
                 />
-                <InputField
+                {/* <InputField
                     name='amount'
                     label={formType.type === 'buy' ? 'To: Bitcoin' : 'From: Bitcoin'}
                     type='numeric'
@@ -174,9 +147,8 @@ const TransactionForm = (props) => {
                     error={formik.touched.amount && Boolean(formik.errors.amount)}
                     helperText={formik.touched.amount && formik.errors.amount}
                     disabled={!customValues}
-                    />
+                    /> */}
                 </OtherFields>
-                    <FormControlLabel  control={<Switch size='small' checked={customValues} onChange={toggleCustom} />} label='Enter Custom' />
                 
                 <Button variant='contained' size='large' type='submit'>
                 {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
