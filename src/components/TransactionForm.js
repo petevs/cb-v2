@@ -161,8 +161,8 @@ const TransactionForm = (props) => {
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
                 <Group>
                     <ButtonGroup >
-                        <Button variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
-                        <Button variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
+                        <Button size='small' variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
+                        <Button size='small' variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
                     </ButtonGroup>
                 </Group>
                 <InputField
@@ -174,6 +174,7 @@ const TransactionForm = (props) => {
                     size='medium'
                     onChange={changeDate}
                     inputProps={{inputMode: 'date'}}
+                    variant='standard'
                 />
                 <OtherFields className={formType.type}>    
                         <InputField
@@ -188,6 +189,7 @@ const TransactionForm = (props) => {
                             startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
                         }}
                         disabled={disabled.amount}
+                        variant='standard'
                     />
                     <SwitchBox className={disabled.price && 'checked'}>
                     <div>
@@ -200,25 +202,28 @@ const TransactionForm = (props) => {
                 //If price is disabled hide price field
                 !disabled.price &&
                     <InputField
-                        label='Price'
+                        label='Custom Price'
                         value={price}
                         onChange={changePrice}
                         inputProps={{inputMode: 'numeric'}}
                         InputProps={{
                             startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                         }}
+                        variant='standard'
                     />
                 }
                 <SwitchBox className={disabled.bitcoin && 'checked'}>
                     <div>
-                        <span>Auto Calculate Transaction:</span>
+                        <span>Bitcoin Received (auto-calculated):</span>
                        <Line><SiBitcoinsv /><h4>{bitcoin}</h4></Line>
                     </div>
                     <Switch checked={disabled.bitcoin} onChange={(e) => toggleEdit(e, 'bitcoin')}/>
                 </SwitchBox>
-                {/* <InputField
+                {
+                !disabled.bitcoin &&               
+                <InputField
                     name='bitcoin'
-                    label={formType.type === 'buy' ? 'To: Bitcoin' : 'From: Bitcoin'}
+                    label={formType.type === 'buy' ? 'Bitcoin Received (custom)' : 'From: Bitcoin'}
                     type='numeric'
                     value={bitcoin}
                     size='medium'
@@ -227,19 +232,19 @@ const TransactionForm = (props) => {
                     InputProps={{
                         startAdornment: (<InputAdornment position='start'><SiBitcoinsv className='orange'/></InputAdornment>),
                     }}
-                    disabled={disabled.bitcoin}
-                    /> */}
+                    variant='standard'
+                    />}
                 </OtherFields>
                 
                 <Button variant='contained' size='large' type='submit'>
                 {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
-                {
+                {/* {
                     props.fType === 'edit' &&
                 <Button variant='contained' size='small' color='warning' onClick={handleDelete}>
                     Delete
                 </Button>
-                }
+                } */}
             </Form>
     )
 }
@@ -256,9 +261,12 @@ const Form = styled.form`
     }
 
     & svg.orange {
-        color: #F7931A;
+        color: #fff;
     }
 
+    & button {
+        margin-top: 1rem;
+    }
 `
 
 const Group = styled.div`
@@ -280,8 +288,14 @@ const SwitchBox = styled.div`
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    padding: 0  0.5rem 0.5rem 0.875rem;
+    // padding: 0  0.5rem 0.5rem 0.875rem;
     color: rgba(0, 0, 0, 0.38);
+
+    & h4 {
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.4375rem;
+    }
 
     &.checked {
         color: #fff;
