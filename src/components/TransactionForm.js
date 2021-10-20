@@ -175,14 +175,7 @@ const TransactionForm = (props) => {
                     onChange={changeDate}
                     inputProps={{inputMode: 'date'}}
                 />
-                <OtherFields className={formType.type}>
-                <SwitchBox>
-                    <div>
-                        <span>Use Historical Price:</span>
-                        <h4>1BTC = {`$${price}`}</h4>
-                    </div>
-                    <Switch checked/>
-                </SwitchBox>         
+                <OtherFields className={formType.type}>    
                         <InputField
                         name='amount'
                         label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
@@ -196,23 +189,32 @@ const TransactionForm = (props) => {
                         }}
                         disabled={disabled.amount}
                     />
-                {/* <InputField
-                    label='Use Historical Price'
-                    value={price}
-                    onChange={changePrice}
-                    inputProps={{inputMode: 'numeric'}}
-                    InputProps={{
-                        startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>),
-                        endAdornment: (<InputAdornment position='end'><IconButton onClick={(e) => toggleEdit( e, 'price')}><Switch checked/></IconButton></InputAdornment>)
-                    }}
-                    // disabled={disabled.price}
-                /> */}
-                <SwitchBox>
+                    <SwitchBox className={disabled.price && 'checked'}>
+                    <div>
+                        <span>Use Historical Price:</span>
+                        <h4>1BTC = {`$${state.portfolio.historicalData[date] || current_price || 0}`}</h4>
+                    </div>
+                    <Switch checked={disabled.price} onChange={(e) => toggleEdit(e, 'price')}/>
+                </SwitchBox>
+                {
+                //If price is disabled hide price field
+                !disabled.price &&
+                    <InputField
+                        label='Price'
+                        value={price}
+                        onChange={changePrice}
+                        inputProps={{inputMode: 'numeric'}}
+                        InputProps={{
+                            startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
+                        }}
+                    />
+                }
+                <SwitchBox className={disabled.bitcoin && 'checked'}>
                     <div>
                         <span>Auto Calculate Transaction:</span>
                        <Line><SiBitcoinsv /><h4>{bitcoin}</h4></Line>
                     </div>
-                    <Switch checked/>
+                    <Switch checked={disabled.bitcoin} onChange={(e) => toggleEdit(e, 'bitcoin')}/>
                 </SwitchBox>
                 {/* <InputField
                     name='bitcoin'
@@ -278,7 +280,12 @@ const SwitchBox = styled.div`
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    padding: 0.5rem 0.5rem 0.5rem 0.875rem;
+    padding: 0  0.5rem 0.5rem 0.875rem;
+    color: rgba(0, 0, 0, 0.38);
+
+    &.checked {
+        color: #fff;
+    }
 
 
     & div {
