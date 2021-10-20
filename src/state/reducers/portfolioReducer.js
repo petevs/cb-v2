@@ -46,7 +46,9 @@ export const initialPortfolioState = {
             amount: transaction['amount'],
             date: transaction['date'],
             price: transaction['price'] || this.historicalData[transaction['date']] || currentPrice,
-            type: transaction['type']
+            type: transaction['type'],
+            historicalPrice: this.historicalData[transaction['date']] || currentPrice,
+            bitcoin: transaction['bitcoin']
 
         })
       }
@@ -107,18 +109,32 @@ export const initialPortfolioState = {
     let totalInvested = 0
 
     const finalCalculatedTransactions = allTransactions.map(item => {
-            totalInvested = Number(totalInvested) + Number(item.amount)
-            const bitcoinAdded = Number((item.amount / item.price))
-            runningBal = runningBal + bitcoinAdded
-            const value = (item.price * runningBal).toFixed(2);
-            const profit = value - totalInvested;
-            const roi = ((value - totalInvested) / totalInvested) * 100;
+
+          let bitcoinAdded
+          let value
+          let profit
+          let roi
+
+          if(item.type === 'buy'){
+            
+              totalInvested = Number(totalInvested) + Number(item.amount)
+              bitcoinAdded = Number((item.amount / item.price))
+              runningBal = runningBal + bitcoinAdded
+          }
+
+          if(item.type === 'sell'){
+            runningBal = runningBal - Number(item.bitcoin)
+          }
+
+          value = (item.historicalPrice * runningBal).toFixed(2);
+          profit = value - totalInvested;
+          roi = ((value - totalInvested) / totalInvested) * 100;
 
 
             return {
                 date: item.date,
                 price: item.price,
-                amount: item.amount,
+                amount: Number(item.amount),
                 totalInvested: totalInvested,
                 runningBal: runningBal,
                 value: value,

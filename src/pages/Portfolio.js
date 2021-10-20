@@ -40,8 +40,6 @@ const Portfolio = () => {
 
     const details = portfolioObj[id]
 
-    console.log(details)
-
     
     // MODAL
 
@@ -115,6 +113,7 @@ const Portfolio = () => {
         )
     }
 
+    console.log(calculatedTransactions)
 
 
     //CHART SERIES & OPTIONS
@@ -135,15 +134,15 @@ const Portfolio = () => {
             };
           }).reverse(),
         },
-        {
-            name: 'Total Invested',
-            data: calculatedTransactions.map((item) => {
-                return {
-                    x: item.date,
-                    y: Number(item.totalInvested)
-                }
-            })
-        }
+        // {
+        //     name: 'Total Invested',
+        //     data: calculatedTransactions.map((item) => {
+        //         return {
+        //             x: item.date,
+        //             y: Number(item.totalInvested)
+        //         }
+        //     })
+        // }
       ];
 
       const tooltip = {
@@ -165,6 +164,7 @@ const Portfolio = () => {
         }
       }
      
+      console.log(details)
 
     return (
         <>
@@ -307,7 +307,7 @@ const Portfolio = () => {
                                             startIcon={<EditIcon />}
                                             onClick={() => handleOpen(
                                                 <TransactionForm
-                                                    type='edit'
+                                                    fType='edit'
                                                     handleClose={handleClose}
                                                     portfolioId={id}
                                                     {...row}

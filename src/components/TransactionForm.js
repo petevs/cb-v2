@@ -7,7 +7,6 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import { db } from 'firebase'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { SiBitcoinsv } from 'react-icons/si'
-import { render } from '@testing-library/react'
 import IconButton from 'styledComponents/IconButton'
 import { numberWithCommas } from 'utils/formatting'
 import * as yup from 'yup'
@@ -83,6 +82,16 @@ const TransactionForm = (props) => {
         buyButton: 'contained',
         sellButton: ''
     }
+
+    useEffect(() => {
+        if(props.type === 'sell'){
+            setFormType({
+                type: 'sell',
+                buyButton: '',
+                sellButton: 'contained'
+            })
+        }
+    },[])
     
     const [formType, setFormType] = useState(initialFormType)
 
@@ -207,10 +216,10 @@ const TransactionForm = (props) => {
                 </OtherFields>
                 
                 <Button variant='contained' size='large' type='submit'>
-                {props.type === 'add' ? 'Add Transaction' : 'Save Changes'}
+                {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
                 {
-                    props.type === 'edit' &&
+                    props.fType === 'edit' &&
                 <Button variant='contained' size='small' color='warning' onClick={handleDelete}>
                     Delete
                 </Button>

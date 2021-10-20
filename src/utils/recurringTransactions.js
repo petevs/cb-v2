@@ -12,6 +12,7 @@ export const recurringTransactions = (purchaseAmount, start, end, historicalData
         return {
             date: item,
             price: price,
+            historicalPrice: price,
             amount: purchaseAmount,
             bitcoin: Number(purchaseAmount / price).toFixed(8)
         }

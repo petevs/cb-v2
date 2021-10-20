@@ -13,6 +13,7 @@ export const makeFillerTransactions = (transactions, historicalData, currentPric
         return {
             date: item,
             price: price,
+            historicalPrice: price,
             amount: 0,
             bitcoin: 0
         }
