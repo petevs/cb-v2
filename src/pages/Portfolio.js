@@ -40,6 +40,8 @@ const Portfolio = () => {
 
     const details = portfolioObj[id]
 
+    console.log(details)
+
     
     // MODAL
 
@@ -297,7 +299,7 @@ const Portfolio = () => {
                             portfolio.oneOffTransactions(id, price[currency]) && portfolio.oneOffTransactions(id, price[currency]).map(row =>
                                 <MyTableRow key={row.id}> 
                                     <TableCell>{row.date}</TableCell>
-                                    <TableCell>BUY</TableCell>
+                                    <TableCell>{row.type}</TableCell>
                                     <TableCell>{row.amount}</TableCell>
                                     <TableCell>{row.price}</TableCell>
                                     <TableCell>

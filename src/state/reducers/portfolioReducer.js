@@ -45,7 +45,8 @@ export const initialPortfolioState = {
             id: transactionID,
             amount: transaction['amount'],
             date: transaction['date'],
-            price: this.historicalData[transaction['date']] || currentPrice
+            price: transaction['price'] || this.historicalData[transaction['date']] || currentPrice,
+            type: transaction['type']
 
         })
       }

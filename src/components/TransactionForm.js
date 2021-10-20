@@ -53,7 +53,8 @@ const TransactionForm = (props) => {
                             date: date,
                             amount: amount,
                             price: price,
-                            bitcoin: bitcoin
+                            bitcoin: bitcoin,
+                            type: formType.type
                         }
                     }
                 }
@@ -122,7 +123,7 @@ const TransactionForm = (props) => {
     useEffect(() => {
 
         if(formType.type === 'buy' && disabled.bitcoin){
-            setBitcoin((Number(amount) / Number(price)).toFixed(8))
+            setBitcoin((Number(amount) / Number(price)).toFixed(8) || 0)
         }
 
     }, [amount, price, formType, disabled, date])
@@ -131,7 +132,7 @@ const TransactionForm = (props) => {
 
     useEffect(() => {
         if(formType.type === 'sell' && disabled.amount){
-            setAmount((Number(bitcoin) * Number(price)).toFixed(2))
+            setAmount((Number(bitcoin) * Number(price)).toFixed(2) || 0)
         }
     },[bitcoin, price, formType, disabled, date])
 
