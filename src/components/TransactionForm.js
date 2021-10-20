@@ -2,15 +2,12 @@ import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import InputField from 'styledComponents/InputField'
 import moment from 'moment'
-import { Button, FormControlLabel, InputAdornment, InputLabel, MenuItem, Select, Switch, FormControl, ButtonGroup } from '@mui/material'
+import { Button, InputAdornment, ButtonGroup, Switch } from '@mui/material'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { db } from 'firebase'
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { SiBitcoinsv } from 'react-icons/si'
 import IconButton from 'styledComponents/IconButton'
-import { numberWithCommas } from 'utils/formatting'
-import * as yup from 'yup'
-import { useFormik, Field} from 'formik'
+
 
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -18,8 +15,12 @@ const TransactionForm = (props) => {
 
     const { state } = useContext(GlobalContext)
 
+    const current_price = state.marketData.marketData.current_price.cad
+
+    console.log(state)
+
     const [bitcoin, setBitcoin] = useState(0)
-    const [price, setPrice] = useState(state.portfolio.historicalData[props.date] || 0)
+    const [price, setPrice] = useState(state.portfolio.historicalData[props.date] || current_price || 0)
     const [amount, setAmount] = useState(props.amount || 0)
     const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
 
@@ -124,7 +125,7 @@ const TransactionForm = (props) => {
 
     //Update Price on Date Change
     useEffect(() => {
-        setPrice(state.portfolio.historicalData[date] || 0)
+        setPrice(state.portfolio.historicalData[date] || current_price || 0)
     },[state, date])
 
     //Update Bitcoin Amount If Values Change and Not Set to Custom
@@ -174,7 +175,14 @@ const TransactionForm = (props) => {
                     onChange={changeDate}
                     inputProps={{inputMode: 'date'}}
                 />
-                <OtherFields className={formType.type}>         
+                <OtherFields className={formType.type}>
+                <SwitchBox>
+                    <div>
+                        <span>Use Historical Price:</span>
+                        <h4>1BTC = {`$${price}`}</h4>
+                    </div>
+                    <Switch checked/>
+                </SwitchBox>         
                         <InputField
                         name='amount'
                         label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
@@ -188,19 +196,26 @@ const TransactionForm = (props) => {
                         }}
                         disabled={disabled.amount}
                     />
-                <InputField
-                    label='Price'
+                {/* <InputField
+                    label='Use Historical Price'
                     value={price}
                     onChange={changePrice}
                     inputProps={{inputMode: 'numeric'}}
                     InputProps={{
                         startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>),
-                        endAdornment: (<InputAdornment position='end'><IconButton onClick={(e) => toggleEdit( e, 'price')}><EditIcon /></IconButton></InputAdornment>)
+                        endAdornment: (<InputAdornment position='end'><IconButton onClick={(e) => toggleEdit( e, 'price')}><Switch checked/></IconButton></InputAdornment>)
                     }}
-                    disabled={disabled.price}
-                />
-                <InputField
-                    name='amount'
+                    // disabled={disabled.price}
+                /> */}
+                <SwitchBox>
+                    <div>
+                        <span>Auto Calculate Transaction:</span>
+                       <Line><SiBitcoinsv /><h4>{bitcoin}</h4></Line>
+                    </div>
+                    <Switch checked/>
+                </SwitchBox>
+                {/* <InputField
+                    name='bitcoin'
                     label={formType.type === 'buy' ? 'To: Bitcoin' : 'From: Bitcoin'}
                     type='numeric'
                     value={bitcoin}
@@ -209,10 +224,9 @@ const TransactionForm = (props) => {
                     inputProps={{inputMode: 'numeric'}}
                     InputProps={{
                         startAdornment: (<InputAdornment position='start'><SiBitcoinsv className='orange'/></InputAdornment>),
-                        endAdornment: (<InputAdornment position='end'><IconButton onClick={(e) => toggleEdit( e, 'bitcoin')}><EditIcon /></IconButton></InputAdornment>)
                     }}
                     disabled={disabled.bitcoin}
-                    />
+                    /> */}
                 </OtherFields>
                 
                 <Button variant='contained' size='large' type='submit'>
@@ -258,4 +272,30 @@ const OtherFields = styled.div`
     &.sell{
         flex-direction: column-reverse;
     }
+`
+
+const SwitchBox = styled.div`
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 0.5rem 0.5rem 0.5rem 0.875rem;
+
+
+    & div {
+        display: grid;
+        grid-auto-flow: row;
+        line-height: 1.3rem;
+        
+        & span {
+            font-size: .75rem;
+            text-transform: capitalize;
+        }
+    }
+`
+
+const Line = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: .5rem;
 `

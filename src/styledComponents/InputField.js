@@ -38,6 +38,7 @@ const InputField = styled(TextField).attrs({
     -webkit-text-fill-color: #fff;
     color: #fff;
   }
+
 `;
 
 export default InputField
