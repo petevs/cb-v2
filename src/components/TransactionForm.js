@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import InputField from 'styledComponents/InputField'
 import moment from 'moment'
@@ -13,28 +13,32 @@ import { numberWithCommas } from 'utils/formatting'
 import * as yup from 'yup'
 import { useFormik, Field} from 'formik'
 
+import EditIcon from '@mui/icons-material/Edit';
+
 const TransactionForm = (props) => {
 
     const { state } = useContext(GlobalContext)
 
-    const initialValues = {
-        amount: props.amount || 0,
-        date: props.date || moment().format('YYYY-MM-DD'),
-        type: 'buy'
-    }
+    const [bitcoin, setBitcoin] = useState(0)
+    const [price, setPrice] = useState(state.portfolio.historicalData[props.date] || 0)
+    const [amount, setAmount] = useState(props.amount || 0)
+    const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
 
-    const [inputs, setInputs] = useState(initialValues)
+    const [disabled, setDisabled] = useState({
+        bitcoin: true,
+        amount: false,
+        price: true
+    })
+
+    const changeBitcoin = (e) => {setBitcoin(e.target.value)}
+    const changePrice = (e) => {setPrice(e.target.value)}
+    const changeAmount = (e) => {setAmount(e.target.value)}
+    const changeDate = (e) => {setDate(e.target.value)}
 
 
-    const handleChange = (e) => {
-        setInputs({
-            ...inputs,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleSubmit = (values, e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
+
 
         const firebaseId = props.id || Date.now()
 
@@ -45,7 +49,12 @@ const TransactionForm = (props) => {
                     ...state.portfolio.portfolioObj[props.portfolioId],
                     transactions: {
                         ...state.portfolio.portfolioObj[props.portfolioId].transactions,
-                        [firebaseId]: inputs
+                        [firebaseId]: {
+                            date: date,
+                            amount: amount,
+                            price: price,
+                            bitcoin: bitcoin
+                        }
                     }
                 }
             }
@@ -84,15 +93,57 @@ const TransactionForm = (props) => {
                 buyButton: '',
                 sellButton: 'contained'
             })
+            setDisabled({
+                ...disabled,
+                bitcoin: false,
+                amount: true
+            })
         }
         
         else {
             setFormType(
                 initialFormType
             )
+            setDisabled({
+                ...disabled,
+                bitcoin: true,
+                amount: false,
+            })
         }
     }
 
+    //Update Price on Date Change
+    useEffect(() => {
+        setPrice(state.portfolio.historicalData[date] || 0)
+    },[state, date])
+
+    //Update Bitcoin Amount If Values Change and Not Set to Custom
+
+    useEffect(() => {
+
+        if(formType.type === 'buy' && disabled.bitcoin){
+            setBitcoin((Number(amount) / Number(price)).toFixed(8))
+        }
+
+    }, [amount, price, formType, disabled, date])
+
+    //Update Dollar Amount If Values Change and Not Set to Custom
+
+    useEffect(() => {
+        if(formType.type === 'sell' && disabled.amount){
+            setAmount((Number(bitcoin) * Number(price)).toFixed(2))
+        }
+    },[bitcoin, price, formType, disabled, date])
+
+
+    //TOGGLE FOR IF FIELD DISABLED OR NOT
+    const toggleEdit = (e, key) => {
+        e.preventDefault()
+        setDisabled({
+            ...disabled,
+            [key]: !disabled[key]
+        })
+    }
 
     return (
             <Form onSubmit={handleSubmit}>
@@ -108,46 +159,50 @@ const TransactionForm = (props) => {
                     name='date'
                     label='Date'
                     type='date'
-                    value={inputs.date}
+                    value={date}
                     size='medium'
-                    onChange={handleChange}
+                    onChange={changeDate}
                     inputProps={{inputMode: 'date'}}
                 />
-                <OtherFields className={formType.type}>          
-                    <InputField
-                    name='amount'
-                    label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
-                    type='numeric'
-                    value={inputs.amount}
-                    size='medium'
-                    onChange={handleChange}
-                    inputProps={{inputMode: 'numeric'}}
-                    InputProps={{
-                        startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
-                    }}
-                />
+                <OtherFields className={formType.type}>         
+                        <InputField
+                        name='amount'
+                        label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
+                        type='numeric'
+                        value={amount}
+                        size='medium'
+                        onChange={changeAmount}
+                        inputProps={{inputMode: 'numeric'}}
+                        InputProps={{
+                            startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                        }}
+                        disabled={disabled.amount}
+                    />
                 <InputField
                     label='Price'
-                    value={state.portfolio.historicalData[inputs.date]}
+                    value={price}
+                    onChange={changePrice}
+                    inputProps={{inputMode: 'numeric'}}
                     InputProps={{
-                        startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
+                        startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>),
+                        endAdornment: (<InputAdornment position='end'><IconButton onClick={(e) => toggleEdit( e, 'price')}><EditIcon /></IconButton></InputAdornment>)
                     }}
+                    disabled={disabled.price}
                 />
-                {/* <InputField
+                <InputField
                     name='amount'
                     label={formType.type === 'buy' ? 'To: Bitcoin' : 'From: Bitcoin'}
                     type='numeric'
-                    value={autoFields.bitcoinAmount}
+                    value={bitcoin}
                     size='medium'
-                    onChange={formik.handleChange}
+                    onChange={changeBitcoin}
                     inputProps={{inputMode: 'numeric'}}
                     InputProps={{
-                        startAdornment: (<InputAdornment position='start'><SiBitcoinsv/></InputAdornment>)
+                        startAdornment: (<InputAdornment position='start'><SiBitcoinsv className='orange'/></InputAdornment>),
+                        endAdornment: (<InputAdornment position='end'><IconButton onClick={(e) => toggleEdit( e, 'bitcoin')}><EditIcon /></IconButton></InputAdornment>)
                     }}
-                    error={formik.touched.amount && Boolean(formik.errors.amount)}
-                    helperText={formik.touched.amount && formik.errors.amount}
-                    disabled={!customValues}
-                    /> */}
+                    disabled={disabled.bitcoin}
+                    />
                 </OtherFields>
                 
                 <Button variant='contained' size='large' type='submit'>
@@ -174,7 +229,7 @@ const Form = styled.form`
         text-align: center;
     }
 
-    & svg {
+    & svg.orange {
         color: #F7931A;
     }
 
