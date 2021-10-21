@@ -10,18 +10,20 @@ const SwitchBox = (props) => {
         icon,
         value,
         checked,
-        onChange
+        onChange,
+        secondLabel,
+        hide
     } = props
 
 
     return (
         <Box className={className}>
             <Col1>
-                <Label>{label}</Label>
+                <Label>{hide ? label : secondLabel}</Label>
                 <Value>{icon}{value}</Value>
             </Col1>
             <Col2>
-                <Switch checked={checked} onChange={onChange} />
+                {hide && <Switch checked={checked} onChange={onChange}/> }
             </Col2>
         </Box>
     )
