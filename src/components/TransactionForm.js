@@ -261,7 +261,7 @@ const TransactionForm = (props) => {
                 <Button variant='contained' size='large' type='submit'>
                 {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
-                <EditableInput />
+                <BuyForm />
             </Form>
     )
 }

@@ -27,8 +27,6 @@ const Nav= () => {
 
     } = marketData.marketData
 
-    console.log(marketData.marketData)
-
 
     return (
         <>

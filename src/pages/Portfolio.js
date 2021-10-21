@@ -117,8 +117,6 @@ const Portfolio = () => {
         )
     }
 
-    console.log(calculatedTransactions)
-
 
     //CHART SERIES & OPTIONS
 

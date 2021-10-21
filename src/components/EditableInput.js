@@ -6,8 +6,15 @@ import IconButton from 'styledComponents/IconButton';
 import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
 import CancelIcon from '@mui/icons-material/Cancel';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
-const EditableInput = () => {
+const EditableInput = ({
+    adornment, 
+    prefix, 
+    thousandSeparator,
+    decimalScale,
+    fixedDecimalScale
+}) => {
 
     const [value, setValue] = useState(0)
     const [previousValue, setPreviousValue] = useState(0)
@@ -33,12 +40,14 @@ const EditableInput = () => {
 
     return (
         <Box readOnly={disabled}>
-            <span>1 BTC =</span>
+            <span>{adornment}</span>
             <MyInput
                 value={value}
                 onChange={handleChange}
-                thousandSeparator={true}
-                prefix={'$'}
+                thousandSeparator={thousandSeparator || false}
+                prefix={prefix || ''}
+                decimalScale={decimalScale || 0}
+                fixedDecimalScale={fixedDecimalScale || false}
                 disabled={disabled}
             />
             <div>
