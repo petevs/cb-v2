@@ -320,7 +320,6 @@ const Portfolio = () => {
                                             portfolioId={id}
                                             transactionId={row.id}
                                         />
-                                        {/* <Button startIcon={<DeleteIcon />} onClick={() => alert(row.id)}>Delete</Button> */}
                                     </TableCell>
                                 </MyTableRow>
                                 )

@@ -64,19 +64,6 @@ const TransactionForm = (props) => {
         props.handleClose()
     }
 
-    const handleDelete = (e) => {
-        const updatedPortfolio = {...state.portfolio.portfolioObj}
-        delete updatedPortfolio[props.portfolioId].transactions[props.id]
-
-        db.collection('users').doc(state.user.uid).update({
-            portfolio:
-                {
-                    ...updatedPortfolio
-                }
-        })
-        props.handleClose()
-    }
-
      //TOGGLE FORM TYPE
      const initialFormType = {
         type: 'buy',
@@ -243,12 +230,6 @@ const TransactionForm = (props) => {
                 <Button variant='contained' size='large' type='submit'>
                 {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
-                {/* {
-                    props.fType === 'edit' &&
-                <Button variant='contained' size='small' color='warning' onClick={handleDelete}>
-                    Delete
-                </Button>
-                } */}
             </Form>
     )
 }
