@@ -7,6 +7,8 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import { db } from 'firebase'
 import { SiBitcoinsv } from 'react-icons/si'
 import IconButton from 'styledComponents/IconButton'
+import Currency from './Currency'
+import SwitchBox from './SwitchBox'
 
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -157,7 +159,6 @@ const TransactionForm = (props) => {
                     </ButtonGroup>
                 </Group>
                 <InputField
-                    
                     name='date'
                     label='Date'
                     type='date'
@@ -182,13 +183,15 @@ const TransactionForm = (props) => {
                         disabled={disabled.amount}
                         variant='standard'
                     />
-                    <SwitchBox className={disabled.price && 'checked'}>
-                    <div>
-                        <span>Use Historical Price:</span>
-                        <h4>1BTC = {`$${state.portfolio.historicalData[date] || current_price || 0}`}</h4>
-                    </div>
-                    <Switch checked={disabled.price} onChange={(e) => toggleEdit(e, 'price')}/>
-                </SwitchBox>
+
+                    <SwitchBox
+                        className={disabled.price && 'checked'}
+                        label={'Use Historical Price:'}
+                        icon={'1BTC ='}
+                        value={<Currency value={state.portfolio.historicalData[date] || current_price || 0} />} 
+                        checked={disabled.price}
+                        onChange={(e) => toggleEdit(e, 'price')}
+                    />
                 {
                 //If price is disabled hide price field
                 !disabled.price &&
@@ -203,13 +206,14 @@ const TransactionForm = (props) => {
                         variant='standard'
                     />
                 }
-                <SwitchBox className={disabled.bitcoin && 'checked'}>
-                    <div>
-                        <span>Bitcoin Received (auto-calculated):</span>
-                       <Line><SiBitcoinsv /><h4>{bitcoin}</h4></Line>
-                    </div>
-                    <Switch checked={disabled.bitcoin} onChange={(e) => toggleEdit(e, 'bitcoin')}/>
-                </SwitchBox>
+                <SwitchBox 
+                    className={disabled.bitcoin && 'checked'}
+                    label='Bitcoin Received (auto-calculated):'
+                    icon={<SiBitcoinsv />}
+                    value={bitcoin}
+                    checked={disabled.bitcoin}
+                    onchange={(e) => toggleEdit(e, 'bitcoin')}
+                />
                 {
                 !disabled.bitcoin &&               
                 <InputField
@@ -267,41 +271,4 @@ const OtherFields = styled.div`
     &.sell{
         flex-direction: column-reverse;
     }
-`
-
-const SwitchBox = styled.div`
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    // padding: 0  0.5rem 0.5rem 0.875rem;
-    color: rgba(0, 0, 0, 0.38);
-
-    & h4 {
-        font-weight: 400;
-        font-size: 1rem;
-        line-height: 1.4375rem;
-    }
-
-    &.checked {
-        color: #fff;
-    }
-
-
-    & div {
-        display: grid;
-        grid-auto-flow: row;
-        line-height: 1.3rem;
-        
-        & span {
-            font-size: .75rem;
-            text-transform: capitalize;
-        }
-    }
-`
-
-const Line = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: .5rem;
 `

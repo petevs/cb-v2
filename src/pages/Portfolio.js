@@ -15,6 +15,8 @@ import { setCurrentPage } from 'state/actions/settingsActions'
 import ScoreCards from 'styledComponents/ScoreCards'
 import Scorecard from 'components/Scorecard'
 import PortfolioHeader from 'components/PortfolioHeader'
+import NumberFormat from 'react-number-format'
+
 
 //ICONS
 import AddIcon from '@mui/icons-material/Add';
@@ -23,6 +25,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MySelect from 'styledComponents/MySelect'
 import DeleteTransaction from 'components/DeleteTransaction'
+import Currency from 'components/Currency'
 
 
 const Portfolio = () => {
@@ -299,8 +302,8 @@ const Portfolio = () => {
                                 <MyTableRow key={row.id}> 
                                     <TableCell>{row.date}</TableCell>
                                     <TableCell>{row.type}</TableCell>
-                                    <TableCell>{row.amount}</TableCell>
-                                    <TableCell>{row.price}</TableCell>
+                                    <TableCell><Currency value={row.amount} /></TableCell>
+                                    <TableCell><Currency value={row.price} /></TableCell>
                                     <TableCell>
                                         <Button
                                             startIcon={<EditIcon />}
