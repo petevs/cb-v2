@@ -9,6 +9,7 @@ import { SiBitcoinsv } from 'react-icons/si'
 import Currency from './Currency'
 import SwitchBox from './SwitchBox'
 import BuyForm from './BuyForm'
+import EditableInput from './EditableInput'
 
 const TransactionForm = (props) => {
 
@@ -260,7 +261,7 @@ const TransactionForm = (props) => {
                 <Button variant='contained' size='large' type='submit'>
                 {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
-                <BuyForm />
+                <EditableInput />
             </Form>
     )
 }

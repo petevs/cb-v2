@@ -7,57 +7,56 @@ import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
 import CancelIcon from '@mui/icons-material/Cancel';
 
-const BuyForm = () => {
+const EditableInput = () => {
 
-    const [bitcoin, setBitcoin] = useState(0)
-    const [price, setPrice] = useState(0)
-    const [disabled, setDisabled] = useState({
-        bitcoin: true,
-        dollars: false,
-        price: true,
-    })
+    const [value, setValue] = useState(0)
+    const [previousValue, setPreviousValue] = useState(0)
+    const [disabled, setDisabled] = useState(true)
 
-    const previousPrice = useState(0)
+    const handleChange = (e) => {
+        setValue(e.target.value)
+    }
 
 
     const toggleDisabled = (name, e) => {
         e.preventDefault()
-        setDisabled({
-            ...disabled,
-            [name]: !disabled[name]
-        })
+        setPreviousValue(value)
+        setDisabled(!disabled)
     }
 
+    const cancelEdit = (e) => {
+        e.preventDefault()
+        setValue(previousValue)
+        setDisabled(!disabled)
+    }
+ 
 
     return (
-        <Wrapper>
-        Use Historical Price:
-        <Box disabled={disabled.price}>
+        <Box readOnly={disabled}>
             <span>1 BTC =</span>
             <MyInput
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={value}
+                onChange={handleChange}
                 thousandSeparator={true}
                 prefix={'$'}
-                disabled={disabled.price}
+                disabled={disabled}
             />
             <div>
                 <IconButton size='small' onClick={(e) => toggleDisabled('price', e)}>
-                    {disabled.price ? <EditIcon /> : <CheckBoxIcon />}
+                    {disabled ? <EditIcon /> : <CheckBoxIcon />}
                 </IconButton>
                 {
-                    !disabled.price &&
-                    <IconButton size='small' onClick={(e) => toggleDisabled('price', e)}>
+                    !disabled &&
+                    <IconButton size='small' onClick={(e) => cancelEdit(e)}>
                         <CancelIcon />
                     </IconButton>
                 }
             </div>
         </Box>
-        </Wrapper>
     )
 }
 
-export default BuyForm
+export default EditableInput
 
 const Wrapper = styled.div`
     display: grid;
@@ -74,8 +73,8 @@ const Box = styled.div`
     line-height: 1.4375rem;
     font-weight: 400;
 
-    ${(props) => !props.disabled && `
-        border-bottom: 1px solid red;
+    ${({readOnly}) => !readOnly && `
+        border-bottom: 1px solid #fff;
     `}
 
 `
