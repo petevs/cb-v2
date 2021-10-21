@@ -22,6 +22,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MySelect from 'styledComponents/MySelect'
+import DeleteTransaction from 'components/DeleteTransaction'
 
 
 const Portfolio = () => {
@@ -163,8 +164,6 @@ const Portfolio = () => {
               show: mobile ? true : false,
         }
       }
-     
-      console.log(details)
 
     return (
         <>
@@ -317,7 +316,11 @@ const Portfolio = () => {
                                             Edit
                                         </Button>
                                         <Button startIcon={<ContentCopyIcon />}>Clone</Button>
-                                        <Button startIcon={<DeleteIcon />}>Delete</Button>
+                                        <DeleteTransaction 
+                                            portfolioId={id}
+                                            transactionId={row.id}
+                                        />
+                                        {/* <Button startIcon={<DeleteIcon />} onClick={() => alert(row.id)}>Delete</Button> */}
                                     </TableCell>
                                 </MyTableRow>
                                 )
