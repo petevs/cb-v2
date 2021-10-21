@@ -147,6 +147,10 @@ const TransactionForm = (props) => {
     },[bitcoin, price, formType, disabled, date])
 
 
+    //IF Bitcoin Amount is Custom Then Disable price
+    //Change historic price label to Calculated Price
+
+
     //TOGGLE FOR IF FIELD DISABLED OR NOT
     const toggleEdit = (e, key) => {
         e.preventDefault()

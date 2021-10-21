@@ -115,7 +115,7 @@ export const initialPortfolioState = {
           let profit
           let roi
 
-          if(item.type === 'buy'){
+          if(item.type === 'buy' || !item.type){
             
               totalInvested = Number(totalInvested) + Number(item.amount)
               bitcoinAdded = Number((item.amount / item.price))
