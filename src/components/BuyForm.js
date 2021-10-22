@@ -6,6 +6,7 @@ import InputField from "styledComponents/InputField"
 import { SiBitcoinsv } from 'react-icons/si'
 import styled from 'styled-components'
 import moment from 'moment'
+import { numberWithCommas } from "utils/formatting"
 
 
 
@@ -16,9 +17,10 @@ const BuyForm = (props) => {
     ])
 
     const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
-    const [dollars, setDollars] = useState(500)
-    const [price, setPrice] = useState(75000)
+    const [dollars, setDollars] = useState(0)
+    const [price, setPrice] = useState(props.price || props.currentPrice || 0)
     const [bitcoin, setBitcoin] = useState(0)
+    const [useHistoricalPrice, setUseHistoricalPrice] = useState(true)
 
     const [disabled, setDisabled] = useState({
         dollars: false,
@@ -29,6 +31,10 @@ const BuyForm = (props) => {
     const handleFocus = (e) => {
         lastFocused.shift()
         setLastFocused([...lastFocused, e.target.name])
+
+        if(e.target.name === 'price' && useHistoricalPrice){
+            handleSwitch()
+        }
     }
 
     useEffect(() => {
@@ -59,6 +65,20 @@ const BuyForm = (props) => {
 
     }, [lastFocused])
 
+    const handleSwitch = () => {
+
+        setUseHistoricalPrice(!useHistoricalPrice)
+
+    }
+
+    useEffect(() => {
+        if(useHistoricalPrice){
+            setPrice(props.price || props.currentPrice)
+        }
+    },[useHistoricalPrice])
+
+
+
 
     useEffect(() => {
         if(disabled.dollars){
@@ -78,6 +98,11 @@ const BuyForm = (props) => {
         }
     },[disabled, bitcoin, dollars])
 
+
+    const historicalPrice = () => {
+        const price = props.price || props.currentPrice || 0
+        return numberWithCommas(price)
+    }
 
     return (
         <Wrapper>
@@ -122,7 +147,7 @@ const BuyForm = (props) => {
                         startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                     }}
                 />
-                <Infospan> <Switch size='small' />Use Historical Price: $23,235  </Infospan>
+                <Infospan> <Switch size='small' onChange={handleSwitch} checked={useHistoricalPrice} />{`Use Historical Price: $${historicalPrice()}  `}</Infospan>
             </Input>
 
             <Input>

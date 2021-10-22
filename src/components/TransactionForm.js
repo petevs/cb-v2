@@ -159,93 +159,12 @@ const TransactionForm = (props) => {
     return (
             <Form onSubmit={handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
-                {/* <Group>
-                    <ButtonGroup >
-                        <Button size='small' variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
-                        <Button size='small' variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
-                    </ButtonGroup>
-                </Group>
-                <InputField
-                    name='date'
-                    label='Date'
-                    type='date'
-                    value={date}
-                    size='medium'
-                    onChange={changeDate}
-                    inputProps={{inputMode: 'date'}}
-                    onFocus={() => setFocus('date')}
+                <BuyForm 
+                    date={props.date}
+                    amount={props.amount}
+                    price={state.portfolio.historicalData[props.date]}
+                    currentPrice={current_price}                
                 />
-                <OtherFields className={formType.type}>    
-                        <InputField
-                        name='amount'
-                        label={formType.type === 'buy' ? 'From: Dollars' : 'To: Dollars'}
-                        type='numeric'
-                        value={amount}
-                        size='medium'
-                        onChange={changeAmount}
-                        inputProps={{inputMode: 'numeric'}}
-                        InputProps={{
-                            startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
-                        }}
-                        disabled={disabled.amount}
-                        onFocus={() => setFocus('amount')}
-                    />
-                    <SwitchBox
-                        className={disabled.price && 'checked'}
-                        label={'Use Historical Price:'}
-                        icon={'1BTC ='}
-                        value={
-                            <Currency 
-                                value={
-                                    state.portfolio.historicalData[date] 
-                                    || current_price 
-                                    || 0
-                                    } 
-                            />} 
-                        checked={disabled.price}
-                        onChange={(e) => toggleEdit(e, 'price')}
-                        secondLabel={'Bitcoin Price'}
-                        hide={disabled.bitcoin}
-                    />
-                {
-                //If price is disabled hide price field
-                !disabled.price &&
-                    <InputField
-                        label='Custom Price'
-                        value={price}
-                        onChange={changePrice}
-                        inputProps={{inputMode: 'numeric'}}
-                        InputProps={{
-                            startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
-                        }}
-                    />
-                }
-                <SwitchBox 
-                    className={disabled.bitcoin && 'checked'}
-                    label='Bitcoin Received (auto-calculated):'
-                    icon={<SiBitcoinsv />}
-                    value={bitcoin}
-                    checked={disabled.bitcoin}
-                    onChange={(e) => toggleEdit(e, 'bitcoin')}
-                    secondLabel={'Bitcoin Received'}
-                    hide={true}
-                />
-                {
-                !disabled.bitcoin &&               
-                <InputField
-                    name='bitcoin'
-                    label={formType.type === 'buy' ? 'Bitcoin Received (custom)' : 'From: Bitcoin'}
-                    type='numeric'
-                    value={bitcoin}
-                    size='medium'
-                    onChange={changeBitcoin}
-                    inputProps={{inputMode: 'numeric'}}
-                    InputProps={{
-                        startAdornment: (<InputAdornment position='start'><SiBitcoinsv className='orange'/></InputAdornment>),
-                    }}
-                    />}
-                </OtherFields> */}
-                <BuyForm />
                 <Button variant='contained' size='large' type='submit'>
                 {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
