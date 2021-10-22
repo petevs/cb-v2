@@ -291,6 +291,7 @@ const Portfolio = () => {
                             <TableCell>Type</TableCell>
                             <TableCell>Amount</TableCell>
                             <TableCell>Price</TableCell>
+                            <TableCell>Bitcoin</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </MyTableHead>
@@ -302,6 +303,7 @@ const Portfolio = () => {
                                     <TableCell>{row.type}</TableCell>
                                     <TableCell><Currency value={row.amount} /></TableCell>
                                     <TableCell><Currency value={row.price} /></TableCell>
+                                    <TableCell>{row.bitcoin}</TableCell>
                                     <TableCell>
                                         <Button
                                             startIcon={<EditIcon />}

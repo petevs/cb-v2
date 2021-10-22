@@ -1,17 +1,20 @@
 import EditableInput from "./EditableInput"
 import { useState, useEffect, useContext } from 'react'
 import NumberFormat from 'react-number-format'
-import { InputAdornment, Switch } from "@mui/material"
+import { InputAdornment, Switch, Button } from "@mui/material"
 import InputField from "styledComponents/InputField"
 import { SiBitcoinsv } from 'react-icons/si'
 import styled from 'styled-components'
 import moment from 'moment'
 import { numberWithCommas } from "utils/formatting"
 import { GlobalContext } from "state/contexts/GlobalContext"
+import { handleTransactionSubmit } from "hooks/handleTransactionSubmit"
 
 
 
 const BuyForm = (props) => {
+
+    console.log(props)
 
     const { state } = useContext(GlobalContext)
     const current_price = state.marketData.marketData.current_price.cad
@@ -21,10 +24,10 @@ const BuyForm = (props) => {
     ])
 
     const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
-    const [dollars, setDollars] = useState(0)
-    const [price, setPrice] = useState(state.portfolio.historicalData[props.date] || current_price || 0)
-    const [bitcoin, setBitcoin] = useState(0)
-    const [useHistoricalPrice, setUseHistoricalPrice] = useState(true)
+    const [dollars, setDollars] = useState(props.amount || 0)
+    const [price, setPrice] = useState(Number(props.price) ||state.portfolio.historicalData[props.date] || current_price || 0)
+    const [bitcoin, setBitcoin] = useState(Number(props.bitcoin) || 0)
+    const [useHistoricalPrice, setUseHistoricalPrice] = useState(Number(props.price) === Number(props.historicalPrice) ? true : false)
 
     const [disabled, setDisabled] = useState({
         dollars: false,
@@ -112,77 +115,117 @@ const BuyForm = (props) => {
         let price = state.portfolio.historicalData[date] || current_price || 0
         price = Math.round(price)
         price = numberWithCommas(price)
-        return price
-
-
-        
+        return price        
     }
 
+    const handleSubmit = (e) => {
+        handleTransactionSubmit(
+            e,
+            props.id,
+            props.portfolioId,
+            state,
+            {
+                date: date,
+                amount: dollars,
+                price: price,
+                bitcoin: bitcoin,
+                type: 'buy'
+            },
+            props.handleClose
+        )
+    }
+
+    useEffect(() => {
+        if(Number(props.price) !== Number(props.historicalPrice)){
+            setPrice(props.price)
+        }
+    },[])
+
     return (
-        <Wrapper>
-            <Input>
-                <Label htmlFor='date'>Date</Label>
-                <InputField
-                    id='date'
-                    name='date'
-                    type='date'
-                    value={date}
-                    size='medium'
-                    onChange={(e) => setDate(e.target.value)}
-                    inputProps={{inputMode: 'date'}}
-                />
-            </Input>
+        <Form onSubmit={handleSubmit}>
+            <h2>{props.formType === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
+            <Wrapper>
+                <Input>
+                    <Label htmlFor='date'>Date</Label>
+                    <InputField
+                        id='date'
+                        name='date'
+                        type='date'
+                        value={date}
+                        size='medium'
+                        onChange={(e) => setDate(e.target.value)}
+                        inputProps={{inputMode: 'date'}}
+                    />
+                </Input>
 
-            <Input>
-                <Label htmlFor='dollars'>Dollars</Label>
-                <InputField
-                    id='dollars'
-                    name='dollars'
-                    value={dollars}
-                    onChange={(e) => setDollars(e.target.value)}
-                    onFocus={handleFocus}
-                    inputProps={{inputMode: 'numeric'}}
-                    InputProps={{
-                        startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
-                    }}
-                />
-            </Input>
+                <Input>
+                    <Label htmlFor='dollars'>Dollars</Label>
+                    <InputField
+                        id='dollars'
+                        name='dollars'
+                        value={dollars}
+                        onChange={(e) => setDollars(e.target.value)}
+                        onFocus={handleFocus}
+                        inputProps={{inputMode: 'numeric'}}
+                        InputProps={{
+                            startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                        }}
+                    />
+                </Input>
 
-            <Input>
-                <Label htmlFor='price'>Price</Label>
-                <InputField
-                    id='price'
-                    name='price'
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    onFocus={handleFocus}
-                    inputProps={{inputMode: 'numeric'}}
-                    InputProps={{
-                        startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
-                    }}
-                />
-                <Infospan> <Switch size='small' onChange={handleSwitch} checked={useHistoricalPrice} />{`Use Historical Price: $${historicalPrice()}  `}</Infospan>
-            </Input>
+                <Input>
+                    <Label htmlFor='price'>Price</Label>
+                    <InputField
+                        id='price'
+                        name='price'
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        onFocus={handleFocus}
+                        inputProps={{inputMode: 'numeric'}}
+                        InputProps={{
+                            startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
+                        }}
+                    />
+                    <Infospan> <Switch size='small' onChange={handleSwitch} checked={useHistoricalPrice} />{`Use Historical Price: $${historicalPrice()}  `}</Infospan>
+                </Input>
 
-            <Input>
-                <Label htmlFor='bitcoin'>Bitcoin</Label>
-                <InputField
-                    id='bitcoin'
-                    name='bitcoin'
-                    value={bitcoin}
-                    onChange={(e) => setBitcoin(e.target.value)}
-                    onFocus={handleFocus}
-                    inputProps={{inputMode: 'numeric'}}
-                    InputProps={{
-                        endAdornment: (<InputAdornment position='end'>BTC</InputAdornment>)
-                    }}
-                />
-            </Input>
-        </Wrapper>
+                <Input>
+                    <Label htmlFor='bitcoin'>Bitcoin</Label>
+                    <InputField
+                        id='bitcoin'
+                        name='bitcoin'
+                        value={bitcoin}
+                        onChange={(e) => setBitcoin(e.target.value)}
+                        onFocus={handleFocus}
+                        inputProps={{inputMode: 'numeric'}}
+                        InputProps={{
+                            endAdornment: (<InputAdornment position='end'>BTC</InputAdornment>)
+                        }}
+                    />
+                </Input>
+                <Button variant='contained' size='large' type='submit'>
+                {props.formType === 'add' ? 'Add Transaction' : 'Save Changes'}
+                </Button>
+            </Wrapper>
+        </Form>
     )
 }
 
 export default BuyForm
+
+const Form = styled.form`
+    display: grid;
+    gap: 1rem;
+    padding: 2rem 1rem;
+
+    & h2 {
+        text-align: center;
+    }
+
+    & svg.orange {
+        color: #fff;
+    }
+`
 
 const Wrapper = styled.div`
     display: grid;
