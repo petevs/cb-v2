@@ -9,6 +9,7 @@ import moment from 'moment'
 import { numberWithCommas } from "utils/formatting"
 import { GlobalContext } from "state/contexts/GlobalContext"
 import { handleTransactionSubmit } from "hooks/handleTransactionSubmit"
+import * as yup from 'yup'
 
 
 
@@ -141,6 +142,29 @@ const BuyForm = (props) => {
         }
     },[])
 
+
+    let schema = yup.object().shape({
+        date: yup.date().min("2016-01-01"),
+        amount: yup.number().positive().min(0),
+        price: yup.number().positive().min(0),
+        bitcoin: yup.number().positive()
+    })
+
+    const values = {
+        date: date,
+        amount: dollars,
+        price: price,
+        bitcoin: bitcoin,
+        type: 'buy'
+    }
+
+    const isValid = async () =>{ 
+        const valid = await schema.isValid(values)
+        console.log(valid)
+    }
+
+    
+
     return (
         <Form onSubmit={handleSubmit}>
             <h2>{props.formType === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
@@ -181,7 +205,7 @@ const BuyForm = (props) => {
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         onFocus={handleFocus}
-                        inputProps={{inputMode: 'numeric'}}
+                        inputProps={{inputMode: 'numeric', min: '0'}}
                         InputProps={{
                             startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                         }}
@@ -203,9 +227,10 @@ const BuyForm = (props) => {
                         }}
                     />
                 </Input>
-                <Button variant='contained' size='large' type='submit'>
+                <Button variant='contained' size='large' type='submit' disabled={isValid()}>
                 {props.formType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
+                <Button variant='text' onClick={() => props.handleClose()}>Cancel</Button>
             </Wrapper>
         </Form>
     )
