@@ -1,16 +1,21 @@
 import EditableInput from "./EditableInput"
 import { useState, useEffect } from 'react'
 import NumberFormat from 'react-number-format'
+import { InputAdornment, Switch } from "@mui/material"
+import InputField from "styledComponents/InputField"
+import { SiBitcoinsv } from 'react-icons/si'
+import styled from 'styled-components'
+import moment from 'moment'
 
 
 
-
-const BuyForm = () => {
+const BuyForm = (props) => {
 
     const [lastFocused, setLastFocused] = useState([
         'dollars', 'price'
     ])
 
+    const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
     const [dollars, setDollars] = useState(500)
     const [price, setPrice] = useState(75000)
     const [bitcoin, setBitcoin] = useState(0)
@@ -57,71 +62,112 @@ const BuyForm = () => {
 
     useEffect(() => {
         if(disabled.dollars){
-            setDollars(Number((Number(price) * Number(bitcoin)).toFixed(2)))
+            setDollars((Number(price) * Number(bitcoin)).toFixed(2))
         }
     },[price, bitcoin, disabled])
 
     useEffect(() => {
         if(disabled.bitcoin){
-            setBitcoin(Number((Number(dollars) / Number(price)).toFixed(8)))
+            setBitcoin((Number(dollars) / Number(price)).toFixed(8))
         }
     },[disabled, dollars, price])
 
     useEffect(() => {
         if(disabled.price){
-            setPrice(Number((Number(dollars) / Number(bitcoin)).toFixed(2)))
+            setPrice((Number(dollars) / Number(bitcoin)).toFixed(2))
         }
     },[disabled, bitcoin, dollars])
 
 
-
     return (
-        <>
-            {/* <EditableInput
-                label={'From: Dollars'} 
-                thousandSeparator={true}
-                prefix='$'
-            />
-            <EditableInput
-                label={'Bitcoin Price'} 
-                adornment='1 BTC ='
-                thousandSeparator={true}
-                prefix=''
-            />
-            <EditableInput
-                label={'Bitcoin Received'} 
-                adornment={<SiBitcoinsv />}
-                fixedDecimalScale={true}
-                decimalScale={8}
-            /> */}
-            <label htmlFor='dollars'>Dollars</label>
-            <NumberFormat
-                id='dollars'
-                name='dollars'
-                value={dollars}
-                onChange={(e) => setDollars(e.target.value)}
-                onFocus={handleFocus}
-                prefix='$'
-                thousandSeparator={true}
-            />
-            <label htmlFor='price'>Price</label>
-            <input
-                id='price'
-                name='price'
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                onFocus={handleFocus}
-            />
-            <label htmlFor='bitcoin'>Bitcoin</label>
-            <input
-                id='bitcoin'
-                name='bitcoin'
-                value={bitcoin}
-                onChange={(e) => setBitcoin(e.target.value)}
-                onFocus={handleFocus}
-            />
-        </>
+        <Wrapper>
+            <Input>
+                <Label htmlFor='date'>Date</Label>
+                <InputField
+                    id='date'
+                    name='date'
+                    type='date'
+                    value={date}
+                    size='medium'
+                    onChange={(e) => setDate(e.target.value)}
+                    inputProps={{inputMode: 'date'}}
+                />
+            </Input>
+
+            <Input>
+                <Label htmlFor='dollars'>Dollars</Label>
+                <InputField
+                    id='dollars'
+                    name='dollars'
+                    value={dollars}
+                    onChange={(e) => setDollars(e.target.value)}
+                    onFocus={handleFocus}
+                    inputProps={{inputMode: 'numeric'}}
+                    InputProps={{
+                        startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
+                    }}
+                />
+            </Input>
+
+            <Input>
+                <Label htmlFor='price'>Price</Label>
+                <InputField
+                    id='price'
+                    name='price'
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    onFocus={handleFocus}
+                    inputProps={{inputMode: 'numeric'}}
+                    InputProps={{
+                        startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
+                    }}
+                />
+                <Infospan> <Switch size='small' />Use Historical Price: $23,235  </Infospan>
+            </Input>
+
+            <Input>
+                <Label htmlFor='bitcoin'>Bitcoin</Label>
+                <InputField
+                    id='bitcoin'
+                    name='bitcoin'
+                    value={bitcoin}
+                    onChange={(e) => setBitcoin(e.target.value)}
+                    onFocus={handleFocus}
+                    inputProps={{inputMode: 'numeric'}}
+                    InputProps={{
+                        endAdornment: (<InputAdornment position='end'>BTC</InputAdornment>)
+                    }}
+                />
+            </Input>
+        </Wrapper>
     )
 }
 
 export default BuyForm
+
+const Wrapper = styled.div`
+    display: grid;
+    grid-auto-flow: row;
+    gap: 1rem;
+`
+
+const Input = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: .25rem;
+`
+
+const Label = styled.label`
+    font-size: .75rem;
+    font-weight: 400;
+`
+
+const Infospan = styled.div`
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-items: end;
+    gap: .25rem;
+    align-items: baseline;
+    font-size: .875rem;
+`
