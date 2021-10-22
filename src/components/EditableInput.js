@@ -1,5 +1,5 @@
 import { FormControl, Input, InputLabel, InputAdornment } from '@mui/material'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import IconButton from 'styledComponents/IconButton';
@@ -7,14 +7,20 @@ import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
 import CancelIcon from '@mui/icons-material/Cancel';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import AddPortfolioForm from './AddPortfolioForm';
 
 const EditableInput = ({
     adornment, 
     prefix, 
     thousandSeparator,
     decimalScale,
-    fixedDecimalScale
+    fixedDecimalScale,
+    label
 }) => {
+
+    const inputRef = useRef()
+
+
 
     const [value, setValue] = useState(0)
     const [previousValue, setPreviousValue] = useState(0)
@@ -36,12 +42,19 @@ const EditableInput = ({
         setValue(previousValue)
         setDisabled(!disabled)
     }
+
+    console.log(inputRef)
  
 
     return (
-        <Box readOnly={disabled}>
+        <Wrapper>
+        <Label>{label}</Label>
+        <Box readOnly={disabled} twoCol={!adornment}>
             <span>{adornment}</span>
             <MyInput
+                displayType={'input'}
+                twoCol={!adornment}
+                ref={inputRef}
                 value={value}
                 onChange={handleChange}
                 thousandSeparator={thousandSeparator || false}
@@ -62,6 +75,7 @@ const EditableInput = ({
                 }
             </div>
         </Box>
+        </Wrapper>
     )
 }
 
@@ -70,7 +84,7 @@ export default EditableInput
 const Wrapper = styled.div`
     display: grid;
     grid-auto-flow: row;
-    gap: 0rem;
+    gap: .5rem;
 `
 
 const Box = styled.div`
@@ -81,18 +95,28 @@ const Box = styled.div`
     font-size: 1rem;
     line-height: 1.4375rem;
     font-weight: 400;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    padding: 0 1rem;
 
     ${({readOnly}) => !readOnly && `
         border-bottom: 1px solid #fff;
+    `}
+
+    ${({twoCol}) => twoCol && `
+        grid-template-columns: 1fr auto;
+        & span {
+            display: none;
+        }
     `}
 
 `
 
 const MyInput = styled(NumberFormat)`
 
-    padding: 1rem .5rem;
+    padding: .5rem .5rem;
     font-size: 1rem;
-    line-height: 1.4375rem;
+    // line-height: 1.4375rem;
     font-weight: 400;
     background-color: transparent;
     // border: 1px solid #fff;
@@ -109,4 +133,12 @@ const MyInput = styled(NumberFormat)`
         color: #fff;
     `}
 
+    ${({twoCol}) => twoCol && `
+        padding: 0;
+    `}
+`
+
+const Label = styled.div`
+    // grid-column: 1 / span 3;
+    font-size: .75rem;
 `

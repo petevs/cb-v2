@@ -10,6 +10,7 @@ import Currency from './Currency'
 import SwitchBox from './SwitchBox'
 import BuyForm from './BuyForm'
 import EditableInput from './EditableInput'
+import { handleTransactionSubmit } from 'hooks/handleTransactionSubmit'
 
 const TransactionForm = (props) => {
 
@@ -51,33 +52,24 @@ const TransactionForm = (props) => {
 
 
     //ON SUBMIT
+    
     const handleSubmit = (e) => {
-        e.preventDefault()
-
-        //Use transactionId if editing or make new id if new transaction
-        const firebaseId = props.id || Date.now()
-
-        db.collection('users').doc(state.user.uid).update({
-            portfolio: {
-                ...state.portfolio.portfolioObj,
-                [props.portfolioId]: {
-                    ...state.portfolio.portfolioObj[props.portfolioId],
-                    transactions: {
-                        ...state.portfolio.portfolioObj[props.portfolioId].transactions,
-                        [firebaseId]: {
-                            date: date,
-                            amount: amount,
-                            price: price,
-                            bitcoin: bitcoin,
-                            type: formType.type
-                        }
-                    }
-                }
-            }
-        })
-
-        props.handleClose()
+        handleTransactionSubmit(
+            e,
+            props.id,
+            props.portfolioId,
+            state,
+            {
+                date: date,
+                amount: amount,
+                price: price,
+                bitcoin: bitcoin,
+                type: formType.type
+            },
+            props.handleClose
+        )
     }
+
 
     useEffect(() => {
         if(props.type === 'sell'){
@@ -134,11 +126,11 @@ const TransactionForm = (props) => {
 
     //Update Dollar Amount If Bitcoin Value Change and Not Set to Custom
 
-    useEffect(() => {
-        if(formType.type === 'sell' && disabled.amount){
-            setAmount((Number(bitcoin) * Number(price)).toFixed(2) || 0)
-        }
-    },[bitcoin, price, formType, disabled, date])
+    // useEffect(() => {
+    //     if(formType.type === 'sell' && disabled.amount){
+    //         setAmount((Number(bitcoin) * Number(price)).toFixed(2) || 0)
+    //     }
+    // },[bitcoin, price, formType, disabled, date])
 
 
     /* THINK THROUGH LOGIC
@@ -149,6 +141,11 @@ const TransactionForm = (props) => {
         - If entering bitcoin and dollars then price is calculated
     */
 
+    useEffect(() => {
+        if(disabled.amount){
+            setPrice((Number(bitcoin) * Number(amount)).toFixed(2) || 0)
+        }
+    },[bitcoin, amount, disabled])
 
     //TOGGLE FOR IF FIELD DISABLED OR NOT
     const toggleEdit = (e, key) => {
@@ -162,7 +159,7 @@ const TransactionForm = (props) => {
     return (
             <Form onSubmit={handleSubmit}>
                 <h2>{props.type === 'add' ? 'Add Transaction' : 'Edit Transaction'}</h2>
-                <Group>
+                {/* <Group>
                     <ButtonGroup >
                         <Button size='small' variant={formType.buyButton} onClick={handleFormChange}>Buy</Button>
                         <Button size='small' variant={formType.sellButton} onClick={handleFormChange}>Sell</Button>
@@ -176,7 +173,6 @@ const TransactionForm = (props) => {
                     size='medium'
                     onChange={changeDate}
                     inputProps={{inputMode: 'date'}}
-                    variant='standard'
                     onFocus={() => setFocus('date')}
                 />
                 <OtherFields className={formType.type}>    
@@ -189,17 +185,11 @@ const TransactionForm = (props) => {
                         onChange={changeAmount}
                         inputProps={{inputMode: 'numeric'}}
                         InputProps={{
-                            startAdornment: (<InputAdornment position='start'>$</InputAdornment>),
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <Switch checked />
-                                </InputAdornment>)
+                            startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
                         }}
                         disabled={disabled.amount}
-                        variant='standard'
                         onFocus={() => setFocus('amount')}
                     />
-
                     <SwitchBox
                         className={disabled.price && 'checked'}
                         label={'Use Historical Price:'}
@@ -228,7 +218,6 @@ const TransactionForm = (props) => {
                         InputProps={{
                             startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                         }}
-                        variant='standard'
                     />
                 }
                 <SwitchBox 
@@ -254,14 +243,13 @@ const TransactionForm = (props) => {
                     InputProps={{
                         startAdornment: (<InputAdornment position='start'><SiBitcoinsv className='orange'/></InputAdornment>),
                     }}
-                    variant='standard'
                     />}
-                </OtherFields>
-                
+                </OtherFields> */}
+                <BuyForm />
                 <Button variant='contained' size='large' type='submit'>
                 {props.fType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
-                <BuyForm />
+                
             </Form>
     )
 }
