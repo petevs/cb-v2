@@ -26,7 +26,7 @@ const BuyForm = (props) => {
 
     const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
     const [dollars, setDollars] = useState(props.amount || 0)
-    const [price, setPrice] = useState(Number(props.price) ||state.portfolio.historicalData[props.date] || current_price || 0)
+    const [price, setPrice] = useState(Number(props.price) || Number(state.portfolio.historicalData[props.date]) || Number(current_price) || 0)
     const [bitcoin, setBitcoin] = useState(Number(props.bitcoin) || 0)
     const [useHistoricalPrice, setUseHistoricalPrice] = useState(Number(props.price) === Number(props.historicalPrice) ? true : false)
 
@@ -113,9 +113,8 @@ const BuyForm = (props) => {
 
 
     const historicalPrice = () => {
-        let price = state.portfolio.historicalData[date] || current_price || 0
+        let price = Number(state.portfolio.historicalData[date]) || Number(current_price) || 0
         price = Math.round(price)
-        price = numberWithCommas(price)
         return price        
     }
 
@@ -142,7 +141,6 @@ const BuyForm = (props) => {
         }
     },[])
 
-
     let schema = yup.object().shape({
         date: yup.date().min("2016-01-01"),
         amount: yup.number().positive().min(0),
@@ -157,13 +155,14 @@ const BuyForm = (props) => {
         bitcoin: bitcoin,
         type: 'buy'
     }
-
-    const isValid = async () =>{ 
-        const valid = await schema.isValid(values)
-        console.log(valid)
-    }
-
     
+    const [submitDisabled, setSubmitDisabled] = useState(true)
+
+    useEffect(() => {
+        schema.isValid(values).then(valid => {
+            setSubmitDisabled(!valid)
+        })
+    },[schema, date, dollars, price, bitcoin])
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -227,7 +226,7 @@ const BuyForm = (props) => {
                         }}
                     />
                 </Input>
-                <Button variant='contained' size='large' type='submit' disabled={isValid()}>
+                <Button variant='contained' size='large' type='submit' disabled={submitDisabled}>
                 {props.formType === 'add' ? 'Add Transaction' : 'Save Changes'}
                 </Button>
                 <Button variant='text' onClick={() => props.handleClose()}>Cancel</Button>
