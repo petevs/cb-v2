@@ -1,5 +1,5 @@
 import EditableInput from "./EditableInput"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import NumberFormat from 'react-number-format'
 import { InputAdornment, Switch } from "@mui/material"
 import InputField from "styledComponents/InputField"
@@ -7,10 +7,14 @@ import { SiBitcoinsv } from 'react-icons/si'
 import styled from 'styled-components'
 import moment from 'moment'
 import { numberWithCommas } from "utils/formatting"
+import { GlobalContext } from "state/contexts/GlobalContext"
 
 
 
 const BuyForm = (props) => {
+
+    const { state } = useContext(GlobalContext)
+    const current_price = state.marketData.marketData.current_price.cad
 
     const [lastFocused, setLastFocused] = useState([
         'dollars', 'price'
@@ -18,7 +22,7 @@ const BuyForm = (props) => {
 
     const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
     const [dollars, setDollars] = useState(0)
-    const [price, setPrice] = useState(props.price || props.currentPrice || 0)
+    const [price, setPrice] = useState(state.portfolio.historicalData[props.date] || current_price || 0)
     const [bitcoin, setBitcoin] = useState(0)
     const [useHistoricalPrice, setUseHistoricalPrice] = useState(true)
 
@@ -66,18 +70,23 @@ const BuyForm = (props) => {
     }, [lastFocused])
 
     const handleSwitch = () => {
-
         setUseHistoricalPrice(!useHistoricalPrice)
-
     }
 
     useEffect(() => {
+
+        let price = state.portfolio.historicalData[date] || current_price || 0
+        price = Math.round(price)
+
         if(useHistoricalPrice){
-            setPrice(props.price || props.currentPrice)
+            setPrice(price)
         }
     },[useHistoricalPrice])
 
 
+    useEffect(() => {
+        setPrice(Math.round(state.portfolio.historicalData[date] || current_price || 0))
+    },[state, date, current_price])
 
 
     useEffect(() => {
@@ -100,8 +109,13 @@ const BuyForm = (props) => {
 
 
     const historicalPrice = () => {
-        const price = props.price || props.currentPrice || 0
-        return numberWithCommas(price)
+        let price = state.portfolio.historicalData[date] || current_price || 0
+        price = Math.round(price)
+        price = numberWithCommas(price)
+        return price
+
+
+        
     }
 
     return (
