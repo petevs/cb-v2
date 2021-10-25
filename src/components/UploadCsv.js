@@ -5,13 +5,12 @@ import InputField from 'styledComponents/InputField'
 import { storage, db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import axios from 'axios'
+import { handleTransactionSubmit } from 'hooks/handleTransactionSubmit'
 
 const UploadCsv = ({ portfolioId }) => {
 
     const { state } = useContext(GlobalContext)
     const { uid } = state.user
-    console.log(state)
-
 
     const [file, setFile] = useState('')
     const [pending, setPending] = useState(false)
@@ -47,25 +46,69 @@ const UploadCsv = ({ portfolioId }) => {
 
 
     const csvToArray = (str, delimiter = ',') => {
-        const headers = str.slice(0, str.indexOf("\n")).split(delimiter)
+        const headers = str.toLowerCase().slice(0, str.indexOf("\n")).split(delimiter)
 
-        const rows = str.slice(str.indexOf("\n") + 1).split("\n")
+        const rows = str.slice(str.indexOf("\n") + 1).split("\r\n")
 
-        const arr = rows.map((row) => {
-            const values = row.split(delimiter)
-            const el = headers.reduce((object, header, index) => {
-                object[header] = values[index]
-                return object
-            }, {})
-            return el
-        })
+        // const arr = rows.map((row) => {
+        //     const values = row.split(delimiter)
+        //     const el = headers.reduce((object, header, index) => {
+        //         object[header] = values[index]
+        //         return object
+        //     }, {})
+        //     return el
+        // })
 
-        return arr
+        // return arr
+
+        const transactions = rows.map((row) => {
+                const values = row.split(delimiter)
+                return {
+                    date: values[0],
+                    type: values[1],
+                    amount: Number(values[2]),
+                    price: Number(values[3]),
+                    bitcoin: Number(values[4])
+                }
+            })
+
+        return transactions
     }
 
     useEffect(() => {
         axios.get(downloadURL)
-            .then(({data}) => console.log(csvToArray(data)))
+            .then(({data}) => {
+                const parsedData = csvToArray(data)
+
+                //Add transactions to user portfolio
+
+                let newTransactions = {}
+                let currentId = Date.now()
+
+                parsedData.forEach(transaction => {
+
+                    currentId = currentId + 60
+
+                    newTransactions = {
+                        ...newTransactions,
+                        [currentId]: transaction
+                    }
+                })
+
+                db.collection('users').doc(uid).update({
+                    portfolio: {
+                        ...state.portfolio.portfolioObj,
+                        [portfolioId]: {
+                            ...state.portfolio.portfolioObj[portfolioId],
+                            transactions: {
+                                ...state.portfolio.portfolioObj[portfolioId].transactions,
+                                ...newTransactions
+                            }
+                        }
+                    }
+                })
+
+            })
     }, [uploaded])
     
 
