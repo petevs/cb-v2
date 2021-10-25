@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import InputField from 'styledComponents/InputField'
 import { storage, db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
+import axios from 'axios'
 
 const UploadCsv = ({ portfolioId }) => {
 
@@ -20,33 +21,64 @@ const UploadCsv = ({ portfolioId }) => {
 
     const handleChange = (e) => setFile(e.target.files[0])
 
-    const handleUpload = async () => {
+    const handleUpload = async (e) => {
+
+        e.preventDefault()
+        
+        //Set pending to true to show spinner
         setPending(true)
 
+        //Upload file to storage
         const csvFile = file
         const csvId = Date.now()
         const fileRef = storage.ref(`${uid}/${portfolioId}/${csvId}`)
         await fileRef.put(csvFile)
+
+        //Get download url & set
         setDownloadURL(await fileRef.getDownloadURL())
+
+        //Set pending to false to hide spinner
         setPending(false)
+
+        //set uploaded to true to take to next step
+        setUploaded(true)
     }
 
-    
-    
+    useEffect(() => {
+        axios.get(downloadURL)
+            .then(({data}) => console.log(data))
+    }, [uploaded])
 
-    return (
-        <Form>
-            <h2>Upload CSV File</h2>
-            <label htmlFor='file'>Select CSV File</label>
-            <InputField
-                id='file'
-                type='file'
-                onChange={handleChange}
-            />
-            <Button variant='contained' size='large' disabled={!uploaded}>Upload</Button>
-            {pending && <Loading><CircularProgress size='1.3rem' />Uploading...</Loading>}
-        </Form>
-    )
+
+    if(!uploaded){
+        return (
+            <Form>
+                <h2>Upload CSV File</h2>
+                <label htmlFor='file'>Select CSV File</label>
+                <InputField
+                    id='file'
+                    type='file'
+                    onChange={handleChange}
+                />
+                <Button 
+                    variant='contained' 
+                    size='large' 
+                    disabled={!file}
+                    onClick={(e) => handleUpload(e)}
+                >
+                        Upload
+                    </Button>
+                {pending && <Loading><CircularProgress size='1.3rem' />Uploading...</Loading>}
+            </Form>
+        )
+    }
+
+    if(uploaded){
+        return(
+            <> NEXT STEP</>
+        )
+    }
+
 }
 
 export default UploadCsv

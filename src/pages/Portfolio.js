@@ -279,6 +279,7 @@ const Portfolio = () => {
                         startIcon={<FileUploadIcon />}
                         onClick={() => handleOpen(
                             <UploadCsv
+                                portfolioId={id}
                             />
                         )}
                     >
