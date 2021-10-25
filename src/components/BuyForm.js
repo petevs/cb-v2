@@ -153,10 +153,11 @@ const BuyForm = (props) => {
     },[])
 
     let schema = yup.object().shape({
-        date: yup.date().min("2016-01-01"),
+        date: yup.date().min("2016-01-01" | "Enter date after 2016-01-01"),
         amount: yup.number().positive().min(0),
         price: yup.number().positive().min(0),
-        bitcoin: yup.number().positive()
+        bitcoin: yup.number().positive(),
+        type: yup.string()
     })
 
     const values = {
@@ -175,6 +176,46 @@ const BuyForm = (props) => {
         })
     },[schema, date, dollars, price, bitcoin])
 
+    // const [errors, setErrors] = useState({
+    //     date: '',
+    //     amount: '',
+    //     price: '',
+    //     bitcoin: '',
+    //     type: ''
+    // })
+
+    // const validateChange = (name, value) => {
+    //     yup.reach(schema, name)
+    //     .validate(value)
+    //     .then(valid => setErrors({
+    //         ...errors,
+    //         [name]: ''
+    //     }))
+    //     .catch(err => {
+    //         setErrors({
+    //             ...errors,
+    //             [name]: err.errors[0]
+    //         })
+    //     })
+    // }
+
+    // const handleChange = (e, callback) => {
+    //     e.persist()
+    //     validateChange(e)
+    //     callback(e)
+    // }
+
+    // useEffect(() => {
+    //     console.log(errors)
+    // }, [errors])
+
+
+    // useEffect(() => {
+    //     for (const key in values){
+    //         validateChange(key, values[key])
+    //     }
+
+    // }, [price, bitcoin, dollars, date])
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -188,7 +229,7 @@ const BuyForm = (props) => {
                         type='date'
                         value={date}
                         size='medium'
-                        onChange={(e) => setDate(e.target.value)}
+                        onChange={(e) => setDate(e)}
                         inputProps={{inputMode: 'date'}}
                     />
                 </Input>

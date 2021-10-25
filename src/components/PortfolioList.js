@@ -21,11 +21,11 @@ const PortfolioList = ({handleOpen}) => {
         {
         portfolioList &&
         portfolioList.map(item => 
-            <li className={item.id === currentPage && 'active'}> 
+            <li className={item.id === currentPage ? 'active' : undefined} key={item.id}> 
                 <Link
                 to={`/portfolio/${item.id}`}
                 key={item.id}
-                className={item.id === currentPage && 'active'}
+                className={item.id === currentPage ? 'active' : undefined}
                 onClick={handleClose}
             >
                 {item.portfolioName}
