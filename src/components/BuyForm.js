@@ -154,7 +154,7 @@ const BuyForm = (props) => {
 
     let schema = yup.object().shape({
         date: yup.date().min(moment('2015-01-01').format('YYYY-MM-DD')).max(moment().format('YYYY-MM-DD')),
-        amount: yup.number().positive().min(0),
+        dollars: yup.number().positive().min(0),
         price: yup.number().positive().min(0),
         bitcoin: yup.number().positive().min(0),
         type: yup.string()
@@ -163,6 +163,7 @@ const BuyForm = (props) => {
     const values = {
         date: date,
         amount: dollars,
+        dollars: dollars,
         price: price,
         bitcoin: bitcoin,
         type: 'buy'
@@ -213,8 +214,9 @@ const BuyForm = (props) => {
 
 
     useEffect(() => {
-        console.log(errors)
-    }, [errors])
+        console.log(values)
+        console.log(disabled)
+    }, [values, disabled])
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -241,12 +243,14 @@ const BuyForm = (props) => {
                         id='dollars'
                         name='dollars'
                         value={dollars}
-                        onChange={(e) => setDollars(e.target.value)}
+                        onChange={(e) => handleChange(e, setDollars)}
                         onFocus={handleFocus}
                         inputProps={{inputMode: 'numeric'}}
                         InputProps={{
                             startAdornment: (<InputAdornment position='start'>$</InputAdornment>)
                         }}
+                        error={errors.dollars}
+                        helperText={errors.dollars}
                     />
                 </Input>
 
@@ -256,12 +260,14 @@ const BuyForm = (props) => {
                         id='price'
                         name='price'
                         value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        onChange={(e) => handleChange(e, setPrice)}
                         onFocus={handleFocus}
                         inputProps={{inputMode: 'numeric', min: '0'}}
                         InputProps={{
                             startAdornment: (<InputAdornment position='start'>1 BTC =</InputAdornment>)
                         }}
+                        error={errors.price}
+                        helperText={errors.price}
                     />
                     <Infospan> <Switch size='small' onChange={handleSwitch} checked={useHistoricalPrice} />{`Use Historical Price: $${historicalPrice()}  `}</Infospan>
                 </Input>
@@ -272,12 +278,14 @@ const BuyForm = (props) => {
                         id='bitcoin'
                         name='bitcoin'
                         value={bitcoin}
-                        onChange={(e) => setBitcoin(e.target.value)}
+                        onChange={(e) => handleChange(e, setBitcoin)}
                         onFocus={handleFocus}
                         inputProps={{inputMode: 'numeric'}}
                         InputProps={{
                             endAdornment: (<InputAdornment position='end'>BTC</InputAdornment>)
                         }}
+                        error={errors.bitcoin}
+                        helperText={errors.bitcoin}
                     />
                 </Input>
                 <Button variant='contained' size='large' type='submit' disabled={submitDisabled}>
