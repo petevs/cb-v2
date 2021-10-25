@@ -37,6 +37,7 @@ const UploadCsv = ({ portfolioId }) => {
         //Get download url & set
         setDownloadURL(await fileRef.getDownloadURL())
 
+
         //Set pending to false to hide spinner
         setPending(false)
 
