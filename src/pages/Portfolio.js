@@ -26,6 +26,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MySelect from 'styledComponents/MySelect'
 import DeleteTransaction from 'components/DeleteTransaction'
 import Currency from 'components/Currency'
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 
 const Portfolio = () => {
@@ -269,8 +270,18 @@ const Portfolio = () => {
                 </Table>
             </Box>
             <Box>
-                <HeaderRow>
+                <HeaderRow className='three'>
                     <h2>One-Off Transactions</h2>
+                    <Button
+                        variant='contained'
+                        size='small'
+                        startIcon={<FileUploadIcon />}
+                        onClick={() => handleOpen(
+                            <p>hello</p>
+                        )}
+                    >
+                        Upload CSV 
+                    </Button>
                     <Button 
                         variant='contained'
                         size='small'
@@ -394,5 +405,10 @@ const HeaderRow = styled.div`
   }
   & button {
       justify-self: end;
+  }
+
+  &.three {
+      grid-template-columns: 1fr auto auto;
+      gap: .5rem;
   }
 `
