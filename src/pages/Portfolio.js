@@ -27,6 +27,7 @@ import MySelect from 'styledComponents/MySelect'
 import DeleteTransaction from 'components/DeleteTransaction'
 import Currency from 'components/Currency'
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import UploadCsv from 'components/UploadCsv'
 
 
 const Portfolio = () => {
@@ -277,7 +278,8 @@ const Portfolio = () => {
                         size='small'
                         startIcon={<FileUploadIcon />}
                         onClick={() => handleOpen(
-                            <p>hello</p>
+                            <UploadCsv
+                            />
                         )}
                     >
                         Upload CSV 
