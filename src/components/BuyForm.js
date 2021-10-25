@@ -15,8 +15,6 @@ import * as yup from 'yup'
 
 const BuyForm = (props) => {
 
-    console.log(props)
-
     const { state } = useContext(GlobalContext)
     const current_price = state.marketData.marketData.current_price.cad
 
@@ -28,7 +26,10 @@ const BuyForm = (props) => {
     const [dollars, setDollars] = useState(props.amount || 0)
     const [price, setPrice] = useState(Number(props.price) || Number(state.portfolio.historicalData[props.date]) || Number(current_price) || 0)
     const [bitcoin, setBitcoin] = useState(Number(props.bitcoin) || 0)
-    const [useHistoricalPrice, setUseHistoricalPrice] = useState(Number(props.price) === Number(props.historicalPrice) ? true : false)
+    const [useHistoricalPrice, setUseHistoricalPrice] = useState(
+        //If the props price equals historical or if there is no props price then use historical price
+        (Number(props.price) === Number(props.historicalPrice) || !props.price )
+        ? true : false)
 
     const [disabled, setDisabled] = useState({
         dollars: false,
@@ -79,17 +80,17 @@ const BuyForm = (props) => {
 
     useEffect(() => {
 
-        let price = state.portfolio.historicalData[date] || current_price || 0
+        let price = state.portfolio.historicalData[date] || Number(current_price) || 0
         price = Math.round(price)
 
         if(useHistoricalPrice){
-            setPrice(price)
+            setPrice(Number(price))
         }
     },[useHistoricalPrice])
 
 
     useEffect(() => {
-        setPrice(Math.round(state.portfolio.historicalData[date] || current_price || 0))
+        setPrice(Math.round(state.portfolio.historicalData[date] || Number(current_price) || 0))
     },[state, date, current_price])
 
 
@@ -102,7 +103,12 @@ const BuyForm = (props) => {
     useEffect(() => {
         if(disabled.bitcoin){
             setBitcoin((Number(dollars) / Number(price)).toFixed(8))
+
+            if(Number(price) === 0 || Number(dollars) === 0){
+                setBitcoin(0.00000000)
+            }
         }
+
     },[disabled, dollars, price])
 
     useEffect(() => {
@@ -136,8 +142,13 @@ const BuyForm = (props) => {
     }
 
     useEffect(() => {
+
         if(Number(props.price) !== Number(props.historicalPrice)){
             setPrice(props.price)
+        }
+
+        if(!props.price){
+            setPrice(historicalPrice())
         }
     },[])
 
@@ -163,6 +174,7 @@ const BuyForm = (props) => {
             setSubmitDisabled(!valid)
         })
     },[schema, date, dollars, price, bitcoin])
+
 
     return (
         <Form onSubmit={handleSubmit}>
