@@ -28,6 +28,7 @@ import DeleteTransaction from 'components/DeleteTransaction'
 import Currency from 'components/Currency'
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadCsv from 'components/UploadCsv'
+import PortfolioGrid from 'components/PortfolioGrid'
 
 
 const Portfolio = () => {
@@ -345,6 +346,9 @@ const Portfolio = () => {
                     </TableBody>
                 </Table>
             </Box>
+            <PortfolioGrid 
+                rows={portfolio.oneOffTransactions(id, price[currency])}
+            />
 
         </Wrapper>
 
