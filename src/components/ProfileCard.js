@@ -10,7 +10,7 @@ const ProfileCard = ({ name, img }) => {
       <Avatar />
       <div>
         <h5>Welcome, Guest</h5>
-        <MyLink>Sign up for full experience</MyLink>
+        <MyLink to='/signup'>Sign up for full experience</MyLink>
       </div>
     </MyProfileCard>
   );
