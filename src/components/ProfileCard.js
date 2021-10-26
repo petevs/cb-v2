@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Avatar, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const ProfileCard = ({ name, img }) => {
 
@@ -9,7 +10,7 @@ const ProfileCard = ({ name, img }) => {
       <Avatar />
       <div>
         <h5>Welcome, Guest</h5>
-        <p>Sign up for full experience</p>
+        <MyLink>Sign up for full experience</MyLink>
       </div>
     </MyProfileCard>
   );
@@ -27,12 +28,12 @@ const MyProfileCard = styled.div`
   gap: 1rem;
   align-items: center;
   margin: 1rem;
-  
-  & p {
-    font-size: .75rem;
-    text-decoration: underline;
-    line-height: 1.25rem;
-    color: #1976d2;
-    font-weight: 500;
-  }
 `;
+
+const MyLink = styled(Link)`
+  color: inherit;
+  font-size: .75rem;
+  &:hover{
+    color: #1976d2;
+  }
+`
