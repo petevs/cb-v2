@@ -11,6 +11,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import { auth } from 'firebase'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Portfolio from 'pages/Portfolio';
+import Login from 'pages/Login';
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
             <>
             <Route path='/portfolio/:id' component={Portfolio} />
             <Route path='/dca' component={DollarCostAverage} />
+            <Route path='/login' component={Login} />
             </>
         }
         />

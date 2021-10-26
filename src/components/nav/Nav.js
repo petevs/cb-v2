@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Logo from 'components/nav/Logo'
 import MobileMenu from './MobileMenu'
@@ -8,6 +8,8 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
 import { Avatar, Button } from '@mui/material'
+import { Link } from 'react-router-dom'
+
 
 const Nav= () => {
 
@@ -23,7 +25,8 @@ const Nav= () => {
         price_change_percentage_24h_in_currency: percentChange,
         ath,
         high_24h,
-        low_24h
+        low_24h,
+        last_updated
 
     } = marketData.marketData
 
@@ -44,6 +47,7 @@ const Nav= () => {
         const value = Math.round( x * 100) / 100
         return value
     }
+
 
     return (
         <>
@@ -71,7 +75,7 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                <Button variant='outlined'>Log In</Button>
+                <Button component={Link} to='/login' variant='outlined'>Log In</Button>
                 <Button variant='contained'>Sign Up</Button>
             </End>
             <MobileMenu />

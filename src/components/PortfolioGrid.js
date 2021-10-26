@@ -35,27 +35,12 @@ const PortfolioGrid = ({rows}) => {
           editable: true,
           type: 'number'
         },
-        // {
-        //   field: 'fullName',
-        //   headerName: 'Full name',
-        //   description: 'This column has a value getter and is not sortable.',
-        //   sortable: false,
-        //   width: 160,
-        //   valueGetter: (params) =>
-        //     `${params.getValue(params.id, 'firstName') || ''} ${
-        //       params.getValue(params.id, 'lastName') || ''
-        //     }`,
-        // },
         {
             field: 'actions',
             headerName: 'Actions',
             renderCell: (params) => (<Button onClick={() => console.log(params.row)}>Edit</Button>)
         }
       ];
-
-      const handleClick = () => {
-          
-      }
       
     //   const rows = [
     //     { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, actions: 'hithe' },
@@ -77,7 +62,7 @@ const PortfolioGrid = ({rows}) => {
     },[selectionModel])
 
     return (
-    <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
+    <div style={{ height: 300, width: '100%', backgroundColor: 'white' }}>
       <DataGrid
         rows={rows}
         columns={columns}
