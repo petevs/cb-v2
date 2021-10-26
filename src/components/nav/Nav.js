@@ -27,27 +27,46 @@ const Nav= () => {
 
     } = marketData.marketData
 
+    const changeClass = () => {
+        if(priceChange[currency] < 0) {
+            return 'neg'
+        }
+
+        return ''
+    }
+
+    const currFormat = (x) => {
+       const  value = Math.round( x * 100) /100
+       return numberWithCommas(value)
+    }
+
+    const pctgFormat = (x) => {
+        const value = Math.round( x * 100) / 100
+        return value
+    }
 
     return (
         <>
         <Container columns='auto 1fr auto'>
             <Logo />
             <Center>
-                <PriceBox>
+                <PriceBox className={changeClass()}>
                     <h2>{`$${numberWithCommas(price[currency])}`}</h2>
-                    <span>{numberWithCommas(priceChange[currency])} ({percentChange[currency]}%)</span>
+                    <span>{
+                        currFormat(priceChange[currency])} ({pctgFormat(percentChange[currency])}%)
+                    </span>
                 </PriceBox>
                 <TickerBox>
                     <h6>24H HIGH ({currency})</h6>
-                    <h4>{`$${high_24h[currency]}`}</h4>
+                    <h4>{`$${numberWithCommas(high_24h[currency])}`}</h4>
                 </TickerBox>
                 <TickerBox>
                     <h6>24H LOW ({currency})</h6>
-                    <h4>{`$${low_24h[currency]}`}</h4>
+                    <h4>{`$${numberWithCommas(low_24h[currency])}`}</h4>
                 </TickerBox>
                 <TickerBox>
                     <h6>ATH ({currency})</h6>
-                    <h4>{`$${ath[currency]}`}</h4>
+                    <h4>{`$${numberWithCommas(ath[currency])}`}</h4>
                 </TickerBox>
             </Center>
             <End>
@@ -77,6 +96,12 @@ const PriceBox = styled.div`
     display: grid;
     grid-template-columns: auto auto;
     align-items: baseline;
+
+    &.neg {
+        & span {
+            color: red;
+        }
+    }
 `
 
 const Container = styled.div`
