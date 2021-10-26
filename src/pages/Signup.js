@@ -35,7 +35,8 @@ export default Signup
 const Wrapper = styled.div`
     display: grid;
     justify-content: center;
-    align-content: center;
+    align-content: start;
+    padding: 10rem 2rem;
 
     @media (max-width: 1024px) {
         grid-column: 1 / span 2;

@@ -8,7 +8,7 @@ const Login = () => {
     return (
         <Wrapper>
             <Form>
-                <h2>Create an account</h2>
+                <h2>Log in to your account</h2>
                 <InputField
                     label='username'
                     size='small'
@@ -21,10 +21,10 @@ const Login = () => {
                     label='password'
                     size='small'
                 />
-                <Button variant='contained'>Create Account</Button>
+                <Button variant='contained'>Log in</Button>
                 <GoToLogin>
-                    Have an account? 
-                    <Button component={Link} to='/login'>Log in</Button></GoToLogin>
+                    Need an account? 
+                    <Button component={Link} to='/signup'>Sign up</Button></GoToLogin>
             </Form>
         </Wrapper>
     )
@@ -35,7 +35,8 @@ export default Login
 const Wrapper = styled.div`
     display: grid;
     justify-content: center;
-    align-content: center;
+    align-content: start;
+    padding: 10rem 2rem;
 
     @media (max-width: 1024px) {
         grid-column: 1 / span 2;

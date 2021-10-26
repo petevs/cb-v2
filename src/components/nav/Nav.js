@@ -75,8 +75,20 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                <Button component={Link} to='/login' variant='outlined'>Log In</Button>
-                <Button variant='contained'>Sign Up</Button>
+                <Button 
+                    component={Link} 
+                    to='/login' 
+                    variant='outlined'
+                >
+                    Log In
+                </Button>
+                <Button 
+                    component={Link}
+                    to='/signup'
+                    variant='contained'
+                >
+                    Sign Up
+                </Button>
             </End>
             <MobileMenu />
         </Container>
