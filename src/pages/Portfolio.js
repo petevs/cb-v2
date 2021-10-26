@@ -100,12 +100,12 @@ const Portfolio = () => {
         }
 
         return [
-            {title: 'Total Invested', value: summary.totalInvested  , prefix: '$', suffix: ''},
+            {title: 'Total Invested', value: summary.totalInvested  , prefix: '$', suffix: '', thousandSeparator: true},
             {title: 'Bitcoin Holdings', value: summary.balance, prefix: '', suffix: ''},
-            {title: 'Current Value', value: summary.value, prefix: '$', suffix: ''},
-            {title: 'Average Cost', value: summary.averageCost, prefix: '$', suffix: ''},
-            {title: 'Gain / Loss', value: summary.profit, prefix: '$', suffix: ''},
-            {title: 'ROI', value: summary.roi, prefix: '', suffix: '%'},
+            {title: 'Current Value', value: summary.value, prefix: '$', suffix: '', thousandSeparator: true},
+            {title: 'Average Cost', value: summary.averageCost, prefix: '$', suffix: '', thousandSeparator: true},
+            {title: 'Gain / Loss', value: summary.profit, prefix: '$', suffix: '', thousandSeparator: true},
+            {title: 'ROI', value: summary.roi, prefix: '', suffix: '%', thousandSeparator: true},
         ]
         }
 
@@ -196,6 +196,7 @@ const Portfolio = () => {
                             value={item.value}
                             prefix={item.prefix}
                             suffix={item.suffix}
+                            thousandSeparator={item.thousandSeparator}
                         />
                         )
                 }

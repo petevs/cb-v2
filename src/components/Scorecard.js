@@ -1,11 +1,22 @@
 import styled from 'styled-components'
+import { numberWithCommas } from 'utils/formatting'
 
-const Scorecard = ({title, value, prefix, suffix}) => {
+const Scorecard = ({title, value, prefix, suffix, thousandSeparator}) => {
+
+
+    const formattedValue = () => {
+      if(thousandSeparator === true){
+        return numberWithCommas(value)
+      }
+      
+      return value
+    }
+
     return (
         <Card>
             <Title>{title}</Title>
             <Row>
-                <Value>{prefix}{value}{suffix}</Value>
+                <Value>{prefix}{formattedValue()}{suffix}</Value>
             </Row>
             
         </Card>
