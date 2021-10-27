@@ -60,7 +60,7 @@ const Login = () => {
         e.preventDefault()
 
         try {
-            await auth.signInWithEmailAndPassword()
+            await auth.signInWithEmailAndPassword(values.email, values.password)
         } catch(err) {
             console.log(err)
         }

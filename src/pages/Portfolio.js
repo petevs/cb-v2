@@ -16,6 +16,7 @@ import ScoreCards from 'styledComponents/ScoreCards'
 import Scorecard from 'components/Scorecard'
 import PortfolioHeader from 'components/PortfolioHeader'
 import NumberFormat from 'react-number-format'
+import { auth } from 'firebase'
 
 
 //ICONS
@@ -32,6 +33,8 @@ import PortfolioGrid from 'components/PortfolioGrid'
 
 
 const Portfolio = () => {
+
+    console.log(auth.currentUser)
 
     let { id } = useParams()
     const { state, dispatch } = useContext(GlobalContext)

@@ -29,11 +29,6 @@ const MenuContent = () => {
             icon={<BusinessCenterIcon />}
             />f
             <PortfolioList handleOpen={handleOpen} />
-            <SideBarItem
-            path='/account'
-            title='Profile'
-            icon={<AccountCircleIcon />}
-            />
 
             <FormModal open={open} onClose={handleClose}>
                 <AddPortfolioForm handleClose={handleClose} />

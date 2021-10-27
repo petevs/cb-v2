@@ -7,7 +7,7 @@ const ProfileCard = ({ name, img }) => {
 
   return (
     <MyProfileCard>
-      <Avatar />
+      <Link to='/account'><Avatar /></Link>
       <div>
         <h5>Welcome, Guest</h5>
         <MyLink to='/signup'>Sign up for full experience</MyLink>

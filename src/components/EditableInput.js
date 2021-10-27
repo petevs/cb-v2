@@ -15,14 +15,15 @@ const EditableInput = ({
     thousandSeparator,
     decimalScale,
     fixedDecimalScale,
-    label
+    label,
+    initialValue
 }) => {
 
     const inputRef = useRef()
 
 
 
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(initialValue)
     const [previousValue, setPreviousValue] = useState(0)
     const [disabled, setDisabled] = useState(true)
 

@@ -43,6 +43,8 @@ export const GlobalProvider = ({children}) => {
           });
     },[])
 
+    console.log(auth.currentUser)
+
     //GET & SET USER DETAILS
 
         useEffect(() => {
