@@ -1,27 +1,110 @@
-import React from 'react'
+import React, { useState} from 'react'
 import InputField from 'styledComponents/InputField'
 import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import * as yup from 'yup'
+import { auth } from 'firebase'
+import { useHistory } from 'react-router-dom'
 
 const Login = () => {
+
+    const history = useHistory()
+
+    let schema = yup.object().shape({
+        username: yup.string().required(),
+        email: yup.string().email('Invalid email format').required(),
+        password: yup.string().required()
+    })
+
+    const initialValues = {
+        username: '',
+        email: '',
+        password: ''
+    }
+
+    const [values, setValues] = useState(initialValues)
+    
+    const [errors, setErrors] = useState({
+        username: '',
+        email: '',
+        password: ''
+    })
+
+
+      const validateChange = (e) => {
+        yup.reach(schema, e.target.name)
+            .validate(e.target.value)
+            .then(valid => setErrors({
+                ...errors,
+                [e.target.name]: ''
+            }))
+            .catch(err => {
+                setErrors({
+                    ...errors,
+                    [e.target.name]: err.errors[0]
+                })
+            })
+    }
+
+    const handleChange = (e) => {
+        e.persist()
+        validateChange(e)
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        try {
+            await auth.signInWithEmailAndPassword()
+        } catch(err) {
+            console.log(err)
+        }
+        setValues(initialValues)
+        history.push('/portfolio')
+
+    }
+
+
+
     return (
         <Wrapper>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <h2>Log in to your account</h2>
                 <InputField
                     label='username'
                     size='small'
+                    name='username'
+                    value={values.username}
+                    onChange={handleChange}
+                    error={errors.username !== ''}
+                    helperText={errors.username}
                 />
                 <InputField
                     label='email'
                     size='small'
+                    type='email'
+                    name='email'
+                    value={values.email}
+                    onChange={handleChange}
+                    error={errors.email !== ''}
+                    helperText={errors.email}
                 />
                 <InputField
                     label='password'
                     size='small'
+                    type='password'
+                    name='password'
+                    value={values.password}
+                    onChange={handleChange}
+                    error={errors.password !== ''}
+                    helperText={errors.password}
                 />
-                <Button variant='contained'>Log in</Button>
+                <Button variant='contained' type='submit'>Log in</Button>
                 <GoToLogin>
                     Need an account? 
                     <Button component={Link} to='/signup'>Sign up</Button></GoToLogin>

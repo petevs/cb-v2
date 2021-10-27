@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Portfolio from 'pages/Portfolio';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup'
+import Account from 'pages/Account'
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
             <Route path='/dca' component={DollarCostAverage} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path='/account' component={Account} />
             </>
         }
         />

@@ -15,11 +15,13 @@ const Signup = () => {
         password: yup.string().required()
     })
 
-    const [values, setValues] = useState({
+    const initialValues = {
         username: '',
         email: '',
         password: ''
-    })
+    }
+
+    const [values, setValues] = useState(initialValues)
 
     const [errors, setErrors] = useState({
         username: '',
@@ -71,10 +73,6 @@ const Signup = () => {
             console.log(err)
         }
     }
-
-    console.log(auth.currentUser)
-
-
 
     return (
         <Wrapper>

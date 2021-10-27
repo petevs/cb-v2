@@ -5,6 +5,7 @@ import PortfolioList from './PortfolioList';
 import FormModal from './FormModal';
 import AddPortfolioForm from './AddPortfolioForm';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const MenuContent = () => {
 
@@ -26,8 +27,13 @@ const MenuContent = () => {
             path='/portfolio'
             title='Portfolio'
             icon={<BusinessCenterIcon />}
-            />
+            />f
             <PortfolioList handleOpen={handleOpen} />
+            <SideBarItem
+            path='/account'
+            title='Profile'
+            icon={<AccountCircleIcon />}
+            />
 
             <FormModal open={open} onClose={handleClose}>
                 <AddPortfolioForm handleClose={handleClose} />
