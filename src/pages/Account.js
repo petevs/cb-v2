@@ -6,8 +6,6 @@ import styled from 'styled-components'
 
 const Account = () => {
 
-    const user = auth.currentUser
-
 
     return (
         <Wrapper>
@@ -18,7 +16,7 @@ const Account = () => {
                     <InputField
                         id='displayName'
                         size='small'
-                        value={user.displayName}
+                        value={auth.currentUser.displayName}
                     />
                 </Input>
 
@@ -27,7 +25,7 @@ const Account = () => {
                     <InputField
                         id='email'
                         size='small'
-                        value={12}
+                        value={auth.currentUser.email}
                     />
                 </Input>
 

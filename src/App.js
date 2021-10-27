@@ -20,12 +20,15 @@ function App() {
   const { state, pending } = useContext(GlobalContext)
 
       useEffect(() => {
-        auth.signInAnonymously()
-          .then(() => {
-            //Signed in
-          })
-          .catch(err => {console.log(err.message)})
-      })
+
+        if(!auth.uid){
+          auth.signInAnonymously()
+            .then(() => {
+              //Signed in
+            })
+            .catch(err => {console.log(err.message)})
+        }
+      }, [])
     
 
 
