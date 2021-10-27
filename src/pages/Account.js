@@ -1,10 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { auth } from 'firebase'
 import InputField from 'styledComponents/InputField'
 import { Label } from '@mui/icons-material'
 import styled from 'styled-components'
 
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from 'styledComponents/IconButton'
+
 const Account = () => {
+
+    const initialValues = {
+        displayName: auth.currentUser.displayName || 'None',
+        email: auth.currentUser.email,
+        password: '*********'
+    }
+
+    const [form, setForm] = useState(initialValues)
+    const [disabled, setDisabled] = useState({
+        displayName: true,
+        email: true,
+        password: true,
+    })
+
+
+    const handleChange = (e) => {
+        setForm({
+            [e.target.name]: e.target.value
+        })
+    }
+
+
+    const toggleDisabled = (name, e) => {
+        setDisabled({
+            ...disabled,
+            [name]: !disabled[name]
+        })
+    }
 
 
     return (
@@ -13,20 +44,40 @@ const Account = () => {
 
                 <Input>
                     <label htmlFor='displayName'>Display Name</label>
-                    <InputField
+                    <MyInputField
                         id='displayName'
                         size='small'
                         value={auth.currentUser.displayName}
+                        disabled={disabled.displayName}
                     />
                 </Input>
-
                 <Input>
                     <label htmlFor='email'>Email</label>
-                    <InputField
+                    <MyInputField
                         id='email'
                         size='small'
                         value={auth.currentUser.email}
+                        disabled={disabled.email}
+                        onChange={handleChange}
                     />
+                    <EditButtons>
+                        <IconButton onClick={(e) => toggleDisabled('email', e)}>
+                            <EditIcon />
+                        </IconButton>
+                    </EditButtons>
+                </Input>
+                <Input>
+                    <label htmlFor='password'>Password</label>
+                    <MyInputField
+                        id='password'
+                        size='small'
+                        value={'***********'}
+                        type='password'
+                        disabled={disabled.password}
+                    />
+                    <EditButtons>
+                        <EditIcon />
+                    </EditButtons>
                 </Input>
 
 
@@ -63,15 +114,20 @@ const FormBox = styled.div`
 
 const Input = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr) auto;
     gap: 1rem;
     align-items: center;
 
     & label {
         grid-column: 1 / span 1;
     }
+`
 
-    & div {
-        grid-column: 2 / span 3;
-    }
+const MyInputField = styled(InputField)`
+    grid-column: 2 / span 2;
+`
+
+const EditButtons = styled.div`
+    display: grid;
+    grid-column: 4 / span 1;
 `

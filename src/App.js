@@ -21,13 +21,16 @@ function App() {
 
       useEffect(() => {
 
-        if(!auth.uid){
-          auth.signInAnonymously()
-            .then(() => {
-              //Signed in
-            })
-            .catch(err => {console.log(err.message)})
-        }
+        setTimeout(() => {
+          if(!state.user.uid){
+            auth.signInAnonymously()
+              .then(() => {
+                //Signed in
+              })
+              .catch(err => {console.log(err.message)})
+          }
+        }, 5000)
+
       }, [])
     
 
