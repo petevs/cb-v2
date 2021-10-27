@@ -9,9 +9,12 @@ import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
 import { Avatar, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { auth } from 'firebase'
 
 
 const Nav= () => {
+
+    console.log(auth.currentUser)
 
     const {state} = useContext(GlobalContext)
 

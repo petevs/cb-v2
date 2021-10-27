@@ -21,15 +21,13 @@ function App() {
 
       useEffect(() => {
 
-        setTimeout(() => {
-          if(!state.user.uid){
+          if(!state.user.uid && !pending){
             auth.signInAnonymously()
               .then(() => {
                 //Signed in
               })
               .catch(err => {console.log(err.message)})
           }
-        }, 5000)
 
       }, [])
     

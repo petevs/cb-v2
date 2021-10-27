@@ -36,8 +36,17 @@ export const GlobalProvider = ({children}) => {
         auth.onAuthStateChanged((user) => {
             if (user) {
               dispatch(setUser(user));
-            } else {
+            } 
+            
+            else {
               dispatch(setUser(initialAuthState));
+            
+              //If not logged in sign in as guest
+              auth.signInAnonymously()
+                .then(() => {
+                    //Signed in
+                })
+                .catch(err => {console.log(err.message)})
             }
             setPending(false);
           });
