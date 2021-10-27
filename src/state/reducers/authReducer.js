@@ -9,7 +9,8 @@ export const authReducer = (state, action) => {
         ...state,
         uid: action.payload.uid,
         email: action.payload.email,
-        displayName: action.payload.displayName
+        displayName: action.payload.displayName,
+        isAnonymous: action.payload.isAnonymous
       };
     default:
       return state;

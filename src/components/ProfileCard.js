@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { Avatar, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const ProfileCard = ({ name, img }) => {
+const ProfileCard = ({ name, img, isAnonymous }) => {
 
   return (
     <MyProfileCard>
       <Link to='/account'><Avatar /></Link>
       <div>
-        <h5>Welcome, Guest</h5>
-        <MyLink to='/signup'>Sign up for full experience</MyLink>
+        <h5>Welcome, {name}</h5>
+        {isAnonymous &&
+          <MyLink to='/signup'>Sign up for full experience</MyLink>
+        }
       </div>
     </MyProfileCard>
   );
