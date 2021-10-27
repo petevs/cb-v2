@@ -18,7 +18,9 @@ const Sidebar = () => {
         <Container>
             <ProfileCard 
                 name={state.user.displayName || 'Guest'}
-                signedIn={state.user.isAnonymous} />
+                signedIn={state.user.isAnonymous} 
+                img={state.user.photoURL || ''}
+            />
             <MenuContent />
         </Container>
     )

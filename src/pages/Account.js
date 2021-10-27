@@ -16,7 +16,8 @@ const Account = () => {
     const initialValues = {
         displayName: state.user.displayName || '',
         email: auth.currentUser.email,
-        password: '*********'
+        password: '*********',
+        photoURL: state.user.photoURL || ''
     }
 
     const [form, setForm] = useState(initialValues)
@@ -46,6 +47,7 @@ const Account = () => {
 
         user.updateProfile({
             displayName: form.displayName,
+            photoURL: form.photoURL,
         }).then(() => {
 
         }).catch((error) => {
@@ -65,6 +67,16 @@ const Account = () => {
                         name='displayName'
                         size='small'
                         value={form.displayName}
+                        onChange={handleChange}
+                    />
+                </Input>
+                <Input>
+                    <label htmlFor='photoURL'>Photo URL</label>
+                    <MyInputField
+                        id='photoURL'
+                        name='photoURL'
+                        size='small'
+                        value={form.photoURL}
                         onChange={handleChange}
                     />
                 </Input>
