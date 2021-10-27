@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
+import { auth } from 'firebase'
+import firebase from "firebase/compat/app";
 
 const Signup = () => {
 
@@ -50,13 +52,33 @@ const Signup = () => {
         })
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
 
+        try {
+            const credential = await firebase.auth.EmailAuthProvider.credential(values.email, values.password)
+
+            auth.currentUser.linkWithCredential(credential)
+                .then((usercred) => {
+                    const user = usercred.user
+                    console.log("Anonymous account successful upgraded", user)
+                }).catch((error) => {
+                    console.log("error upgrading anonymous account")
+                })
+        } 
+        
+        catch(err) {
+            console.log(err)
+        }
+    }
+
+    console.log(auth.currentUser)
 
 
 
     return (
         <Wrapper>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <h2>Create an account</h2>
                 <InputField
                     label='username'
@@ -87,7 +109,7 @@ const Signup = () => {
                     error={errors.password !== ''}
                     helperText={errors.password}
                 />
-                <Button variant='contained'>Create Account</Button>
+                <Button variant='contained' type='submit'>Create Account</Button>
                 <GoToLogin>
                     Have an account? 
                     <Button component={Link} to='/login'>Log in</Button></GoToLogin>
