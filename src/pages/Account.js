@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { auth } from 'firebase'
 import InputField from 'styledComponents/InputField'
 import { Label } from '@mui/icons-material'
@@ -6,11 +6,15 @@ import styled from 'styled-components'
 
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from 'styledComponents/IconButton'
+import { GlobalContext } from 'state/contexts/GlobalContext'
+import { Button } from '@mui/material'
 
 const Account = () => {
 
+    const { state } = useContext(GlobalContext)
+
     const initialValues = {
-        displayName: auth.currentUser.displayName || 'None',
+        displayName: state.user.displayName || '',
         email: auth.currentUser.email,
         password: '*********'
     }
@@ -37,6 +41,18 @@ const Account = () => {
         })
     }
 
+    const handleSubmit = () => {
+        const user = auth.currentUser
+
+        user.updateProfile({
+            displayName: form.displayName,
+        }).then(() => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
 
     return (
         <Wrapper>
@@ -46,12 +62,13 @@ const Account = () => {
                     <label htmlFor='displayName'>Display Name</label>
                     <MyInputField
                         id='displayName'
+                        name='displayName'
                         size='small'
-                        value={auth.currentUser.displayName}
-                        disabled={disabled.displayName}
+                        value={form.displayName}
+                        onChange={handleChange}
                     />
                 </Input>
-                <Input>
+                {/* <Input>
                     <label htmlFor='email'>Email</label>
                     <MyInputField
                         id='email'
@@ -74,12 +91,12 @@ const Account = () => {
                         value={'***********'}
                         type='password'
                         disabled={disabled.password}
-                    />
-                    <EditButtons>
+                    /> */}
+                    {/* <EditButtons>
                         <EditIcon />
                     </EditButtons>
-                </Input>
-
+                </Input> */}
+                <Button variant='contained' onClick={() => handleSubmit()}>Update</Button>
 
             </FormBox>
         </Wrapper>

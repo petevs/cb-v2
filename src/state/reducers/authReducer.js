@@ -9,6 +9,7 @@ export const authReducer = (state, action) => {
         ...state,
         uid: action.payload.uid,
         email: action.payload.email,
+        displayName: action.payload.displayName
       };
     default:
       return state;

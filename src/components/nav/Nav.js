@@ -14,7 +14,7 @@ import { auth } from 'firebase'
 
 const Nav= () => {
 
-    console.log(auth.currentUser)
+    console.log(auth.currentUser.isAnonymous)
 
     const {state} = useContext(GlobalContext)
 
