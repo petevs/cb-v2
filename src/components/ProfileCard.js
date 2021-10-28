@@ -9,7 +9,7 @@ const ProfileCard = ({ name, img, isAnonymous }) => {
     <MyProfileCard>
       <Link to='/account'><Avatar src={img}/></Link>
       <div>
-        <h5>Welcome, {name}</h5>
+        <h5>Welcome {name}!</h5>
         {isAnonymous &&
           <MyLink to='/signup'>Sign up for full experience</MyLink>
         }
