@@ -8,15 +8,15 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
 import { Avatar, Button } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { auth } from 'firebase'
 
 
 const Nav= () => {
 
-    console.log(auth.currentUser.isAnonymous)
-
     const {state} = useContext(GlobalContext)
+
+    const history = useHistory()
 
     const { theme, settings, marketData } = state
 
@@ -51,6 +51,13 @@ const Nav= () => {
         return value
     }
 
+    const handleSignOut = async () => {
+        await auth.signOut()
+        await auth.signInAnonymously()
+        history.push('/')
+
+    }
+
 
     return (
         <>
@@ -78,20 +85,32 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                <Button 
-                    component={Link} 
-                    to='/login' 
+                {
+                auth.currentUser.isAnonymous ?
+                <>
+                    <Button 
+                        component={Link} 
+                        to='/login' 
+                        variant='outlined'
+                    >
+                        Log In
+                    </Button>
+                    <Button 
+                        component={Link}
+                        to='/signup'
+                        variant='contained'
+                    >
+                        Sign Up
+                    </Button>
+                </>
+                :
+                <Button
                     variant='outlined'
+                    onClick={handleSignOut}
                 >
-                    Log In
+                    Sign Out
                 </Button>
-                <Button 
-                    component={Link}
-                    to='/signup'
-                    variant='contained'
-                >
-                    Sign Up
-                </Button>
+                }
             </End>
             <MobileMenu />
         </Container>
