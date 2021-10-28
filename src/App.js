@@ -5,16 +5,17 @@ import Sidebar from 'components/sidebar/Sidebar';
 import Main from 'layouts/Main';
 import { ThemeProvider } from 'styled-components';
 import './App.css';
-import DollarCostAverage from 'pages/DollarCostAverage';
 import { GlobalContext } from 'state/contexts/GlobalContext';
-import { Backdrop, CircularProgress } from "@mui/material";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import PrivateRoute from 'routes/PrivateRoute';
+import Loading from 'components/Loading';
+
+//PAGES
 import Portfolio from 'pages/Portfolio';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup'
 import Account from 'pages/Account'
 import Splash from 'pages/Splash';
-import PrivateRoute from 'routes/PrivateRoute';
 import PortfolioMain from 'pages/PortfolioMain';
 
 function App() {
@@ -23,9 +24,8 @@ function App() {
 
   if (state.marketData.loading || pending ) {
       return (
-      <Backdrop sx={{ backgroundColor: 'black'}} open>
-        <CircularProgress />
-      </Backdrop>);
+        <Loading />
+      )
     }
 
   return (
@@ -39,7 +39,6 @@ function App() {
               <PrivateRoute exact path='/' component={Portfolio} />
               <PrivateRoute exact path='/portfolio' component={PortfolioMain} />
               <PrivateRoute path='/portfolio/:id' component={Portfolio} />
-              <PrivateRoute path='/dca' component={DollarCostAverage} />
               <Route path='/login' component={Login} />
               <Route path='/signup' component={Signup} />
               <PrivateRoute path='/account' component={Account} />
