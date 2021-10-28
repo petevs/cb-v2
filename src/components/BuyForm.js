@@ -1,12 +1,11 @@
-import EditableInput from "./EditableInput"
+
 import { useState, useEffect, useContext } from 'react'
-import NumberFormat from 'react-number-format'
+
 import { InputAdornment, Switch, Button } from "@mui/material"
 import InputField from "styledComponents/InputField"
-import { SiBitcoinsv } from 'react-icons/si'
+
 import styled from 'styled-components'
 import moment from 'moment'
-import { numberWithCommas } from "utils/formatting"
 import { GlobalContext } from "state/contexts/GlobalContext"
 import { handleTransactionSubmit } from "hooks/handleTransactionSubmit"
 import * as yup from 'yup'
@@ -171,10 +170,6 @@ const BuyForm = (props) => {
     
     const [submitDisabled, setSubmitDisabled] = useState(true)
 
-    useEffect(() => {
-        console.log(values)
-    },[values])
-
     const [errors, setErrors] = useState({
         date: '',
         amount: '',
@@ -212,11 +207,6 @@ const BuyForm = (props) => {
 
     },[schema, date, dollars, price, bitcoin])
 
-
-    useEffect(() => {
-        console.log(values)
-        console.log(disabled)
-    }, [values, disabled])
 
     return (
         <Form onSubmit={handleSubmit}>

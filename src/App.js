@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 import Nav from 'components/nav/Nav';
 import Sidebar from 'components/sidebar/Sidebar';
@@ -8,36 +8,18 @@ import './App.css';
 import DollarCostAverage from 'pages/DollarCostAverage';
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Backdrop, CircularProgress } from "@mui/material";
-import { auth } from 'firebase'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Portfolio from 'pages/Portfolio';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup'
 import Account from 'pages/Account'
 import Splash from 'pages/Splash';
-import { db } from 'firebase'
 import PrivateRoute from 'routes/PrivateRoute';
 import PortfolioMain from 'pages/PortfolioMain';
 
 function App() {
 
   const { state, pending } = useContext(GlobalContext)
-
-      // useEffect(() => {
-      //     if(!state.user.uid && !pending){
-      //       auth.signInAnonymously()
-      //         .then(() => {
-      //           //Signed in
-      //           db.collection('users').doc(state.user.uid).set({
-      //             exists: true
-      //           })
-      //         })
-      //         .catch(err => {console.log(err.message)})
-      //     }
-
-      // }, [state.user.uid, pending])
-    
-
 
   if (state.marketData.loading || pending ) {
       return (

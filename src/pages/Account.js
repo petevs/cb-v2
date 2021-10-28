@@ -1,11 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { auth } from 'firebase'
 import InputField from 'styledComponents/InputField'
-import { Label } from '@mui/icons-material'
 import styled from 'styled-components'
-
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from 'styledComponents/IconButton'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { Button } from '@mui/material'
 
@@ -21,24 +17,12 @@ const Account = () => {
     }
 
     const [form, setForm] = useState(initialValues)
-    const [disabled, setDisabled] = useState({
-        displayName: true,
-        email: true,
-        password: true,
-    })
+
 
 
     const handleChange = (e) => {
         setForm({
             [e.target.name]: e.target.value
-        })
-    }
-
-
-    const toggleDisabled = (name, e) => {
-        setDisabled({
-            ...disabled,
-            [name]: !disabled[name]
         })
     }
 
@@ -154,9 +138,4 @@ const Input = styled.div`
 
 const MyInputField = styled(InputField)`
     grid-column: 2 / span 2;
-`
-
-const EditButtons = styled.div`
-    display: grid;
-    grid-column: 4 / span 1;
 `

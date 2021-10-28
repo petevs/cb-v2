@@ -4,11 +4,8 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
-import { useHistory } from 'react-router'
 
 const EditPortfolioForm = ({details, handleClose, id}) => {
-
-    const history = useHistory()
 
     const { state } = useContext(GlobalContext)
 

@@ -31,7 +31,6 @@
     "styled-components": "^5.3.1",
     "use-combined-reducers": "^1.0.4",
     "web-vitals": "^1.0.1",
-    "webpack": "^4.44.2",
     "yup": "^0.32.11"
   },
   "scripts": {

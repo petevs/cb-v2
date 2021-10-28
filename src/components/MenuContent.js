@@ -5,7 +5,6 @@ import PortfolioList from './PortfolioList';
 import FormModal from './FormModal';
 import AddPortfolioForm from './AddPortfolioForm';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const MenuContent = () => {
 

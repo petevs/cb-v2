@@ -6,7 +6,6 @@ import FormModal from 'components/FormModal'
 import styled from 'styled-components'
 import MyTableHead from 'styledComponents/MyTableHead'
 import { useParams } from 'react-router'
-import EditPortfolioForm from 'components/EditPortfolioForm'
 import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
 import { toggleModal } from 'state/actions/modalActions'
@@ -15,21 +14,17 @@ import { setCurrentPage } from 'state/actions/settingsActions'
 import ScoreCards from 'styledComponents/ScoreCards'
 import Scorecard from 'components/Scorecard'
 import PortfolioHeader from 'components/PortfolioHeader'
-import NumberFormat from 'react-number-format'
-import { auth } from 'firebase'
 
 
 //ICONS
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MySelect from 'styledComponents/MySelect'
 import DeleteTransaction from 'components/DeleteTransaction'
 import Currency from 'components/Currency'
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadCsv from 'components/UploadCsv'
-import PortfolioGrid from 'components/PortfolioGrid'
 
 
 const Portfolio = () => {
@@ -369,18 +364,6 @@ const Wrapper = styled.div`
 
     & button {
         justify-self: start;
-    }
-`
-
-const Headline = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    justify-content: start;
-    align-items: center;
-    gap: 1rem;
-
-    & button {
-        justify-self: end;
     }
 `
 

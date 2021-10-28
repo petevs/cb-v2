@@ -5,7 +5,6 @@ import InputField from 'styledComponents/InputField'
 import { storage, db } from 'firebase'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import axios from 'axios'
-import { handleTransactionSubmit } from 'hooks/handleTransactionSubmit'
 
 const UploadCsv = ({ portfolioId }) => {
 
@@ -46,20 +45,8 @@ const UploadCsv = ({ portfolioId }) => {
 
 
     const csvToArray = (str, delimiter = ',') => {
-        const headers = str.toLowerCase().slice(0, str.indexOf("\n")).split(delimiter)
 
         const rows = str.slice(str.indexOf("\n") + 1).split("\r\n")
-
-        // const arr = rows.map((row) => {
-        //     const values = row.split(delimiter)
-        //     const el = headers.reduce((object, header, index) => {
-        //         object[header] = values[index]
-        //         return object
-        //     }, {})
-        //     return el
-        // })
-
-        // return arr
 
         const transactions = rows.map((row) => {
                 const values = row.split(delimiter)

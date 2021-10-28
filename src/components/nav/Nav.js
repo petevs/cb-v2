@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import Logo from 'components/nav/Logo'
 import MobileMenu from './MobileMenu'
@@ -7,16 +7,14 @@ import Drawer from './Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
-import { Avatar, Button } from '@mui/material'
+import { Button } from '@mui/material'
 import { Link, useHistory } from 'react-router-dom'
 import { auth } from 'firebase'
-import { setPortfolios } from 'state/actions/portfolioActions'
-import { initialPortfolioState } from 'state/reducers/portfolioReducer'
 
 
 const Nav= () => {
 
-    const {state, dispatch} = useContext(GlobalContext)
+    const {state } = useContext(GlobalContext)
 
     const history = useHistory()
 
@@ -30,9 +28,7 @@ const Nav= () => {
         price_change_percentage_24h_in_currency: percentChange,
         ath,
         high_24h,
-        low_24h,
-        last_updated
-
+        low_24h
     } = marketData.marketData
 
     const changeClass = () => {

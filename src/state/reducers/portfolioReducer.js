@@ -1,4 +1,3 @@
-import moment from 'moment'
 import { makeFillerTransactions } from 'utils/makeFillerTransactions';
 import { recurringTransactions } from 'utils/recurringTransactions';
 

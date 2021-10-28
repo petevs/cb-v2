@@ -1,13 +1,10 @@
-import { FormControl, Input, InputLabel, InputAdornment } from '@mui/material'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import IconButton from 'styledComponents/IconButton';
 import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
 import CancelIcon from '@mui/icons-material/Cancel';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import AddPortfolioForm from './AddPortfolioForm';
 
 const EditableInput = ({
     adornment, 
@@ -20,8 +17,6 @@ const EditableInput = ({
 }) => {
 
     const inputRef = useRef()
-
-
 
     const [value, setValue] = useState(initialValue)
     const [previousValue, setPreviousValue] = useState(0)
