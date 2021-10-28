@@ -14,13 +14,11 @@ const Signup = () => {
     const history = useHistory()
 
     let schema = yup.object().shape({
-        username: yup.string().required(),
         email: yup.string().email('Invalid email format').required(),
         password: yup.string().required()
     })
 
     const initialValues = {
-        username: '',
         email: '',
         password: ''
     }
@@ -28,7 +26,6 @@ const Signup = () => {
     const [values, setValues] = useState(initialValues)
 
     const [errors, setErrors] = useState({
-        username: '',
         email: '',
         password: ''
     })
@@ -90,15 +87,6 @@ const Signup = () => {
         <FormModal open>
             <Form onSubmit={handleSubmit}>
                 <h2>Create an account</h2>
-                <InputField
-                    label='username'
-                    size='small'
-                    name='username'
-                    value={values.username}
-                    onChange={handleChange}
-                    error={errors.username !== ''}
-                    helperText={errors.username}
-                />
                 <InputField
                     label='email'
                     size='small'

@@ -13,13 +13,11 @@ const Login = () => {
     const history = useHistory()
 
     let schema = yup.object().shape({
-        username: yup.string().required(),
         email: yup.string().email('Invalid email format').required(),
         password: yup.string().required()
     })
 
     const initialValues = {
-        username: '',
         email: '',
         password: ''
     }
@@ -27,7 +25,6 @@ const Login = () => {
     const [values, setValues] = useState(initialValues)
     
     const [errors, setErrors] = useState({
-        username: '',
         email: '',
         password: ''
     })
@@ -78,15 +75,6 @@ const Login = () => {
         <FormModal open>
             <Form onSubmit={handleSubmit}>
                 <h2>Log in to your account</h2>
-                <InputField
-                    label='username'
-                    size='small'
-                    name='username'
-                    value={values.username}
-                    onChange={handleChange}
-                    error={errors.username !== ''}
-                    helperText={errors.username}
-                />
                 <InputField
                     label='email'
                     size='small'
