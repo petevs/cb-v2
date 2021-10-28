@@ -23,8 +23,6 @@ function App() {
 
   const { state, pending } = useContext(GlobalContext)
 
-  console.log(state.user.uid)
-
       // useEffect(() => {
       //     if(!state.user.uid && !pending){
       //       auth.signInAnonymously()

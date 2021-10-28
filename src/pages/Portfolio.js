@@ -46,8 +46,6 @@ const Portfolio = () => {
         dispatch(setCurrentPage(id))
     },[id])
 
-    console.log(state)
-
     const details = portfolioObj[id]
 
     

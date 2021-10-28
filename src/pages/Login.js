@@ -135,6 +135,7 @@ const Form = styled.form`
     gap: 1rem;
     color: #fff;
     min-width: 300px;
+    padding: 2rem;
 `
 
 const GoToLogin = styled.div`

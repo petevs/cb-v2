@@ -13,6 +13,8 @@ const Splash = () => {
     const { state } = useContext(GlobalContext)
     const { user } = state
 
+    console.log(state)
+
     const history = useHistory()
 
     useEffect(() => {

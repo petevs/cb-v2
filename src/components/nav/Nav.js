@@ -10,11 +10,13 @@ import { numberWithCommas } from 'utils/formatting'
 import { Avatar, Button } from '@mui/material'
 import { Link, useHistory } from 'react-router-dom'
 import { auth } from 'firebase'
+import { setPortfolios } from 'state/actions/portfolioActions'
+import { initialPortfolioState } from 'state/reducers/portfolioReducer'
 
 
 const Nav= () => {
 
-    const {state} = useContext(GlobalContext)
+    const {state, dispatch} = useContext(GlobalContext)
 
     const history = useHistory()
 
