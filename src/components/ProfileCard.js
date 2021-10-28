@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Avatar, Button } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const ProfileCard = ({ name, img, isAnonymous }) => {
