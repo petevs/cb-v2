@@ -40,7 +40,7 @@ function App() {
     
 
 
-  if (state.marketData.loading || pending || !state.user.uid ) {
+  if (state.marketData.loading || pending ) {
       return (
       <Backdrop sx={{ backgroundColor: 'black'}} open>
         <CircularProgress />
@@ -55,14 +55,15 @@ function App() {
           side={<Sidebar />}
           main={
             <>
-            <PrivateRoute path='/portfolio/:id' component={Portfolio} />
-            <PrivateRoute path='/dca' component={DollarCostAverage} />
-            <Route path='/login' component={Login} />
-            <Route path='/signup' component={Signup} />
-            <Route path='/account' component={Account} />
-            <Route path='/welcome' component={Splash} />
+              <PrivateRoute exact path='/' component={Portfolio} />
+              <PrivateRoute path='/portfolio/:id' component={Portfolio} />
+              <PrivateRoute path='/dca' component={DollarCostAverage} />
+              <Route path='/login' component={Login} />
+              <Route path='/signup' component={Signup} />
+              <Route path='/account' component={Account} />
+              <Route path='/welcome' component={Splash} />
             </>
-        }
+          }
         />
       </Router>
     </ThemeProvider>

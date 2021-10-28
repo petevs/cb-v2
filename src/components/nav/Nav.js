@@ -85,7 +85,7 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                {
+                {/* {
                 auth.currentUser.isAnonymous ?
                 <>
                     <Button 
@@ -110,7 +110,7 @@ const Nav= () => {
                 >
                     Sign Out
                 </Button>
-                }
+                } */}
             </End>
             <MobileMenu />
         </Container>
