@@ -1,5 +1,5 @@
 import ProfileCard from 'components/ProfileCard'
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import MenuContent from 'components/MenuContent';
@@ -7,12 +7,6 @@ import MenuContent from 'components/MenuContent';
 const Sidebar = () => {
 
         const { state } = useContext(GlobalContext)
-
-        //Modal
-        const [open, setOpen] = useState(false);
-        const handleOpen = () => setOpen(true);
-        const handleClose = () => setOpen(false);
-
 
     return (
         <Container>
