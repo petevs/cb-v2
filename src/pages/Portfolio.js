@@ -34,8 +34,6 @@ import PortfolioGrid from 'components/PortfolioGrid'
 
 const Portfolio = () => {
 
-    console.log(auth.currentUser)
-
     let { id } = useParams()
     const { state, dispatch } = useContext(GlobalContext)
     const { portfolio } = state
@@ -47,6 +45,8 @@ const Portfolio = () => {
     useEffect(() => {
         dispatch(setCurrentPage(id))
     },[id])
+
+    console.log(state)
 
     const details = portfolioObj[id]
 
@@ -349,9 +349,6 @@ const Portfolio = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <PortfolioGrid 
-                rows={portfolio.oneOffTransactions(id, price[currency])}
-            />
 
         </Wrapper>
 

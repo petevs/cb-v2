@@ -53,7 +53,6 @@ const Nav= () => {
 
     const handleSignOut = async () => {
         await auth.signOut()
-        await auth.signInAnonymously()
         history.push('/')
 
     }
@@ -85,8 +84,8 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
-                {/* {
-                auth.currentUser.isAnonymous ?
+                {
+                !state.user.uid ?
                 <>
                     <Button 
                         component={Link} 
@@ -110,7 +109,7 @@ const Nav= () => {
                 >
                     Sign Out
                 </Button>
-                } */}
+                }
             </End>
             <MobileMenu />
         </Container>

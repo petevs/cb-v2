@@ -17,6 +17,7 @@ import Account from 'pages/Account'
 import Splash from 'pages/Splash';
 import { db } from 'firebase'
 import PrivateRoute from 'routes/PrivateRoute';
+import PortfolioMain from 'pages/PortfolioMain';
 
 function App() {
 
@@ -56,11 +57,12 @@ function App() {
           main={
             <>
               <PrivateRoute exact path='/' component={Portfolio} />
+              <PrivateRoute exact path='/portfolio' component={PortfolioMain} />
               <PrivateRoute path='/portfolio/:id' component={Portfolio} />
               <PrivateRoute path='/dca' component={DollarCostAverage} />
               <Route path='/login' component={Login} />
               <Route path='/signup' component={Signup} />
-              <Route path='/account' component={Account} />
+              <PrivateRoute path='/account' component={Account} />
               <Route path='/welcome' component={Splash} />
             </>
           }

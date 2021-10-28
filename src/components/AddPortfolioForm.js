@@ -12,6 +12,7 @@ const AddPortfolioForm = (props) => {
     const { state, dispatch } = useContext(GlobalContext)
     const history = useHistory()
 
+    console.log(state.user.uid)
     const initialForm = {
         portfolioName: '',
         portfolioDescription: ''

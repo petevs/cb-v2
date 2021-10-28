@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 import { auth } from 'firebase'
 import { useHistory } from 'react-router-dom'
+import FormModal from 'components/FormModal'
 
 const Login = () => {
 
@@ -56,23 +57,25 @@ const Login = () => {
         })
     }
 
+    const [loginError, setLoginError] = useState('')
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
             await auth.signInWithEmailAndPassword(values.email, values.password)
+            setValues(initialValues)
+            history.push('/portfolio')
         } catch(err) {
-            console.log(err)
+            setLoginError('No user found')
         }
-        setValues(initialValues)
-        history.push('/portfolio')
 
     }
 
 
 
     return (
-        <Wrapper>
+        <FormModal open>
             <Form onSubmit={handleSubmit}>
                 <h2>Log in to your account</h2>
                 <InputField
@@ -108,8 +111,9 @@ const Login = () => {
                 <GoToLogin>
                     Need an account? 
                     <Button component={Link} to='/signup'>Sign up</Button></GoToLogin>
+                    <span>{loginError}</span>
             </Form>
-        </Wrapper>
+        </FormModal>
     )
 }
 

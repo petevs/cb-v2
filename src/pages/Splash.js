@@ -5,7 +5,8 @@ import { FaUserSecret } from 'react-icons/fa'
 import EmailIcon from '@mui/icons-material/Email';
 import styled from 'styled-components'
 import { GlobalContext } from 'state/contexts/GlobalContext';
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
+import { auth } from 'firebase'
 
 const Splash = () => {
 
@@ -18,7 +19,11 @@ const Splash = () => {
         if(user.uid){
             history.push('/portfolio')
         }
-    })
+    },[user])
+
+    const handleGuest = () => {
+        auth.signInAnonymously()
+    }
 
 
     return (
@@ -28,6 +33,7 @@ const Splash = () => {
                 <Button
                     variant='contained'
                     startIcon={<FaUserSecret />}
+                    onClick={handleGuest}
                 >
                     Continue As Guest
                 </Button>
@@ -35,6 +41,8 @@ const Splash = () => {
                     variant='contained'
                     color='warning'
                     startIcon={<EmailIcon />}
+                    component={Link}
+                    to='/login'
                 >
                     Sign In With Email
                 </Button>

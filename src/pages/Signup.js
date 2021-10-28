@@ -6,8 +6,12 @@ import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 import { auth } from 'firebase'
 import firebase from "firebase/compat/app";
+import FormModal from 'components/FormModal'
+import { useHistory } from 'react-router-dom'
 
 const Signup = () => {
+
+    const history = useHistory()
 
     let schema = yup.object().shape({
         username: yup.string().required(),
@@ -58,15 +62,23 @@ const Signup = () => {
         e.preventDefault()
 
         try {
-            const credential = await firebase.auth.EmailAuthProvider.credential(values.email, values.password)
+            
+            if(auth.currentUser){
+                const credential = await firebase.auth.EmailAuthProvider.credential(values.email, values.password)
+                auth.currentUser.linkWithCredential(credential)
+                    .then((usercred) => {
+                        const user = usercred.user
+                        console.log("Anonymous account successful upgraded", user)
+                    }).catch((error) => {
+                        console.log("error upgrading anonymous account")
+                    })
+                return
+            }
 
-            auth.currentUser.linkWithCredential(credential)
-                .then((usercred) => {
-                    const user = usercred.user
-                    console.log("Anonymous account successful upgraded", user)
-                }).catch((error) => {
-                    console.log("error upgrading anonymous account")
-                })
+            await auth.createUserWithEmailAndPassword(values.email, values.password)
+            setValues(initialValues)
+            history.push('/portfolio')
+
         } 
         
         catch(err) {
@@ -75,7 +87,7 @@ const Signup = () => {
     }
 
     return (
-        <Wrapper>
+        <FormModal open>
             <Form onSubmit={handleSubmit}>
                 <h2>Create an account</h2>
                 <InputField
@@ -112,7 +124,7 @@ const Signup = () => {
                     Have an account? 
                     <Button component={Link} to='/login'>Log in</Button></GoToLogin>
             </Form>
-        </Wrapper>
+        </FormModal>
     )
 }
 
