@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { updateDrawer } from 'state/actions/themeActions';
 import { setCurrentPage } from 'state/actions/settingsActions';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const PortfolioList = ({handleOpen}) => {
@@ -20,6 +21,7 @@ const PortfolioList = ({handleOpen}) => {
 
     return (
         <Portfolios>
+        <Button variant='text' startIcon={<AddIcon />} size='small' onClick={handleOpen}>Add New Portfolio</Button>
         {
         portfolioList &&
         portfolioList.map(item => 
@@ -35,7 +37,6 @@ const PortfolioList = ({handleOpen}) => {
             </li>
         )
         }
-        <Button variant='contained' size='small' onClick={handleOpen}>Add New Portfolio</Button>
         </Portfolios>
     )
 }
@@ -57,13 +58,15 @@ const Portfolios = styled.div`
     }
 
     & button {
-        justify-self: stretch;
+        justify-self: start;
     }
 
     & li {
         &.active {
             color: rgb(255, 48, 48);
         }
+        padding-left: .65rem;
+        text-transform: capitalize;
     }
 
     

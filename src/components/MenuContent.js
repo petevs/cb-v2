@@ -5,6 +5,8 @@ import PortfolioList from './PortfolioList';
 import FormModal from './FormModal';
 import AddPortfolioForm from './AddPortfolioForm';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import CalculateIcon from '@mui/icons-material/Calculate';
+import styled from 'styled-components'
 
 const MenuContent = () => {
 
@@ -14,7 +16,7 @@ const MenuContent = () => {
     const handleClose = () => setOpen(false);
 
     return (
-        <Fragment>
+        <Wrapper>
 
             <SideBarItem
                 title='Current Market'
@@ -23,17 +25,30 @@ const MenuContent = () => {
             />
 
             <SideBarItem
-            path='/portfolio'
-            title='Portfolio'
-            icon={<BusinessCenterIcon />}
+                path='/portfolio'
+                title='Portfolio'
+                icon={<BusinessCenterIcon />}
             />
             <PortfolioList handleOpen={handleOpen} />
+
+            <SideBarItem
+                path='calculators'
+                title='Calculators'
+                icon={<CalculateIcon />}
+            />
 
             <FormModal open={open} onClose={handleClose}>
                 <AddPortfolioForm handleClose={handleClose} />
             </FormModal>
-        </Fragment>
+        </Wrapper>
     )
 }
 
 export default MenuContent
+
+const Wrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .5rem;
+
+`

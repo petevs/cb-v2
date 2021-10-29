@@ -1,5 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody, useMediaQuery } from '@mui/material'
-import React, { useState, useContext, useEffect, useMemo} from 'react'
+import React, { useState, useContext, useMemo} from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
@@ -10,7 +10,6 @@ import MyTableRow from 'styledComponents/MyTableRow'
 import TransactionForm from 'components/TransactionForm'
 import { toggleModal } from 'state/actions/modalActions'
 import PortfolioChart from 'components/PortfolioChart'
-import { setCurrentPage } from 'state/actions/settingsActions'
 import ScoreCards from 'styledComponents/ScoreCards'
 import Scorecard from 'components/Scorecard'
 import PortfolioHeader from 'components/PortfolioHeader'
@@ -36,12 +35,6 @@ const Portfolio = () => {
 
     const { current_price: price} = state.marketData.marketData
     const { currency } = state.settings
-
-    // useEffect(() => {
-    //     dispatch(setCurrentPage(id))
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [id])
-
 
     const details = portfolioObj[id]
 
