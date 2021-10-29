@@ -107,7 +107,6 @@ const BuyForm = (props) => {
                 setBitcoin(0.00000000)
             }
         }
-
     },[disabled, dollars, price])
 
     useEffect(() => {

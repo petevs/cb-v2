@@ -1,5 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody, useMediaQuery } from '@mui/material'
-import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useContext, useEffect, useMemo} from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
@@ -280,6 +280,7 @@ const Portfolio = () => {
                         onClick={() => handleOpen(
                             <UploadCsv
                                 portfolioId={id}
+                                handleClose={handleClose}
                             />
                         )}
                     >

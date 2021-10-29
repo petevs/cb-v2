@@ -21,7 +21,7 @@ const Splash = () => {
         if(user.uid){
             history.push('/portfolio')
         }
-    },[user])
+    },[user, history])
 
     const handleGuest = () => {
         auth.signInAnonymously()
