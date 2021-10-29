@@ -50,13 +50,6 @@ const Nav= () => {
         return value
     }
 
-    const handleSignOut = async () => {
-        await auth.signOut()
-        history.push('/')
-
-    }
-
-
     return (
         <>
         <Container columns='auto 1fr auto'>
@@ -82,8 +75,6 @@ const Nav= () => {
                 </TickerBox>
             </Center>
             <End>
-                <CurrencySelect />
-                <AvatarDropDown />
                 {
                 !state.user.uid ?
                 <>
@@ -103,12 +94,7 @@ const Nav= () => {
                     </Button>
                 </>
                 :
-                <Button
-                    variant='outlined'
-                    onClick={handleSignOut}
-                >
-                    Sign Out
-                </Button>
+                <AvatarDropDown />
                 }
             </End>
             <MobileMenu />
@@ -183,7 +169,7 @@ const Center = styled.div`
 
 const End = styled.div`
     display: grid;
-    grid-template-columns: 40px auto auto;
+    grid-template-columns: auto auto;
     align-items: center;
     gap: 1rem;
     @media (max-width: 1024px){
