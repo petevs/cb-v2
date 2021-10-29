@@ -4,19 +4,18 @@ import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { updateDrawer } from 'state/actions/themeActions';
-import { useParams } from 'react-router-dom'
+import { setCurrentPage } from 'state/actions/settingsActions';
 
 
 const PortfolioList = ({handleOpen}) => {
 
-    let { id } = useParams()
-    console.log(id)
     const { state, dispatch } = useContext(GlobalContext)
     const {portfolioList } = state.portfolio
     const { currentPage } = state.settings
 
-    const handleClose = () => {
+    const handleClose = (id) => {
         dispatch(updateDrawer(false))
+        dispatch(setCurrentPage(id))
     }
 
     return (
@@ -29,7 +28,7 @@ const PortfolioList = ({handleOpen}) => {
                 to={`/portfolio/${item.id}`}
                 key={item.id}
                 className={item.id === currentPage ? 'active' : undefined}
-                onClick={handleClose}
+                onClick={() => handleClose(item.id)}
             >
                 {item.portfolioName}
             </Link>

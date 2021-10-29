@@ -37,10 +37,10 @@ const Portfolio = () => {
     const { current_price: price} = state.marketData.marketData
     const { currency } = state.settings
 
-    useEffect(() => {
-        dispatch(setCurrentPage(id))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id])
+    // useEffect(() => {
+    //     dispatch(setCurrentPage(id))
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [id])
 
 
     const details = portfolioObj[id]
