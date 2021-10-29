@@ -5,6 +5,8 @@ import NavMenuItem from 'styledComponents/NavMenuItem'
 import styled from 'styled-components'
 import NavDropDown from 'styledComponents/NavDropDown'
 import MenuItem from '@mui/material/MenuItem';
+import { Heading } from 'styledComponents/Heading'
+
 const CurrencySelect = () => {
     const { state, dispatch } = useContext(GlobalContext);
     const { settings } = state
@@ -106,21 +108,3 @@ const CurrencySelect = () => {
       }
     }
   `;
-  
-  const Heading = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    min-width: 150px;
-    gap: 1.5rem;
-    font-size: 0.875rem;
-    color: rgb(255, 255, 255);
-    font-weight: 400;
-    cursor: pointer;
-  
-    & img {
-      width: 30px;
-    }
-  `;
-  
-  

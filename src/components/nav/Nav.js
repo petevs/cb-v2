@@ -10,6 +10,7 @@ import { numberWithCommas } from 'utils/formatting'
 import { Button } from '@mui/material'
 import { Link, useHistory } from 'react-router-dom'
 import { auth } from 'firebase'
+import AvatarDropDown from './AvatarDropDown'
 
 
 const Nav= () => {
@@ -82,6 +83,7 @@ const Nav= () => {
             </Center>
             <End>
                 <CurrencySelect />
+                <AvatarDropDown />
                 {
                 !state.user.uid ?
                 <>
