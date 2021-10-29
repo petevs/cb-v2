@@ -1,7 +1,13 @@
 import { getDatesBetween } from "./getDatesBetween"
 
 
-export const recurringTransactions = (purchaseAmount, start, end, historicalData, currentPrice) => {
+export const recurringTransactions = (
+    purchaseAmount, 
+    start, 
+    end,
+    historicalData, 
+    currentPrice
+    ) => {
 
     const dateList = getDatesBetween(start, end)
     

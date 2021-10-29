@@ -26,7 +26,7 @@ const MenuContent = () => {
             path='/portfolio'
             title='Portfolio'
             icon={<BusinessCenterIcon />}
-            />f
+            />
             <PortfolioList handleOpen={handleOpen} />
 
             <FormModal open={open} onClose={handleClose}>

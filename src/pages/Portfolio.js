@@ -1,5 +1,5 @@
 import { Button, Table, TableRow, TableCell, TableBody, useMediaQuery } from '@mui/material'
-import React, { useState, useContext, useEffect, useMemo } from 'react'
+import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
@@ -39,7 +39,9 @@ const Portfolio = () => {
 
     useEffect(() => {
         dispatch(setCurrentPage(id))
-    },[id])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
+
 
     const details = portfolioObj[id]
 
@@ -57,7 +59,7 @@ const Portfolio = () => {
 
     const calculatedTransactions = useMemo(() => {
         return portfolio.calculatedTransactions(id, price[currency])
-    },[portfolio, id])
+    },[portfolio, id, currency, price])
 
     //MediaQuery
     const mobile = useMediaQuery('(min-width:1024px')

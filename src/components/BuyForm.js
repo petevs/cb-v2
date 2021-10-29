@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react'
 
 import { InputAdornment, Switch, Button } from "@mui/material"
 import InputField from "styledComponents/InputField"
@@ -85,7 +85,7 @@ const BuyForm = (props) => {
         if(useHistoricalPrice){
             setPrice(Number(price))
         }
-    },[useHistoricalPrice])
+    },[useHistoricalPrice, current_price, date, state.portfolio.historicalData])
 
 
     useEffect(() => {
@@ -117,11 +117,11 @@ const BuyForm = (props) => {
     },[disabled, bitcoin, dollars])
 
 
-    const historicalPrice = () => {
+    const historicalPrice = useCallback(() => {
         let price = Number(state.portfolio.historicalData[date]) || Number(current_price) || 0
         price = Math.round(price)
         return price        
-    }
+    },[current_price, date, state.portfolio.historicalData])
 
     const handleSubmit = (e) => {
         handleTransactionSubmit(
@@ -149,7 +149,7 @@ const BuyForm = (props) => {
         if(!props.price){
             setPrice(historicalPrice())
         }
-    },[])
+    },[props.price, props.historicalPrice, historicalPrice])
 
     let schema = yup.object().shape({
         date: yup.date().min(moment('2015-01-01').format('YYYY-MM-DD')).max(moment().format('YYYY-MM-DD')),
@@ -159,14 +159,16 @@ const BuyForm = (props) => {
         type: yup.string()
     })
 
-    const values = {
-        date: date,
-        amount: dollars,
-        dollars: dollars,
-        price: price,
-        bitcoin: bitcoin,
-        type: 'buy'
-    }
+    const values = useMemo(() => {
+        return {
+            date: date,
+            amount: dollars,
+            dollars: dollars,
+            price: price,
+            bitcoin: bitcoin,
+            type: 'buy'
+        }
+    },[bitcoin, date, dollars, price]) 
     
     const [submitDisabled, setSubmitDisabled] = useState(true)
 
@@ -205,7 +207,7 @@ const BuyForm = (props) => {
             setSubmitDisabled(!valid)
         })
 
-    },[schema, date, dollars, price, bitcoin])
+    },[schema, date, dollars, price, bitcoin, values])
 
 
     return (

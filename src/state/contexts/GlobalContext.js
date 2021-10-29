@@ -42,6 +42,8 @@ export const GlobalProvider = ({children}) => {
             }
             setPending(false);
           });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps      
     },[])
 
     //GET & SET USER DETAILS
@@ -72,6 +74,7 @@ export const GlobalProvider = ({children}) => {
                 }
             })
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         },[state.user.uid])
 
 
@@ -91,6 +94,7 @@ export const GlobalProvider = ({children}) => {
             dispatch(updateHistoricalDataObj({...result}))
         })
  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
      }, [])
 
     return (

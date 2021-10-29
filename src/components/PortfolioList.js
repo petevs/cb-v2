@@ -4,10 +4,13 @@ import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { updateDrawer } from 'state/actions/themeActions';
+import { useParams } from 'react-router-dom'
 
 
 const PortfolioList = ({handleOpen}) => {
 
+    let { id } = useParams()
+    console.log(id)
     const { state, dispatch } = useContext(GlobalContext)
     const {portfolioList } = state.portfolio
     const { currentPage } = state.settings
