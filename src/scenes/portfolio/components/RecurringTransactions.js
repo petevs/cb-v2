@@ -1,5 +1,5 @@
 import { TableContainer } from 'styledComponents/TableContainer'
-import React from 'react'
+import styled from 'styled-components'
 
 //Components
 import RecurringBuyForm from './RecurringBuyForm';
@@ -15,6 +15,7 @@ import TableContent from './TableContent';
 
 const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
 
+    const empty = data.length < 1
 
     return (
         <TableContainer>
@@ -44,23 +45,49 @@ const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
                             'Actions'
                         ]}
 
-                    />
-                <TableContent
-                    data={data}
-                        columns={[
-                            'purchaseAmount',
-                            'startDate',
-                            'endDate'
-                        ]}
-                        handleOpen={handleOpen}
-                        handleClose={handleClose}
-                        id={id}
-                />
-
+                    />{
+                        !empty && <TableContent
+                            data={data}
+                                columns={[
+                                    'purchaseAmount',
+                                    'startDate',
+                                    'endDate'
+                                ]}
+                                handleOpen={handleOpen}
+                                handleClose={handleClose}
+                                id={id}
+                        />
+                    }
             </Table>
+            {empty &&               
+            <EmptyTable>
+                <Button 
+                    variant='text'
+                    size='small'
+                    startIcon={<AddIcon />} 
+                    onClick={() => handleOpen(
+                        <RecurringBuyForm 
+                            handleClose={handleClose} 
+                            portfolioId={id} 
+                            type='add'
+                        />
+                    )}>
+                        Add Your First Recurring Transaction
+                    </Button>
+            </EmptyTable>
+            }
             
         </TableContainer>
     )
 }
 
 export default RecurringTransactions
+
+
+const EmptyTable = styled.div`
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem 0 0 0;
+
+`
