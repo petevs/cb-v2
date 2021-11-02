@@ -18,32 +18,31 @@ import PortfolioHeader from 'components/PortfolioHeader'
 //STYLED-COMPONENTS
 import PageWrapper from 'styledComponents/PageWrapper'
 import useModal from 'hooks/useModal'
+import usePortfolio from 'hooks/usePortfolio'
 
 
 const Portfolio = () => {
 
     let { id } = useParams()
     const { state } = useContext(GlobalContext)
-    const { portfolio } = state
-    const { portfolioObj } = state.portfolio
 
-    const { current_price: price} = state.marketData.marketData
-    const { currency } = state.settings
+    const {
+        details,
+        empty,
+        calculatedTransactions,
+        oneOffTransactions,
+        recurringTransactions,
+        price,
+        currency
+    } = usePortfolio(id)
 
-    const details = portfolioObj[id]
-
-    const [modalContent, handleOpen, handleClose] = useModal()
+    const [open, modalContent, handleOpen, handleClose] = useModal()
     
-
-    const calculatedTransactions = useMemo(() => {
-        return portfolio.calculatedTransactions(id, price[currency])
-    },[portfolio, id, currency, price])
-
     //MediaQuery
     const mobile = useMediaQuery('(min-width:1024px')
 
     //If No Portfolio Data...
-    if(state.portfolio.portfolioList.length < 1 ){
+    if(empty){
         return(
             <>Add Details...</>
         )
@@ -52,7 +51,7 @@ const Portfolio = () => {
     return (
         <>
         {/* MODAL */}
-        <FormModal open={state.modal.open} onClose={handleClose}>
+        <FormModal open={open} onClose={handleClose}>
             {modalContent}
         </FormModal>
 
@@ -89,7 +88,7 @@ const Portfolio = () => {
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 id={id}
-                data={portfolio.recurringBuyList(id)}
+                data={recurringTransactions}
             />
 
             <OneOffTransactions 
@@ -97,7 +96,7 @@ const Portfolio = () => {
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 id={id}
-                data={portfolio.oneOffTransactions(id, price[currency])}
+                data={oneOffTransactions}
             />
 
         </PageWrapper>

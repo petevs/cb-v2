@@ -4,7 +4,7 @@ import { toggleModal } from 'state/actions/modalActions'
 
 const useModal = () => {
 
-    const { dispatch } = useContext(GlobalContext)
+    const { state, dispatch } = useContext(GlobalContext)
     const [modalContent, setModalContent] = useState()
     
     const handleOpen = (type) => {
@@ -14,7 +14,9 @@ const useModal = () => {
 
     const handleClose = () => dispatch(toggleModal(false));
 
-    return [modalContent, handleOpen, handleClose]
+    const open = state.modal.open
+
+    return [open, modalContent, handleOpen, handleClose]
     
 }
 
