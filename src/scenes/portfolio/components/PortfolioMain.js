@@ -1,4 +1,4 @@
-import PortfolioList from 'components/PortfolioList'
+import PortfolioList from 'scenes/portfolio/components/PortfolioList'
 import PageWrapper from 'styledComponents/PageWrapper'
 import FormModal from 'components/FormModal'
 import AddPortfolioForm from 'components/AddPortfolioForm'

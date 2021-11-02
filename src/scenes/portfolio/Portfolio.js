@@ -6,11 +6,11 @@ import { useParams } from 'react-router'
 import MySelect from 'styledComponents/MySelect'
 
 //COMPONENTS
-import RecurringTransactions from 'components/RecurringTransactions'
-import OneOffTransactions from 'components/OneOffTransactions'
-import Summary from 'components/Summary'
-import PortfolioChart from 'components/PortfolioChart'
-import PortfolioHeader from 'components/PortfolioHeader'
+import RecurringTransactions from './components/RecurringTransactions'
+import OneOffTransactions from './components/OneOffTransactions'
+import Summary from './components/Summary'
+import PortfolioChart from './components/PortfolioChart'
+import PortfolioHeader from './components/PortfolioHeader'
 
 //STYLED-COMPONENTS
 import PageWrapper from 'styledComponents/PageWrapper'

@@ -11,12 +11,12 @@ import PrivateRoute from 'routes/PrivateRoute';
 import Loading from 'components/Loading';
 
 //PAGES
-import Portfolio from 'pages/Portfolio';
+import Portfolio from 'scenes/portfolio/Portfolio';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup'
-import Account from 'pages/Account'
+import Account from 'scenes/account/Account'
 import Splash from 'pages/Splash';
-import PortfolioMain from 'pages/PortfolioMain';
+import PortfolioMain from 'scenes/portfolio/components/PortfolioMain';
 
 function App() {
 

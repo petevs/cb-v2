@@ -1,16 +1,16 @@
 import { useContext } from 'react'
 import styled from 'styled-components'
-import Logo from 'components/nav/Logo'
-import MobileMenu from './MobileMenu'
+import Logo from './components/Logo'
+import MobileMenu from './components/MobileMenu'
 
-import Drawer from './Drawer'
+import Drawer from './components/Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 // import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 // import { auth } from 'firebase'
-import AvatarDropDown from './AvatarDropDown'
+import AvatarDropDown from './components/AvatarDropDown'
 
 
 const Nav= () => {

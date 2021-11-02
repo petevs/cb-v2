@@ -1,6 +1,6 @@
 import React from 'react'
 import ScoreCards from 'styledComponents/ScoreCards'
-import Scorecard from './Scorecard'
+import Scorecard from '../../../components/Scorecard'
 
 const Summary = ({calculatedTransactions, price, currency}) => {
 

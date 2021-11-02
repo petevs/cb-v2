@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TextField } from 'grape-ui-react'
 
 const Input = ({label, prefix, inputType, min, max}) => {
     return (

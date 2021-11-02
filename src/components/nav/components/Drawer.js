@@ -4,8 +4,8 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import ClickAwayListener from 'react-click-away-listener'
 import { updateDrawer } from 'state/actions/themeActions'
 import { motion } from 'framer-motion'
-import MenuContent from 'components/MenuContent'
-import ProfileCard from 'components/ProfileCard'
+import MenuContent from 'components/sidebar/MenuContent'
+import ProfileCard from 'components/sidebar/ProfileCard'
 
 const Drawer = () => {
 

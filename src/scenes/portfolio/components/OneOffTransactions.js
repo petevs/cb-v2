@@ -7,7 +7,7 @@ import TransactionForm from './TransactionForm';
 //icons
 import AddIcon from '@mui/icons-material/Add';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import UploadCsv from 'components/UploadCsv'
+import UploadCsv from 'scenes/portfolio/components/UploadCsv'
 
 //Styled Components
 import { HeaderRow } from 'styledComponents/HeaderRow'

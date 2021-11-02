@@ -2,7 +2,7 @@ import { TableContainer } from 'styledComponents/TableContainer'
 import React from 'react'
 
 //Components
-import RecurringBuyForm from './RecurringBuyForm'
+import RecurringBuyForm from './RecurringBuyForm';
 
 //icons
 import AddIcon from '@mui/icons-material/Add';

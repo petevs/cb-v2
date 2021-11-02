@@ -1,8 +1,8 @@
-import ProfileCard from 'components/ProfileCard'
+import ProfileCard from 'components/sidebar/ProfileCard'
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { GlobalContext } from 'state/contexts/GlobalContext';
-import MenuContent from 'components/MenuContent';
+import MenuContent from 'components/sidebar/MenuContent';
 
 const Sidebar = () => {
 
