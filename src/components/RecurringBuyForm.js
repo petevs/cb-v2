@@ -25,7 +25,7 @@ const RecurringBuyForm = (props) => {
         {name: 'purchaseAmount', label: 'Purchase Amount', type: 'numeric', adornment: '$'},
         {name: 'startDate', label: 'Start Date', type: 'date'},
         {name: 'endDate', label: 'End Date', type: 'date'},
-        {name: 'condition', label: 'Condition', type: 'select'}
+        // {name: 'condition', label: 'Condition', type: 'select'}
     ]
     
     const handleChange = (e) => {
