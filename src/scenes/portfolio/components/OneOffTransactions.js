@@ -14,8 +14,12 @@ import { HeaderRow } from 'styledComponents/HeaderRow'
 import { Button, Table } from '@mui/material'
 import TableHeader from './TableHeader';
 import TableContent from './TableContent';
+import EmptyTable from './EmptyTable';
 
 const OneOffTransactions = ({title, handleOpen, handleClose, id, data}) => {
+
+    const empty = data.length < 1
+
     return (
         <TableContainer>
             <HeaderRow className='three'>
@@ -71,10 +75,28 @@ const OneOffTransactions = ({title, handleOpen, handleClose, id, data}) => {
                         handleOpen={handleOpen}
                         handleClose={handleClose}
                         id={id}
+                        ButtonContent={
+                            <TransactionForm 
+                                type='edit' 
+                                handleClose={handleClose}
+                                portfolioId={id}
+                            />
+                        }
                 />
 
             </Table>
-            
+            <EmptyTable
+                empty={empty} 
+                text='Add Your First Transaction'
+                handleOpen={handleOpen}
+                buttonContent={
+                    <TransactionForm
+                        handleClose={handleClose}
+                        portfolioId={id}
+                        type='add'
+                    />
+                }
+            />
         </TableContainer>
     )
 }

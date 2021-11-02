@@ -4,7 +4,12 @@ import MyTableRow from 'styledComponents/MyTableRow'
 import RecurringBuyForm from './RecurringBuyForm'
 import EditIcon from '@mui/icons-material/Edit';
 
-const TableContent = ({data, columns, handleOpen, handleClose, id}) => {
+const TableContent = ({data, columns, handleOpen, handleClose, id, ButtonContent}) => {
+
+    if(data.length < 1){
+        return(<></>)
+    }
+
     return (
         <TableBody>
             {data.map((row) => (
@@ -16,14 +21,14 @@ const TableContent = ({data, columns, handleOpen, handleClose, id}) => {
                                 color='info'
                                 startIcon={<EditIcon />}
                                 onClick={() => handleOpen(
-                                    <RecurringBuyForm
-                                        type='edit'
-                                        portfolioId={id}
-                                        handleClose={handleClose}
-                                        {...row}
-                                    >
-                                        Edit Recurring Buy
-                                    </RecurringBuyForm>
+                                        <RecurringBuyForm
+                                            type='edit'
+                                            portfolioId={id}
+                                            handleClose={handleClose}
+                                            {...row}
+                                        >
+                                            Edit Recurring Buy
+                                        </RecurringBuyForm>
                                 )}
                             >
                                 Edit

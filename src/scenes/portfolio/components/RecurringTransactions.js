@@ -1,5 +1,4 @@
 import { TableContainer } from 'styledComponents/TableContainer'
-import styled from 'styled-components'
 
 //Components
 import RecurringBuyForm from './RecurringBuyForm';
@@ -12,6 +11,7 @@ import { HeaderRow } from 'styledComponents/HeaderRow'
 import { Button, Table } from '@mui/material'
 import TableHeader from './TableHeader';
 import TableContent from './TableContent';
+import EmptyTable from './EmptyTable';
 
 const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
 
@@ -45,8 +45,8 @@ const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
                             'Actions'
                         ]}
 
-                    />{
-                        !empty && <TableContent
+                    />
+                    <TableContent
                             data={data}
                                 columns={[
                                     'purchaseAmount',
@@ -56,38 +56,23 @@ const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
                                 handleOpen={handleOpen}
                                 handleClose={handleClose}
                                 id={id}
-                        />
-                    }
+                    />
             </Table>
-            {empty &&               
-            <EmptyTable>
-                <Button 
-                    variant='text'
-                    size='small'
-                    startIcon={<AddIcon />} 
-                    onClick={() => handleOpen(
-                        <RecurringBuyForm 
-                            handleClose={handleClose} 
-                            portfolioId={id} 
-                            type='add'
-                        />
-                    )}>
-                        Add Your First Recurring Transaction
-                    </Button>
-            </EmptyTable>
-            }
+            <EmptyTable
+                empty={empty} 
+                text='Add Your First Recurring Transaction'
+                handleOpen={handleOpen}
+                buttonContent={
+                    <RecurringBuyForm
+                        handleClose={handleClose}
+                        portfolioId={id}
+                        type='add'
+                    />
+                }
+            />
             
         </TableContainer>
     )
 }
 
 export default RecurringTransactions
-
-
-const EmptyTable = styled.div`
-    display: grid;
-    justify-content: center;
-    text-align: center;
-    padding: 1rem 0 0 0;
-
-`

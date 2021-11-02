@@ -6,9 +6,13 @@ const useModal = () => {
 
     const { state, dispatch } = useContext(GlobalContext)
     const [modalContent, setModalContent] = useState()
+    const [modalData, setModalData] = useState()
     
-    const handleOpen = (type) => {
+    const handleOpen = (type, data) => {
         setModalContent(type)
+        if(data){
+            setModalData(data)
+        }
         dispatch(toggleModal(true))
     };
 
@@ -16,7 +20,13 @@ const useModal = () => {
 
     const open = state.modal.open
 
-    return [open, modalContent, handleOpen, handleClose]
+    const modalDetails = {
+        modalData,
+        modalContent,
+        open,
+    }
+
+    return [modalDetails, handleOpen, handleClose]
     
 }
 
