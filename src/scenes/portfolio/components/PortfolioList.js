@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import { updateDrawer } from 'state/actions/themeActions';
 import { setCurrentPage } from 'state/actions/settingsActions';
 import AddIcon from '@mui/icons-material/Add';
+import AddPortfolioForm from 'components/AddPortfolioForm';
 
 
 const PortfolioList = ({handleOpen}) => {
@@ -25,7 +26,7 @@ const PortfolioList = ({handleOpen}) => {
             variant='text' 
             startIcon={<AddIcon />} 
             size='small' 
-            onClick={handleOpen}
+            onClick={() => handleOpen(<AddPortfolioForm handleClose={handleClose} />)}
         >
             Add New Portfolio
         </Button>

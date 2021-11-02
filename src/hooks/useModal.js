@@ -1,32 +1,25 @@
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { toggleModal } from 'state/actions/modalActions'
+import { setModalContent } from 'state/actions/modalActions'
 
 const useModal = () => {
 
     const { state, dispatch } = useContext(GlobalContext)
-    const [modalContent, setModalContent] = useState()
-    const [modalData, setModalData] = useState()
+    const {
+        open,
+        content: modalContent 
+    } = state.modal
     
-    const handleOpen = (type, data) => {
-        setModalContent(type)
-        if(data){
-            setModalData(data)
-        }
+    const handleOpen = (type) => {
+        dispatch(setModalContent(type))
         dispatch(toggleModal(true))
     };
 
     const handleClose = () => dispatch(toggleModal(false));
 
-    const open = state.modal.open
 
-    const modalDetails = {
-        modalData,
-        modalContent,
-        open,
-    }
-
-    return [modalDetails, handleOpen, handleClose]
+    return [open, modalContent, handleOpen, handleClose]
     
 }
 

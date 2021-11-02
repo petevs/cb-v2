@@ -3,7 +3,7 @@ export const SET_MODAL_CONTENT = 'SET_MODAL_CONTENT'
 
 export const initialModalState = {
     open: false,
-    content: ''
+    content: null,
 }
 
 export const modalReducer = (state, action) => {

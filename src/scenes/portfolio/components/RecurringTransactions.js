@@ -56,6 +56,13 @@ const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
                                 handleOpen={handleOpen}
                                 handleClose={handleClose}
                                 id={id}
+                                buttonContent={
+                                    <RecurringBuyForm
+                                        handleClose={handleClose}
+                                        portfolioId={id}
+                                        type='add'
+                                    />
+                                }
                     />
             </Table>
             <EmptyTable

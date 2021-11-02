@@ -36,7 +36,7 @@ const MenuContent = () => {
             />
 
             <FormModal open={open} onClose={handleClose}>
-                <AddPortfolioForm handleClose={handleClose} />
+                {modalContent}
             </FormModal>
         </Wrapper>
     )

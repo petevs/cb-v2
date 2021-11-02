@@ -3,8 +3,12 @@ import React from 'react'
 import MyTableRow from 'styledComponents/MyTableRow'
 import RecurringBuyForm from './RecurringBuyForm'
 import EditIcon from '@mui/icons-material/Edit';
+import useModal from 'hooks/useModal';
 
-const TableContent = ({data, columns, handleOpen, handleClose, id, ButtonContent}) => {
+const TableContent = ({data, columns, id, buttonContent}) => {
+
+
+    const [open, modalContent, handleOpen, handleClose] = useModal()
 
     if(data.length < 1){
         return(<></>)
@@ -20,16 +24,7 @@ const TableContent = ({data, columns, handleOpen, handleClose, id, ButtonContent
                     <Button
                                 color='info'
                                 startIcon={<EditIcon />}
-                                onClick={() => handleOpen(
-                                        <RecurringBuyForm
-                                            type='edit'
-                                            portfolioId={id}
-                                            handleClose={handleClose}
-                                            {...row}
-                                        >
-                                            Edit Recurring Buy
-                                        </RecurringBuyForm>
-                                )}
+                                onClick={() => handleOpen(<p>hello</p>)}
                             >
                                 Edit
                             </Button>
