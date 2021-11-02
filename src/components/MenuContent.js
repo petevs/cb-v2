@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import SideBarItem from './sidebar/SideBarItem';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import PortfolioList from './PortfolioList';
@@ -7,13 +6,12 @@ import AddPortfolioForm from './AddPortfolioForm';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import styled from 'styled-components'
+import useModal from 'hooks/useModal';
 
 const MenuContent = () => {
 
-    //Modal
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [open, modalContent, handleOpen, handleClose] = useModal()
+
 
     return (
         <Wrapper>

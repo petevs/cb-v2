@@ -1,13 +1,16 @@
-import React from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { Button } from '@mui/material';
 import EditPortfolioForm from './EditPortfolioForm';
 import EditIcon from '@mui/icons-material/Edit';
 import DeletePortfolio from './DeletePortfolio';
 import ClonePortfolio from './ClonePortfolio';
+import { GlobalContext } from 'state/contexts/GlobalContext';
 // import SendIcon from '@mui/icons-material/Send';
 
-const PortfolioHeader = ({details, handleOpen, handleClose, id, state}) => {
+const PortfolioHeader = ({details, handleOpen, handleClose, id }) => {
+
+    const { state } = useContext(GlobalContext)
 
     return (
             <Row>

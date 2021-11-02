@@ -1,6 +1,4 @@
 import { useMediaQuery } from '@mui/material'
-import { useContext, useMemo} from 'react'
-import { GlobalContext } from 'state/contexts/GlobalContext'
 import FormModal from 'components/FormModal'
 import { useParams } from 'react-router'
 
@@ -24,7 +22,6 @@ import usePortfolio from 'hooks/usePortfolio'
 const Portfolio = () => {
 
     let { id } = useParams()
-    const { state } = useContext(GlobalContext)
 
     const {
         details,
@@ -37,15 +34,11 @@ const Portfolio = () => {
     } = usePortfolio(id)
 
     const [open, modalContent, handleOpen, handleClose] = useModal()
-    
-    //MediaQuery
     const mobile = useMediaQuery('(min-width:1024px')
 
     //If No Portfolio Data...
-    if(empty){
-        return(
-            <>Add Details...</>
-        )
+    if ( empty ) {
+        return <>Add Details...</>
     }
 
     return (
@@ -63,7 +56,6 @@ const Portfolio = () => {
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 id={id}
-                state={state}
             />
 
             <Summary

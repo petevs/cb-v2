@@ -4,6 +4,7 @@ import InputField from 'styledComponents/InputField'
 import styled from 'styled-components'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { Button } from '@mui/material'
+import PageWrapper from 'styledComponents/PageWrapper'
 
 const Account = () => {
 
@@ -41,7 +42,7 @@ const Account = () => {
 
 
     return (
-        <Wrapper>
+        <PageWrapper>
             <FormBox>
 
                 <Input>
@@ -95,29 +96,11 @@ const Account = () => {
                 <Button variant='contained' onClick={() => handleSubmit()}>Update</Button>
 
             </FormBox>
-        </Wrapper>
+        </PageWrapper>
     )
 }
 
 export default Account
-
-
-const Wrapper = styled.div`
-    display: grid;
-    align-content: start;
-    justify-content: center;
-    background-color: ${props => props.theme.body};
-    gap: 2rem;
-    @media (max-width: 1024px) {
-        grid-column: 1 / span 2;
-    }
-    color: #fff;
-    padding: 2rem;
-
-    & button {
-        justify-self: start;
-    }
-`
 
 const FormBox = styled.div`
     display: grid;

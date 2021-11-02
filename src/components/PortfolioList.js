@@ -21,7 +21,14 @@ const PortfolioList = ({handleOpen}) => {
 
     return (
         <Portfolios>
-        <Button variant='text' startIcon={<AddIcon />} size='small' onClick={handleOpen}>Add New Portfolio</Button>
+        <Button 
+            variant='text' 
+            startIcon={<AddIcon />} 
+            size='small' 
+            onClick={handleOpen}
+        >
+            Add New Portfolio
+        </Button>
         {
         portfolioList &&
         portfolioList.map(item => 
