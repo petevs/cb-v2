@@ -1,12 +1,9 @@
-import { Button, useMediaQuery } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
 import { useState, useContext, useMemo} from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import FormModal from 'components/FormModal'
-import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { toggleModal } from 'state/actions/modalActions'
-import PortfolioChart from 'components/PortfolioChart'
-import PortfolioHeader from 'components/PortfolioHeader'
 
 
 //ICONS
@@ -16,6 +13,8 @@ import MySelect from 'styledComponents/MySelect'
 import RecurringTransactions from 'components/RecurringTransactions'
 import OneOffTransactions from 'components/OneOffTransactions'
 import Summary from 'components/Summary'
+import PortfolioChart from 'components/PortfolioChart'
+import PortfolioHeader from 'components/PortfolioHeader'
 
 //STYLED-COMPONENTS
 import PageWrapper from 'styledComponents/PageWrapper'
@@ -52,64 +51,12 @@ const Portfolio = () => {
     //MediaQuery
     const mobile = useMediaQuery('(min-width:1024px')
 
-
     //If No Portfolio Data...
     if(state.portfolio.portfolioList.length < 1 ){
         return(
-            <>
-                Add Details...
-            </>
+            <>Add Details...</>
         )
     }
-
-
-    //CHART SERIES & OPTIONS
-
-      const categories = calculatedTransactions.map((item) => {
-        return item.date;
-      }).reverse()
-
-      const series = [
-        {
-          name: `Portfolio Value (${state.settings.currency})`,
-          data: calculatedTransactions.map((item) => {
-            return { 
-                x: item.date, 
-                y: Number(item.value), 
-                price: Math.round(item.price),
-                totalInvested: item.totalInvested
-            };
-          }).reverse(),
-        },
-        // {
-        //     name: 'Total Invested',
-        //     data: calculatedTransactions.map((item) => {
-        //         return {
-        //             x: item.date,
-        //             y: Number(item.totalInvested)
-        //         }
-        //     })
-        // }
-      ];
-
-      const tooltip = {
-          custom: function({series, seriesIndex, dataPointIndex, w}){
-              const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex]
-              return `
-              <div style='padding: 2rem;'>
-              Total Invested: ${data.totalInvested}
-              <br />
-              Portfolio Value: ${data.y} <br /> Price: ${data.price} 
-              </div>
-              `
-          }
-      }
-
-      const customOptions = {
-        yaxis: {
-              show: mobile ? true : false,
-        }
-      }
 
     return (
         <>
@@ -141,10 +88,9 @@ const Portfolio = () => {
             </MySelect>
 
             <PortfolioChart
-                categories={categories}
-                data={series}
-                tooltip={tooltip}
-                customOptions={customOptions}
+                calculatedTransactions={calculatedTransactions}
+                currency={currency}
+                mobile={mobile}
             />
 
             <RecurringTransactions 

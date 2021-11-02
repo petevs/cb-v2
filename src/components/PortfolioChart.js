@@ -2,7 +2,48 @@ import React from 'react'
 import Chart from 'react-apexcharts'
 import styled from 'styled-components'
 
-const PortfolioChart = ({categories, customOptions, data, tooltip}) => {
+const PortfolioChart = ({calculatedTransactions, currency, mobile}) => {
+
+
+
+  const categories = calculatedTransactions.map((item) => {
+    return item.date;
+  }).reverse()
+
+  const series = [
+    {
+      name: `Portfolio Value (${currency})`,
+      data: calculatedTransactions.map((item) => {
+        return { 
+            x: item.date, 
+            y: Number(item.value), 
+            price: Math.round(item.price),
+            totalInvested: item.totalInvested
+        };
+      }).reverse(),
+    },
+  ];
+
+  const tooltip = {
+      custom: function({series, seriesIndex, dataPointIndex, w}){
+          const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex]
+          return `
+          <div style='padding: 2rem;'>
+          Total Invested: ${data.totalInvested}
+          <br />
+          Portfolio Value: ${data.y} <br /> Price: ${data.price} 
+          </div>
+          `
+      }
+  }
+
+
+
+  const customOptions = {
+    yaxis: {
+          show: mobile ? true : false,
+    }
+  }
 
     const defaultOptions = {
         chart: {
@@ -71,7 +112,6 @@ const PortfolioChart = ({categories, customOptions, data, tooltip}) => {
         ...customOptions
     }
 
-    const series = data
 
     return (
         <ChartWrapper>
