@@ -5,9 +5,9 @@ import EditPortfolioForm from './EditPortfolioForm';
 import EditIcon from '@mui/icons-material/Edit';
 import DeletePortfolio from './DeletePortfolio';
 import ClonePortfolio from './ClonePortfolio';
-import SendIcon from '@mui/icons-material/Send';
+// import SendIcon from '@mui/icons-material/Send';
 
-const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
+const PortfolioHeader = ({details, handleOpen, handleClose, id, state}) => {
 
     return (
             <Row>

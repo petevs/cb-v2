@@ -1,9 +1,8 @@
 import { useMediaQuery } from '@mui/material'
-import { useState, useContext, useMemo} from 'react'
+import { useContext, useMemo} from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import FormModal from 'components/FormModal'
 import { useParams } from 'react-router'
-import { toggleModal } from 'state/actions/modalActions'
 
 
 //ICONS
@@ -18,12 +17,13 @@ import PortfolioHeader from 'components/PortfolioHeader'
 
 //STYLED-COMPONENTS
 import PageWrapper from 'styledComponents/PageWrapper'
+import useModal from 'hooks/useModal'
 
 
 const Portfolio = () => {
 
     let { id } = useParams()
-    const { state, dispatch } = useContext(GlobalContext)
+    const { state } = useContext(GlobalContext)
     const { portfolio } = state
     const { portfolioObj } = state.portfolio
 
@@ -32,19 +32,8 @@ const Portfolio = () => {
 
     const details = portfolioObj[id]
 
-    console.log(state)
-
+    const [modalContent, handleOpen, handleClose] = useModal()
     
-    // MODAL
-
-    const [modalContent, setModalContent] = useState()
-    
-    const handleOpen = (type) => {
-        setModalContent(type)
-        dispatch(toggleModal(true))
-    };
-    
-    const handleClose = () => dispatch(toggleModal(false));
 
     const calculatedTransactions = useMemo(() => {
         return portfolio.calculatedTransactions(id, price[currency])

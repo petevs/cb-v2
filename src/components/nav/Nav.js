@@ -5,11 +5,11 @@ import MobileMenu from './MobileMenu'
 
 import Drawer from './Drawer'
 import { GlobalContext } from 'state/contexts/GlobalContext'
-import CurrencySelect from './CurrencySelect'
+// import CurrencySelect from './CurrencySelect'
 import { numberWithCommas } from 'utils/formatting'
 import { Button } from '@mui/material'
-import { Link, useHistory } from 'react-router-dom'
-import { auth } from 'firebase'
+import { Link } from 'react-router-dom'
+// import { auth } from 'firebase'
 import AvatarDropDown from './AvatarDropDown'
 
 
@@ -17,7 +17,7 @@ const Nav= () => {
 
     const {state } = useContext(GlobalContext)
 
-    const history = useHistory()
+    // const history = useHistory()
 
     const { theme, settings, marketData } = state
 
