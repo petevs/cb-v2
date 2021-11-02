@@ -16,7 +16,9 @@ import MySelect from 'styledComponents/MySelect'
 import RecurringTransactions from 'components/RecurringTransactions'
 import OneOffTransactions from 'components/OneOffTransactions'
 import Summary from 'components/Summary'
-import useOpenModal from 'hooks/useOpenModal'
+
+//STYLED-COMPONENTS
+import PageWrapper from 'styledComponents/PageWrapper'
 
 
 const Portfolio = () => {
@@ -117,7 +119,7 @@ const Portfolio = () => {
         </FormModal>
 
         {/* CONTENT */}
-        <Wrapper>
+        <PageWrapper>
 
             <PortfolioHeader 
                 details={{...details}}
@@ -126,10 +128,6 @@ const Portfolio = () => {
                 id={id}
                 state={state}
             />
-
-        <Button
-            variant='contained'
-            >hello</Button>
 
             <Summary
                 calculatedTransactions={calculatedTransactions}
@@ -165,26 +163,10 @@ const Portfolio = () => {
                 data={portfolio.oneOffTransactions(id, price[currency])}
             />
 
-        </Wrapper>
+        </PageWrapper>
 
         </>
     )
 }
 
 export default Portfolio
-
-const Wrapper = styled.div`
-    display: grid;
-    align-content: start;
-    background-color: ${props => props.theme.body};
-    gap: 2rem;
-    @media (max-width: 1024px) {
-        grid-column: 1 / span 2;
-    }
-    color: #fff;
-    padding: 2rem;
-
-    & button {
-        justify-self: start;
-    }
-`
