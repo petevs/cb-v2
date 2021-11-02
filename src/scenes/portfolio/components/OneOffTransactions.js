@@ -73,6 +73,13 @@ const OneOffTransactions = ({title, handleOpen, handleClose, id, data}) => {
                             'bitcoin'
                         ]}
                         id={id}
+                        buttonContent={
+                            <TransactionForm
+                                type='edit'
+                                handleClose={handleClose}
+                                portfolioId={id}
+                            />
+                        }
                 />
 
             </Table>

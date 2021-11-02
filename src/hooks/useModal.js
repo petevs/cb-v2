@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
 import { toggleModal } from 'state/actions/modalActions'
 import { setModalContent } from 'state/actions/modalActions'
+import { setModalData } from 'state/actions/modalActions'
 
 const useModal = () => {
 
@@ -11,7 +12,9 @@ const useModal = () => {
         content: modalContent 
     } = state.modal
     
-    const handleOpen = (type) => {
+    const handleOpen = (type, data) => {
+        dispatch(setModalData(data))
+        console.log(state.modal.data)
         dispatch(setModalContent(type))
         dispatch(toggleModal(true))
     };

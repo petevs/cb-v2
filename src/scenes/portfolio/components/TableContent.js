@@ -24,7 +24,7 @@ const TableContent = ({data, columns, id, buttonContent}) => {
                     <Button
                                 color='info'
                                 startIcon={<EditIcon />}
-                                onClick={() => handleOpen(<p>hello</p>)}
+                                onClick={() => handleOpen(buttonContent, {...row})}
                             >
                                 Edit
                             </Button>

@@ -17,17 +17,19 @@ const BuyForm = (props) => {
     const { state } = useContext(GlobalContext)
     const current_price = state.marketData.marketData.current_price.cad
 
+    const { data: modalData } = state.modal
+
     const [lastFocused, setLastFocused] = useState([
         'dollars', 'price'
     ])
 
-    const [date, setDate] = useState(props.date || moment().format('YYYY-MM-DD'))
-    const [dollars, setDollars] = useState(props.amount || 0)
-    const [price, setPrice] = useState(Number(props.price) || Number(state.portfolio.historicalData[props.date]) || Number(current_price) || 0)
-    const [bitcoin, setBitcoin] = useState(Number(props.bitcoin) || 0)
+    const [date, setDate] = useState(modalData.date || moment().format('YYYY-MM-DD'))
+    const [dollars, setDollars] = useState(modalData.amount || 0)
+    const [price, setPrice] = useState(Number(modalData.price) || Number(state.portfolio.historicalData[modalData.date]) || Number(current_price) || 0)
+    const [bitcoin, setBitcoin] = useState(Number(modalData.bitcoin) || 0)
     const [useHistoricalPrice, setUseHistoricalPrice] = useState(
-        //If the props price equals historical or if there is no props price then use historical price
-        (Number(props.price) === Number(props.historicalPrice) || !props.price )
+        //If the modalData price equals historical or if there is no modalData price then use historical price
+        (Number(modalData.price) === Number(modalData.historicalPrice) || !modalData.price )
         ? true : false)
 
     const [disabled, setDisabled] = useState({
@@ -125,7 +127,7 @@ const BuyForm = (props) => {
     const handleSubmit = (e) => {
         handleTransactionSubmit(
             e,
-            props.id,
+            modalData.id,
             props.portfolioId,
             state,
             {
@@ -141,14 +143,14 @@ const BuyForm = (props) => {
 
     useEffect(() => {
 
-        if(Number(props.price) !== Number(props.historicalPrice)){
-            setPrice(props.price)
+        if(Number(modalData.price) !== Number(modalData.historicalPrice)){
+            setPrice(modalData.price)
         }
 
-        if(!props.price){
+        if(!modalData.price){
             setPrice(historicalPrice())
         }
-    },[props.price, props.historicalPrice, historicalPrice])
+    },[modalData.price, modalData.historicalPrice, historicalPrice])
 
     let schema = yup.object().shape({
         date: yup.date().min(moment('2015-01-01').format('YYYY-MM-DD')).max(moment().format('YYYY-MM-DD')),
