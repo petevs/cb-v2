@@ -27,7 +27,10 @@ import UploadCsv from 'components/UploadCsv'
 
 //Styled Components
 import { TableContainer } from 'styledComponents/TableContainer'
+
+//COMPONENTS
 import TableHeader from 'components/TableHeader'
+import TableContent from 'components/TableContent'
 
 
 const Portfolio = () => {
@@ -235,6 +238,18 @@ const Portfolio = () => {
                             'Actions'
                         ]}
 
+                    />
+                    <TableContent 
+                        data={portfolio.recurringBuyList(id)}
+                        columns={[
+                            'purchaseAmount',
+                            'startDate',
+                            'endDate',
+                            'condition'
+                        ]}
+                        handleOpen={handleOpen}
+                        handleClose={handleClose}
+                        id={id}
                     />
                     <TableBody>
                     {portfolio.recurringBuyList(id).map((row) => (
