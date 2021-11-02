@@ -27,6 +27,7 @@ import UploadCsv from 'components/UploadCsv'
 
 //Styled Components
 import { TableContainer } from 'styledComponents/TableContainer'
+import TableHeader from 'components/TableHeader'
 
 
 const Portfolio = () => {
@@ -225,15 +226,16 @@ const Portfolio = () => {
                     
                 </HeaderRow>
                 <Table>
-                    <MyTableHead>
-                        <TableRow>
-                            <TableCell>Amount</TableCell>
-                            <TableCell>Start</TableCell>
-                            <TableCell>End</TableCell>
-                            <TableCell>Condition</TableCell>
-                            <TableCell>Actions</TableCell>
-                        </TableRow>
-                    </MyTableHead>
+                    <TableHeader
+                        columns={[
+                            'Amount',
+                            'Start',
+                            'End',
+                            'Condition',
+                            'Actions'
+                        ]}
+
+                    />
                     <TableBody>
                     {portfolio.recurringBuyList(id).map((row) => (
                             <MyTableRow
