@@ -15,7 +15,9 @@ const AddPortfolioForm = (props) => {
     console.log(state.user.uid)
     const initialForm = {
         portfolioName: '',
-        portfolioDescription: ''
+        portfolioDescription: '',
+        recurringBuys: {},
+        transactions: {}
     }
 
     const [inputs, setInputs] = useState(initialForm)

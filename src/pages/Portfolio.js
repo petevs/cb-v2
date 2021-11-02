@@ -32,6 +32,8 @@ const Portfolio = () => {
 
     const details = portfolioObj[id]
 
+    console.log(state)
+
     
     // MODAL
 
