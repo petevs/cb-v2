@@ -1,8 +1,9 @@
 export const TOGGLE_MODAL = "TOGGLE_MODAL"
-
+export const SET_MODAL_CONTENT = 'SET_MODAL_CONTENT'
 
 export const initialModalState = {
     open: false,
+    content: ''
 }
 
 export const modalReducer = (state, action) => {
@@ -12,6 +13,11 @@ export const modalReducer = (state, action) => {
           ...state,
           open: action.payload,
         };
+      case SET_MODAL_CONTENT:
+        return {
+          ...state,
+          content: action.payload
+        }
       default:
         return state;
     }

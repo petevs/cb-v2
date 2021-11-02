@@ -12,8 +12,11 @@ import { HeaderRow } from 'styledComponents/HeaderRow'
 import { Button, Table } from '@mui/material'
 import TableHeader from './TableHeader';
 import TableContent from './TableContent';
+import useCloseModal from 'hooks/useCloseModal';
 
-const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
+const RecurringTransactions = ({title, handleOpen, id, data}) => {
+
+
     return (
         <TableContainer>
             <HeaderRow>
@@ -24,7 +27,7 @@ const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
                     startIcon={<AddIcon />} 
                     onClick={() => handleOpen(
                         <RecurringBuyForm 
-                            handleClose={handleClose} 
+                            handleClose={useCloseModal} 
                             portfolioId={id} 
                             type='add'
                         />
@@ -51,7 +54,7 @@ const RecurringTransactions = ({title, handleOpen, handleClose, id, data}) => {
                             'endDate'
                         ]}
                         handleOpen={handleOpen}
-                        handleClose={handleClose}
+                        handleClose={useCloseModal}
                         id={id}
                 />
 

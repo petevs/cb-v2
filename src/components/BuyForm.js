@@ -7,7 +7,7 @@ import InputField from "styledComponents/InputField"
 import styled from 'styled-components'
 import moment from 'moment'
 import { GlobalContext } from "state/contexts/GlobalContext"
-import { handleTransactionSubmit } from "hooks/handleTransactionSubmit"
+import { handleTransactionSubmit } from "utils/handleTransactionSubmit"
 import * as yup from 'yup'
 
 
