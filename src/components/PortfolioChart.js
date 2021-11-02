@@ -1,10 +1,11 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
 import styled from 'styled-components'
+import { useMediaQuery } from '@mui/material'
 
-const PortfolioChart = ({calculatedTransactions, currency, mobile}) => {
+const PortfolioChart = ({calculatedTransactions, currency}) => {
 
-
+  const mobile = useMediaQuery('(min-width:1024px')
 
   const categories = calculatedTransactions.map((item) => {
     return item.date;

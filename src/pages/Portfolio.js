@@ -1,4 +1,3 @@
-import { useMediaQuery } from '@mui/material'
 import FormModal from 'components/FormModal'
 import { useParams } from 'react-router'
 
@@ -21,8 +20,10 @@ import usePortfolio from 'hooks/usePortfolio'
 
 const Portfolio = () => {
 
+    //Get Portfolio Id From Params
     let { id } = useParams()
 
+    //Get Portfolio Details
     const {
         details,
         empty,
@@ -33,8 +34,8 @@ const Portfolio = () => {
         currency
     } = usePortfolio(id)
 
+
     const [open, modalContent, handleOpen, handleClose] = useModal()
-    const mobile = useMediaQuery('(min-width:1024px')
 
     //If No Portfolio Data...
     if ( empty ) {
@@ -72,7 +73,6 @@ const Portfolio = () => {
             <PortfolioChart
                 calculatedTransactions={calculatedTransactions}
                 currency={currency}
-                mobile={mobile}
             />
 
             <RecurringTransactions 
