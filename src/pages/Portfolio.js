@@ -25,6 +25,9 @@ import Currency from 'components/Currency'
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import UploadCsv from 'components/UploadCsv'
 
+//Styled Components
+import { TableContainer } from 'styledComponents/TableContainer'
+
 
 const Portfolio = () => {
 
@@ -203,7 +206,7 @@ const Portfolio = () => {
                 tooltip={tooltip}
                 customOptions={customOptions}
             />
-            <Box> 
+            <TableContainer> 
                 <HeaderRow>
                     <h2>Recurring Transactions</h2>
                     <Button 
@@ -262,8 +265,8 @@ const Portfolio = () => {
                         ))}
                     </TableBody>
                 </Table>
-            </Box>
-            <Box>
+            </TableContainer>
+            <TableContainer>
                 <HeaderRow className='three'>
                     <h2>One-Off Transactions</h2>
                     <Button
@@ -337,7 +340,7 @@ const Portfolio = () => {
                         }
                     </TableBody>
                 </Table>
-            </Box>
+            </TableContainer>
 
         </Wrapper>
 
@@ -362,21 +365,6 @@ const Wrapper = styled.div`
         justify-self: start;
     }
 `
-
-const Box = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-  padding: 3rem 1.5rem;
-  background-color: #212b36;
-  box-shadow: rgb(145 158 171 / 24%) 0px 0px 2px 0px,
-    rgb(145 158 171 / 24%) 0px 16px 32px -4px;
-  border-radius: 1rem;
-  overflow-x: scroll;
-  & h3 {
-    padding: 1rem;
-  }
-`;
 
 const HeaderRow = styled.div`
   display: grid;
