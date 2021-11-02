@@ -27,10 +27,12 @@ import UploadCsv from 'components/UploadCsv'
 
 //Styled Components
 import { TableContainer } from 'styledComponents/TableContainer'
+import { HeaderRow } from 'styledComponents/HeaderRow'
 
 //COMPONENTS
 import TableHeader from 'components/TableHeader'
 import TableContent from 'components/TableContent'
+import RecurringTransactions from 'components/RecurringTransactions'
 
 
 const Portfolio = () => {
@@ -210,79 +212,14 @@ const Portfolio = () => {
                 tooltip={tooltip}
                 customOptions={customOptions}
             />
-            <TableContainer> 
-                <HeaderRow>
-                    <h2>Recurring Transactions</h2>
-                    <Button 
-                        variant='contained'
-                        size='small'
-                        startIcon={<AddIcon />} 
-                        onClick={() => handleOpen(
-                            <RecurringBuyForm 
-                                handleClose={handleClose} 
-                                portfolioId={id} 
-                                type='add'
-                            />
-                        )}>
-                        Add New
-                    </Button>
-                    
-                </HeaderRow>
-                <Table>
-                    <TableHeader
-                        columns={[
-                            'Amount',
-                            'Start',
-                            'End',
-                            'Condition',
-                            'Actions'
-                        ]}
-
-                    />
-                    <TableContent 
-                        data={portfolio.recurringBuyList(id)}
-                        columns={[
-                            'purchaseAmount',
-                            'startDate',
-                            'endDate',
-                            'condition'
-                        ]}
-                        handleOpen={handleOpen}
-                        handleClose={handleClose}
-                        id={id}
-                    />
-                    <TableBody>
-                    {portfolio.recurringBuyList(id).map((row) => (
-                            <MyTableRow
-                                key={row.id}
-                            >
-                                <TableCell>{row.purchaseAmount}</TableCell>
-                                <TableCell>{row.startDate}</TableCell>
-                                <TableCell>{row.endDate}</TableCell>
-                                <TableCell>{row.condition && row.condition}</TableCell>
-                                <TableCell>
-                                    <Button
-                                        color='info'
-                                        startIcon={<EditIcon />}
-                                        onClick={() => handleOpen(
-                                            <RecurringBuyForm
-                                                type='edit'
-                                                portfolioId={id}
-                                                handleClose={handleClose}
-                                                {...row}
-                                            >
-                                                Edit Recurring Buy
-                                            </RecurringBuyForm>
-                                        )}
-                                    >
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                            </MyTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            
+            <RecurringTransactions 
+                title='RecurringTransactions'
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                id={id}
+                data={portfolio.recurringBuyList(id)}
+            />
             <TableContainer>
                 <HeaderRow className='three'>
                     <h2>One-Off Transactions</h2>
@@ -381,24 +318,4 @@ const Wrapper = styled.div`
     & button {
         justify-self: start;
     }
-`
-
-const HeaderRow = styled.div`
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: space-between;
-  align-items: end;
-  padding-bottom: 1rem;
-  color: ${props => props.theme.fontColor};
-  & h2 {
-      justify-self: start;
-  }
-  & button {
-      justify-self: end;
-  }
-
-  &.three {
-      grid-template-columns: 1fr auto auto;
-      gap: .5rem;
-  }
 `
