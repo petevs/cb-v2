@@ -32,7 +32,7 @@ const PortfolioHeader = ({details, handleClose, handleOpen, id, state}) => {
                 </Button>
                     <ClonePortfolio state={state} id={id} details={details}/>
                     <DeletePortfolio state={state} id={id} details={details} />
-                    <Button startIcon={<SendIcon />}>Share</Button>
+                    {/* <Button startIcon={<SendIcon />}>Share</Button> */}
                 </ButtonGroup>
 
             </Row>
