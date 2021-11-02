@@ -1,13 +1,9 @@
-import { Button, Table, TableRow, TableCell, TableBody, useMediaQuery } from '@mui/material'
-import React, { useState, useContext, useMemo} from 'react'
+import { useMediaQuery } from '@mui/material'
+import { useState, useContext, useMemo} from 'react'
 import { GlobalContext } from 'state/contexts/GlobalContext'
-import RecurringBuyForm from 'components/RecurringBuyForm'
 import FormModal from 'components/FormModal'
 import styled from 'styled-components'
-import MyTableHead from 'styledComponents/MyTableHead'
 import { useParams } from 'react-router'
-import MyTableRow from 'styledComponents/MyTableRow'
-import TransactionForm from 'components/TransactionForm'
 import { toggleModal } from 'state/actions/modalActions'
 import PortfolioChart from 'components/PortfolioChart'
 import ScoreCards from 'styledComponents/ScoreCards'
@@ -16,23 +12,11 @@ import PortfolioHeader from 'components/PortfolioHeader'
 
 
 //ICONS
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MySelect from 'styledComponents/MySelect'
-import DeleteTransaction from 'components/DeleteTransaction'
-import Currency from 'components/Currency'
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import UploadCsv from 'components/UploadCsv'
-
-//Styled Components
-import { TableContainer } from 'styledComponents/TableContainer'
-import { HeaderRow } from 'styledComponents/HeaderRow'
 
 //COMPONENTS
-import TableHeader from 'components/TableHeader'
-import TableContent from 'components/TableContent'
 import RecurringTransactions from 'components/RecurringTransactions'
+import OneOffTransactions from 'components/OneOffTransactions'
 
 
 const Portfolio = () => {
@@ -206,13 +190,14 @@ const Portfolio = () => {
                 <option>Portfolio Value Over Time</option>
                 <option>Bitcoin Holdings</option>
             </MySelect>
+
             <PortfolioChart
                 categories={categories}
                 data={series}
                 tooltip={tooltip}
                 customOptions={customOptions}
             />
-            
+
             <RecurringTransactions 
                 title='RecurringTransactions'
                 handleOpen={handleOpen}
@@ -220,81 +205,14 @@ const Portfolio = () => {
                 id={id}
                 data={portfolio.recurringBuyList(id)}
             />
-            <TableContainer>
-                <HeaderRow className='three'>
-                    <h2>One-Off Transactions</h2>
-                    <Button
-                        variant='contained'
-                        size='small'
-                        startIcon={<FileUploadIcon />}
-                        onClick={() => handleOpen(
-                            <UploadCsv
-                                portfolioId={id}
-                                handleClose={handleClose}
-                            />
-                        )}
-                    >
-                        Upload CSV 
-                    </Button>
-                    <Button 
-                        variant='contained'
-                        size='small'
-                        startIcon={<AddIcon />}  
-                        onClick={() => handleOpen(
-                            <TransactionForm 
-                                type='add' 
-                                handleClose={handleClose}
-                                portfolioId={id}
-                            />
-                        )}
-                    >Add New</Button>
-                </HeaderRow>
-                <Table>
-                    <MyTableHead>
-                        <TableRow>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Amount</TableCell>
-                            <TableCell>Price</TableCell>
-                            <TableCell>Bitcoin</TableCell>
-                            <TableCell>Actions</TableCell>
-                        </TableRow>
-                    </MyTableHead>
-                    <TableBody>
-                        {
-                            portfolio.oneOffTransactions(id, price[currency]) && portfolio.oneOffTransactions(id, price[currency]).map(row =>
-                                <MyTableRow key={row.id}> 
-                                    <TableCell>{row.date}</TableCell>
-                                    <TableCell>{row.type}</TableCell>
-                                    <TableCell><Currency value={row.amount} /></TableCell>
-                                    <TableCell><Currency value={row.price} /></TableCell>
-                                    <TableCell>{row.bitcoin}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            startIcon={<EditIcon />}
-                                            onClick={() => handleOpen(
-                                                <TransactionForm
-                                                    fType='edit'
-                                                    handleClose={handleClose}
-                                                    portfolioId={id}
-                                                    {...row}
-                                                />
-                                            )}
-                                        >
-                                            Edit
-                                        </Button>
-                                        <Button startIcon={<ContentCopyIcon />}>Clone</Button>
-                                        <DeleteTransaction 
-                                            portfolioId={id}
-                                            transactionId={row.id}
-                                        />
-                                    </TableCell>
-                                </MyTableRow>
-                                )
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
+
+            <OneOffTransactions 
+                title='One-Off Transactions'
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                id={id}
+                data={portfolio.oneOffTransactions(id, price[currency])}
+            />
 
         </Wrapper>
 
