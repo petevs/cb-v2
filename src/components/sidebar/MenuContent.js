@@ -27,7 +27,7 @@ const MenuContent = () => {
                 title='Portfolio'
                 icon={<BusinessCenterIcon />}
             />
-            <PortfolioList handleOpen={handleOpen} />
+            <PortfolioList handleOpen={handleOpen} handleClose={handleClose}/>
 
             <SideBarItem
                 path='calculators'

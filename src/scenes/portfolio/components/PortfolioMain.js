@@ -12,7 +12,7 @@ const PortfolioMain = () => {
         <>
         <PageWrapper>
             <h2>Portfolios</h2>
-            <PortfolioList handleOpen={handleOpen} />
+            <PortfolioList handleOpen={handleOpen} handleClose={handleClose} />
         </PageWrapper>
 
         <FormModal open={open} onClose={handleClose}>

@@ -3,6 +3,8 @@ import { GlobalContext } from 'state/contexts/GlobalContext'
 import { toggleModal } from 'state/actions/modalActions'
 import { setModalContent } from 'state/actions/modalActions'
 import { setModalData } from 'state/actions/modalActions'
+import { updateDrawer } from 'state/actions/themeActions'
+import { setCurrentPage } from 'state/actions/settingsActions'
 
 const useModal = () => {
 
@@ -19,7 +21,10 @@ const useModal = () => {
         dispatch(toggleModal(true))
     };
 
-    const handleClose = () => dispatch(toggleModal(false));
+    const handleClose = () => {
+        dispatch(updateDrawer(false))
+        dispatch(toggleModal(false))
+    };
 
 
     return [open, modalContent, handleOpen, handleClose]

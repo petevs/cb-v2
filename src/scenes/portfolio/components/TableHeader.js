@@ -7,7 +7,7 @@ const TableHeader = ({columns}) => {
         <MyTableHead>
         <TableRow>
             {columns.map(column => 
-                <TableCell>{column}</TableCell>
+                <TableCell key={column}>{column}</TableCell>
             )}
         </TableRow>
     </MyTableHead>

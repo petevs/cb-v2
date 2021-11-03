@@ -3,22 +3,15 @@ import styled from 'styled-components'
 import { GlobalContext } from 'state/contexts/GlobalContext';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { updateDrawer } from 'state/actions/themeActions';
-import { setCurrentPage } from 'state/actions/settingsActions';
 import AddIcon from '@mui/icons-material/Add';
 import AddPortfolioForm from 'components/AddPortfolioForm';
 
 
-const PortfolioList = ({handleOpen}) => {
+const PortfolioList = ({handleOpen, handleClose}) => {
 
-    const { state, dispatch } = useContext(GlobalContext)
+    const { state } = useContext(GlobalContext)
     const {portfolioList } = state.portfolio
     const { currentPage } = state.settings
-
-    const handleClose = (id) => {
-        dispatch(updateDrawer(false))
-        dispatch(setCurrentPage(id))
-    }
 
     return (
         <Portfolios>
